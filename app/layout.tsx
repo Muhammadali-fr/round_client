@@ -40,7 +40,7 @@ export default function RootLayout({
         className={` antialiased`}
       >
         <ReduxProvider>
-          {/* <StoreUser /> */}
+          <StoreUser />
           <Toaster
             position="top-center" // still needed but we’ll override it
             toastOptions={{

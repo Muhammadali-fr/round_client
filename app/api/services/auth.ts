@@ -20,7 +20,7 @@ export async function verifyMagicLink(data: { token: string }) {
     })
 }
 
-export async function getProfile(data: {token: string}) {
+export async function getProfile(data: { token: string }) {
     return fetcher(`/auth/profile`, {
         method: "GET",
         headers: {

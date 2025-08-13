@@ -7,7 +7,6 @@ import { Search, Settings, ShoppingCart, User } from "lucide-react"
 
 // navigation 
 import { usePathname } from "next/navigation"
-import path from "path";
 import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
 
@@ -56,7 +55,7 @@ export default function Header() {
                     </Link>
 
                     {/* user icon  */}
-                    {!user && <li>
+                    {user && <li>
                         <Popover>
                             <PopoverTrigger className="flex items-center-justify-center cursor-pointer">
                                 {/* user icon here  */}
