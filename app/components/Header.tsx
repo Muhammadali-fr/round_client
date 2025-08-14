@@ -46,6 +46,12 @@ export default function Header() {
                         </li>
                     }
 
+                    {user &&
+                        <li className={`font-semibold  cursor-pointer ${pathname === "/upload" ? "text-violet-700" : "text-gray-600"}`}>
+                            <Link className="px-2" href={"/upload"}>new</Link>
+                        </li>
+                    }
+
                 </ul>
 
                 <ul className="flex items-center gap-3  text-sm text-gray-500">

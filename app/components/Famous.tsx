@@ -25,7 +25,7 @@ export default function Famous() {
 
             try {
                 const res = await get_products();
-                console.log(res);
+                setProducts(res);
             } catch (error) {
                 console.error("Login error:", error);
             } finally { setLoader(false) }

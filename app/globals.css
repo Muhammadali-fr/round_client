@@ -3,6 +3,10 @@
 
 @custom-variant dark (&:is(.dark *));
 
+body {
+    font-family: 'Montserrat', sans-serif;
+}
+
 .swiper-button-next,
 .swiper-button-prev {
     display: none !important;
@@ -19,8 +23,10 @@
     background: white !important;
     width: 20px !important;
     border-radius: 10px !important
-    /* active dot color */
-};
+        /* active dot color */
+}
+
+;
 
 @theme inline {
     --radius-sm: calc(var(--radius) - 4px);
@@ -130,10 +136,11 @@
 }
 
 @layer base {
-  * {
-    @apply border-border outline-ring/50;
+    * {
+        @apply border-border outline-ring/50;
     }
-  body {
-    @apply bg-background text-foreground;
+
+    body {
+        @apply bg-background text-foreground;
     }
 }
