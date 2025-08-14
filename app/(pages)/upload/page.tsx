@@ -92,7 +92,7 @@ export default function AddProductPage() {
 
             {/* Tags */}
             <div>
-              <label className="block text-sm font-medium text-gray-700">
+              <label className="block text-sm font-medium text-gray-700 mb-1">
                 Tags
               </label>
               <div className="flex flex-wrap gap-1 border border-gray-300 rounded-lg p-3">
@@ -116,13 +116,12 @@ export default function AddProductPage() {
               </div>
             </div>
 
-            <div className="pt-4">
-              <button className="bg-violet-700 text-white px-5 py-2 rounded-lg hover:bg-violet-500 transition cursor-pointer">
-                Publish Product
-              </button>
-            </div>
+            <button className="bg-violet-700 text-white px-5 py-2 rounded-lg hover:bg-violet-500 transition cursor-pointer">
+              Publish Product
+            </button>
 
           </div>
+          
         </div>
       </div>
     </div>
