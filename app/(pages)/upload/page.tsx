@@ -1,10 +1,17 @@
+"use client"
 
 import { X, Trash2, Upload } from "lucide-react";
+import { useState } from "react";
 
 export default function AddProductPage() {
+
+  const [name, setName] = useState('');
+  const [price, setPrice] = useState('');
+  const [description, setDescription] = useState('');
+
   return (
     <div className="p-5">
-      <div className="max-w-[990px] w-[90%] border mx-auto bg-white rounded-xl p-5">
+      <div className="max-w-[990px] w-[95%] border mx-auto bg-white rounded-xl p-5">
         <h1 className="text-xl font-bold text-gray-600 mb-2">Add Product</h1>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -57,7 +64,7 @@ export default function AddProductPage() {
 
             {/* Cancel */}
             <button className="text-red-600 text-sm underline hover:text-red-500">
-              Cancel
+              clear
             </button>
           </div>
 
@@ -66,6 +73,8 @@ export default function AddProductPage() {
             <label className="block text-sm font-medium text-gray-700">
               Product Name
               <input
+                value={name}
+                onChange={e => setName(e.target.value)}
                 type="text"
                 placeholder="Professional butsi va sorokonojka..."
                 className="w-full border border-gray-300 rounded-lg py-2 px-3 focus:ring-2 focus:ring-violet-500 outline-none"
@@ -75,6 +84,8 @@ export default function AddProductPage() {
             <label className="block text-sm font-medium text-gray-700">
               Price
               <input
+                value={price}
+                onChange={e => setPrice(e.target.value)}
                 type="text"
                 placeholder="140 000 so'm"
                 className="w-full border border-gray-300 rounded-lg py-2 px-3 focus:ring-2 focus:ring-violet-500 outline-none"
@@ -84,6 +95,8 @@ export default function AddProductPage() {
             <label className="block text-sm font-medium text-gray-700">
               Description
               <textarea
+                value={description}
+                onChange={e => setDescription(e.target.value)}
                 rows={3}
                 placeholder="Yengil va bardoshli: Uzoq muddatli foydalanish uchun mos."
                 className="w-full border border-gray-300 rounded-lg py-2 px-3 focus:ring-2 focus:ring-violet-500 outline-none"
@@ -121,7 +134,7 @@ export default function AddProductPage() {
             </button>
 
           </div>
-          
+
         </div>
       </div>
     </div>
