@@ -29,7 +29,17 @@ export async function update_product(id: string, data: { name: string, image: st
 export async function delete_product(id: string) {
     return fetcher(`/product/${id}`, {
         method: "DELETE",
-    })  
+    })
+}
+
+export async function upload_image_product(file: File) {
+    const formData = new FormData();
+    formData.append("file", file); // "file" must match @UploadedFile() name
+
+    return fetch(`/product/image`, {
+        method: "POST",
+        body: formData
+    })
 }
 
 
