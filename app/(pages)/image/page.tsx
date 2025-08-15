@@ -1,22 +1,33 @@
-"use client"
+"use client";
 
 import { upload_image_product } from "@/app/api/services/products";
+import { useState } from "react";
 
-const page = () => {
+export default function Page() {
+  const [file, setFile] = useState<File | null>(null);
+  const [image, setImage] = useState(null)
 
-    const handleImage = async (e:any) => {
-        const file = e.target.files[0];
-        const res = await upload_image_product(file);
-        console.log(res);
-        alert('rasm uploaded')
+  const handleImage = (e: any) => {
+      setFile(e.target.files[0]);
+  };
+
+  const upload_image = async () => {
+    if (!file) return alert("Please select a file first");
+    try {
+      const res = await upload_image_product(file);
+      console.log("Upload success", res);
+      setImage(res.url)
+    } catch (err) {
+      console.error("Upload failed", err);
     }
+  };
 
   return (
     <div>
-        <input onChange={e => handleImage(e)} type="file" />
+      <input type="file" onChange={handleImage} />
+      <button onClick={upload_image}>Upload</button>
 
+      <img src={image} alt="asdasd" />
     </div>
-  )
+  );
 }
-
-export default page

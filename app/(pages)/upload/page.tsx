@@ -41,6 +41,10 @@ export default function AddProductPage() {
     console.log(formData);
   }
 
+  const handle_clear = () => {
+    setImages([])
+  }
+
   return (
     <div className="p-5">
       <div className="max-w-[990px] w-[95%] border mx-auto bg-white rounded-xl p-5">
@@ -89,7 +93,7 @@ export default function AddProductPage() {
             </div>
 
             {/* Cancel */}
-            <button className="text-red-600 text-sm underline hover:text-red-500">
+            <button onClick={handle_clear} className="text-red-600 text-sm underline hover:text-red-500">
               clear
             </button>
           </div>

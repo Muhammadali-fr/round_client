@@ -34,12 +34,13 @@ export async function delete_product(id: string) {
 
 export async function upload_image_product(file: File) {
     const formData = new FormData();
-    formData.append("file", file); // "file" must match @UploadedFile() name
+    formData.append("file", file);
 
-    return fetch(`/product/image`, {
+    return fetch("http://localhost:8000/product/image", {
         method: "POST",
         body: formData
-    })
+    }).then(res => res.json());
 }
+
 
 
