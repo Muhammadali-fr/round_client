@@ -30,7 +30,7 @@ export default function Login() {
             setLoader(true);
             const res = await loginUser({ email });
             console.log("Login response:", res);
-            toast(res || "link sent to your mail!");
+            toast(res.message || "link sent to your mail!");
         }
         catch (err) {
             console.error("Login error:", err);
