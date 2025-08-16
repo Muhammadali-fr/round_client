@@ -1,12 +1,13 @@
 "use client"
 
-import { create_product } from "@/app/api/services/products";
+import { create_product, upload_image_product } from "@/app/api/services/products";
+import ButtonLoader from "@/app/components/ButtonLoader";
 import { X, ImagePlus } from "lucide-react";
 import { useState } from "react";
 import toast from "react-hot-toast";
 
 export default function AddProductPage() {
-
+  const [loader, setLoader] = useState(false);
   const [name, setName] = useState('');
   const [price, setPrice] = useState('');
   const [stock, setStock] = useState('');
@@ -14,36 +15,47 @@ export default function AddProductPage() {
   const [images, setImages] = useState<File[]>([]);
 
   const handleImage = (e: any) => {
-    const fileArray = Array.from(e);
+    setImages([...e.target.files])
+  };
 
-    if (images.length + fileArray.length > 6) {
-      toast("You can't upload more than 6 images");
+  // main function 
+  const handle_upload = async () => {
+    if (images.length < 1) {
+      toast('upload at least 1 image');
       return;
     }
 
-    setImages((prev) => [...prev, ...fileArray]);
+    setLoader(true);
+
+    try {
+      const image_array = await upload_image_product(images);
+
+      if(!image_array){
+        toast('something wen wrong.')
+      }
+
+      // main image 
+      const {url} = image_array[0];
+
+      const data = {
+        name,
+        image: url,
+        description,
+        price: Number(price),
+        stock: Number(stock),
+        images: image_array
+      }
+
+      const res = await create_product(data)
+
+    } catch (error) {
+      toast(error.message || 'error while creating');
+    } finally { setLoader(false) }
   }
 
   const handle_remove = (id: number) => {
-    setImages(images.filter((_, i) => i !== id))
-  }
-
-  const handle_upload = async () => {
-    if (images.length === 0) {
-      toast('please upload at least 1 image')
-      return
-    }
-
-    const formData = new FormData();
-    formData.append("name", name);
-    formData.append("description", description);
-    formData.append("price", price);
-    formData.append('image', images[0]);
-    images.forEach(img => formData.append('images', img))
-
-    const res = await create_product(formData);
-    console.log(res);
-  }
+    setImages(images.filter((_, i) => i !== id));
+  };
 
   const handle_clear = () => {
     setImages([])
@@ -69,7 +81,7 @@ export default function AddProductPage() {
               {/* upload input  */}
               <input
                 multiple
-                onChange={(e) => handleImage(e.target.files)}
+                onChange={handleImage}
                 className="hidden"
                 type="file"
               />
@@ -178,8 +190,8 @@ export default function AddProductPage() {
               </div>
             </div>
 
-            <button onClick={handle_upload} className="text-sm bg-violet-700 text-white px-5 py-2 rounded-lg hover:bg-violet-500 transition cursor-pointer">
-              Publish Product
+            <button onClick={handle_upload} className="w-[200px] h-[40px] text-sm bg-violet-700 text-white rounded-lg hover:bg-violet-500 transition cursor-pointer flex items-center justify-center">
+              {loader ? <ButtonLoader /> : "Upload product"}
             </button>
 
           </div>

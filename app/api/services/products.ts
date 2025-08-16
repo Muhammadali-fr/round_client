@@ -1,9 +1,9 @@
 import { fetcher } from "../fetcher";
-const token = localStorage.getItem('acceassToken') || null;
+const token = localStorage.getItem('accessToken');
 console.log(token);
 
 
-export async function create_product(data: { name: string, image: string, description: string, price: number, images: any }) {
+export async function create_product(data: { name: string, image: any, description: string, price: number, stock: number, images: any }) {
     return fetcher("/product", {
         method: "POST",
         data,
@@ -38,16 +38,15 @@ export async function delete_product(id: string) {
     })
 }
 
-export async function upload_image_product(file: File) {
+export async function upload_image_product(images: File[]) {
     const formData = new FormData();
-    formData.append("file", file);
+
+    images.forEach(file => {
+        formData.append("images", file);
+    });
 
     return fetch("http://localhost:8000/product/image", {
         method: "POST",
-        body: formData
+        body: formData,
     }).then(res => res.json());
-}
-
-export function show_token(){
-    return token;
-}
+};
