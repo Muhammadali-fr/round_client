@@ -1,5 +1,7 @@
 import { fetcher } from "../fetcher";
-const token = localStorage.getItem('accessToken')
+const token = localStorage.getItem('acceassToken') || null;
+console.log(token);
+
 
 export async function create_product(data: { name: string, image: string, description: string, price: number, images: any }) {
     return fetcher("/product", {
@@ -46,5 +48,6 @@ export async function upload_image_product(file: File) {
     }).then(res => res.json());
 }
 
-
-
+export function show_token(){
+    return token;
+}
