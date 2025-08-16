@@ -1,9 +1,13 @@
 import { fetcher } from "../fetcher";
+const token = localStorage.getItem('accessToken')
 
 export async function create_product(data: { name: string, image: string, description: string, price: number, images: any }) {
     return fetcher("/product", {
         method: "POST",
-        data
+        data,
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
     })
 }
 

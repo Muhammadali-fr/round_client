@@ -1,5 +1,6 @@
 "use client"
 
+import { create_product } from "@/app/api/services/products";
 import { X, ImagePlus } from "lucide-react";
 import { useState } from "react";
 import toast from "react-hot-toast";
@@ -8,6 +9,7 @@ export default function AddProductPage() {
 
   const [name, setName] = useState('');
   const [price, setPrice] = useState('');
+  const [stock, setStock] = useState('');
   const [description, setDescription] = useState('');
   const [images, setImages] = useState<File[]>([]);
 
@@ -26,7 +28,7 @@ export default function AddProductPage() {
     setImages(images.filter((_, i) => i !== id))
   }
 
-  const handle_upload = () => {
+  const handle_upload = async () => {
     if (images.length === 0) {
       toast('please upload at least 1 image')
       return
@@ -38,7 +40,9 @@ export default function AddProductPage() {
     formData.append("price", price);
     formData.append('image', images[0]);
     images.forEach(img => formData.append('images', img))
-    console.log(formData);
+
+    const res = await create_product(formData);
+    console.log(res);
   }
 
   const handle_clear = () => {
@@ -52,7 +56,7 @@ export default function AddProductPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Left Side - Image Upload */}
-          <div className="border border-gray-200 rounded-lg p-4">
+          <div>
             <label className="border-2 border-dashed border-violet-300 rounded-lg flex flex-col items-center justify-center p-10 cursor-pointer hover:border-violet-500 transition">
 
               <ImagePlus className="h-12 w-12 text-gray-400 mb-3" />
@@ -93,9 +97,12 @@ export default function AddProductPage() {
             </div>
 
             {/* Cancel */}
-            <button onClick={handle_clear} className="text-red-600 text-sm underline hover:text-red-500">
-              clear
-            </button>
+            {images.length > 1 &&
+              <button onClick={handle_clear} className="text-red-600 text-sm underline hover:text-red-500">
+                clear
+              </button>
+            }
+
           </div>
 
           {/* Right Side - Form */}
@@ -116,8 +123,20 @@ export default function AddProductPage() {
               <input
                 value={price}
                 onChange={e => setPrice(e.target.value)}
-                type="text"
+                type="number"
                 placeholder="140 000 so'm"
+                className="w-full border border-gray-300 rounded-lg py-2 px-3 focus:ring-2 focus:ring-violet-500 outline-none"
+              />
+            </label>
+
+            {/* stock */}
+            <label className="block text-sm font-medium text-gray-700">
+              stock
+              <input
+                value={stock}
+                onChange={e => setStock(e.target.value)}
+                type="number"
+                placeholder="6"
                 className="w-full border border-gray-300 rounded-lg py-2 px-3 focus:ring-2 focus:ring-violet-500 outline-none"
               />
             </label>

@@ -1,137 +1,66 @@
-"use client";
+"use client"
 
 import { useState } from "react";
 import axios from "axios";
 
-export default function AddProductPage() {
-  const [name, setName] = useState("");
-  const [image, setImage] = useState("");
-  const [description, setDescription] = useState("");
-  const [price, setPrice] = useState<number | "">("");
-  const [stock, setStock] = useState<number | "">("");
-  const [images, setImages] = useState<string[]>([]);
+export default function AddProduct() {
+  const [product, setProduct] = useState({
+    name: "",
+    description: "",
+    price: "",
+    stock: "",
+  });
+  const [mainImage, setMainImage] = useState<File | null>(null);
+  const [extraImages, setExtraImages] = useState<File[]>([]);
 
-  const handleAddImage = () => {
-    setImages((prev) => [...prev, ""]); // add empty slot for URL input
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setProduct({ ...product, [e.target.name]: e.target.value });
   };
 
-  const handleImageChange = (index: number, value: string) => {
-    setImages((prev) => {
-      const updated = [...prev];
-      updated[index] = value;
-      return updated;
+  const handleMainImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) setMainImage(e.target.files[0]);
+  };
+
+  const handleExtraImages = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) setExtraImages(Array.from(e.target.files));
+  };
+
+  const handleSubmit = async () => {
+    const formData = new FormData();
+
+    // Append text fields
+    formData.append("name", product.name);
+    formData.append("description", product.description);
+    formData.append("price", product.price);
+    formData.append("stock", product.stock);
+
+    // Append main image
+    if (mainImage) formData.append("image", mainImage);
+
+    // Append extra images
+    extraImages.forEach((file) => {
+      formData.append("images", file); // same key for array
     });
-  };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+    console.log(formData);
 
-    const productData = {
-      name,
-      image,
-      description,
-      price: Number(price),
-      stock: Number(stock),
-      images: images.map((url) => ({ url })),
-    };
-
-    try {
-      // await axios.post("http://localhost:8000/product", productData, {
-      //   headers: { "Content-Type": "application/json" },
-      //   withCredentials: true,
-      // });
-      console.log(productData);
-
-      alert("Product created successfully!");
-    } catch (error) {
-      console.error(error);
-      alert("Failed to create product");
-    }
+    alert("Product uploaded!");
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center p-6">
-      <form
-        onSubmit={handleSubmit}
-        className="bg-white shadow-md rounded-lg p-6 max-w-lg w-full space-y-4"
-      >
-        <h1 className="text-xl font-bold">Add Product (URLs)</h1>
+    <div>
+      <input name="name" placeholder="Name" onChange={handleChange} />
+      <textarea name="description" placeholder="Description" onChange={handleChange} />
+      <input name="price" placeholder="Price" onChange={handleChange} />
+      <input name="stock" placeholder="Stock" onChange={handleChange} />
 
-        <input
-          type="text"
-          placeholder="Product Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          className="border p-2 w-full rounded"
-          required
-        />
+      <p>Main Image</p>
+      <input type="file" onChange={handleMainImage} />
 
-        <input
-          type="text"
-          placeholder="Main Image URL"
-          value={image}
-          onChange={(e) => setImage(e.target.value)}
-          className="border p-2 w-full rounded"
-          required
-        />
+      <p>Extra Images</p>
+      <input type="file" multiple onChange={handleExtraImages} />
 
-        <textarea
-          placeholder="Description"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          className="border p-2 w-full rounded"
-          rows={4}
-          required
-        />
-
-        <input
-          type="number"
-          placeholder="Price"
-          value={price}
-          onChange={(e) => setPrice(Number(e.target.value))}
-          className="border p-2 w-full rounded"
-          required
-        />
-
-        <input
-          type="number"
-          placeholder="Stock"
-          value={stock}
-          onChange={(e) => setStock(Number(e.target.value))}
-          className="border p-2 w-full rounded"
-          required
-        />
-
-        <div>
-          <div className="flex justify-between items-center mb-2">
-            <label className="font-semibold">Image URLs</label>
-            <button
-              type="button"
-              onClick={handleAddImage}
-              className="text-blue-500 hover:underline"
-            >
-              + Add URL
-            </button>
-          </div>
-          {images.map((url, index) => (
-            <input
-              key={index}
-              type="text"
-              placeholder={`Image URL ${index + 1}`}
-              value={url}
-              onChange={(e) => handleImageChange(index, e.target.value)}
-              className="border p-2 w-full rounded mb-2"
-            />
-          ))}
-        </div>
-
-        <button
-          type="submit"
-          className="bg-blue-500 text-white p-2 rounded w-full hover:bg-blue-600"
-        >
-          Create Product
-        </button>
-      </form>
+      <button onClick={handleSubmit}>Upload Product</button>
     </div>
   );
 }
