@@ -6,6 +6,10 @@ import { X, ImagePlus } from "lucide-react";
 import { useState } from "react";
 import toast from "react-hot-toast";
 
+// animation 
+import LottieAnimation from "@/app/components/LottieAnimation";
+import UploadImageAnimation from "@/public/animations/uploadImage.json";
+
 export default function AddProductPage() {
   const [loader, setLoader] = useState(false);
   const [name, setName] = useState('');
@@ -30,12 +34,12 @@ export default function AddProductPage() {
     try {
       const image_array = await upload_image_product(images);
 
-      if(!image_array){
+      if (!image_array) {
         toast('something wen wrong.')
       }
 
       // main image 
-      const {url} = image_array[0];
+      const { url } = image_array[0];
 
       const data = {
         name,
@@ -47,7 +51,9 @@ export default function AddProductPage() {
       }
 
       const res = await create_product(data)
+      console.log(res);
 
+      toast('uploaded successfully')
     } catch (error) {
       toast(error.message || 'error while creating');
     } finally { setLoader(false) }
@@ -84,6 +90,7 @@ export default function AddProductPage() {
                 onChange={handleImage}
                 className="hidden"
                 type="file"
+                id="imagesInput"
               />
 
             </label>
@@ -113,6 +120,17 @@ export default function AddProductPage() {
               <button onClick={handle_clear} className="text-red-600 text-sm underline hover:text-red-500">
                 clear
               </button>
+            }
+
+            {images.length === 0 &&
+              <label htmlFor="imagesInput" className="w-full flex items-center justify-center flex-col">
+                <LottieAnimation
+                  animationData={UploadImageAnimation}
+                  loop={true}
+                  className="w-[200px] h-[200px]"
+                />
+                <p className="text-xl text-gray-800">Upload at least 1 image</p>
+              </label>
             }
 
           </div>
