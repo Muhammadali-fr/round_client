@@ -33,7 +33,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={` antialiased`}
+        className={`antialiased`}
       >
         <ReduxProvider>
           <StoreUser />
