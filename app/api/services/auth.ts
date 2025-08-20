@@ -27,4 +27,10 @@ export async function getProfile(data: { token: string }) {
             Authorization: `Bearer ${data.token}`
         }
     })
-}   
+}
+
+export async function refresh_token(){
+    return fetcher('auth/refresh', {
+        method: "POST",
+    })
+}

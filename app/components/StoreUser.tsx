@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { getProfile } from "../api/services/auth";
+import { getProfile, refresh_token } from "../api/services/auth";
 import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../store/feature/userSlice";
 import { RootState } from "../store/store";
@@ -15,16 +15,34 @@ export default function StoreUser() {
 
   useEffect(() => {
     const storeUserInfo = async () => {
-      const accessToken = localStorage.getItem("accessToken");
-      const resetToken = localStorage.getItem("resetToken");
+      let accessToken = localStorage.getItem("accessToken");
 
+      
       if (!user) {
+        setLoader(true);
         try {
-          setLoader(true);
-          const res = await getProfile({ token: accessToken });
-          dispatch(setUser(res));
+          
+          if (accessToken) {
+            const profile = await getProfile({ token: accessToken });
+            dispatch(setUser(profile));
+            return; 
+          }
+
+          throw new Error("No access token found"); 
         } catch (error) {
-          console.error("Error fetching profile:", error);
+          console.log("Access token invalid or missing → refreshing...");
+          try {
+            const refreshed = await refresh_token();
+            accessToken = refreshed.accessToken;
+
+            localStorage.setItem("accessToken", accessToken);
+
+            const profile = await getProfile({ token: accessToken });
+            dispatch(setUser(profile));
+          } catch (e) {
+            console.error("Refresh failed → redirecting to login");
+            // router.push("/login");
+          }
         } finally {
           setLoader(false);
         }
@@ -36,10 +54,14 @@ export default function StoreUser() {
 
   if (loader) {
     return (
-      <div className="fixed top-0 bottom-0 left-0 right-0 flex flex-col items-center justify-between bg-white text-white z-100 py-10">
-        <span></span>
-        <img className="w-[120px] h-[120px] rounded-full" src="/assets/logo.svg" alt="logo" />
-        <p className="text-black">Round</p>
+      <div className="fixed inset-0 flex flex-col items-center justify-between bg-white z-50 py-10">
+        <span />
+        <img
+          className="w-[120px] h-[120px] rounded-full"
+          src="/assets/logo.svg"
+          alt="logo"
+        />
+        <p className="text-black">Loading your account...</p>
       </div>
     );
   }
