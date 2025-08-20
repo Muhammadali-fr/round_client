@@ -41,7 +41,7 @@ export default function StoreUser() {
             dispatch(setUser(profile));
           } catch (e) {
             console.error("Refresh failed → redirecting to login");
-            // router.push("/login");
+            router.push("/auth/login");
           }
         } finally {
           setLoader(false);

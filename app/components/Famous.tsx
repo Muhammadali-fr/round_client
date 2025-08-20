@@ -5,15 +5,16 @@ import { useEffect, useState } from "react";
 // lucide 
 import { ChevronRight } from "lucide-react";
 
-// data 
-import famousItems from "../../data/data";
-
 // link 
 import Link from "next/link";
 
 // api 
 import { get_products } from "../api/services/products";
+
+// toast 
 import toast from "react-hot-toast";
+
+import ProductSkeleton from "./ProductSkeleton";
 
 export default function Famous() {
     const [products, setProducts] = useState([]);
@@ -28,6 +29,7 @@ export default function Famous() {
                 setProducts(res);
             } catch (error) {
                 console.error("Login error:", error);
+                toast('something went wrong while getting products')
             } finally { setLoader(false) }
         }
         get_products_function()
@@ -39,6 +41,11 @@ export default function Famous() {
                 <h1 className="text-2xl font-semibold">Popular</h1>
                 <ChevronRight />
             </div>
+
+            {
+                loader &&
+                <ProductSkeleton/>
+            }
 
             {/* item here  */}
             <ul className="grid grid-cols-4 gap-5">
@@ -56,6 +63,7 @@ export default function Famous() {
                         </li>
                     ))
                 }
+
             </ul>
 
         </div>
