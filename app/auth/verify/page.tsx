@@ -1,66 +1,68 @@
 "use client";
 
-// links 
-import Link from "next/link";
-
-// loaders 
+// loaders
 import { HashLoader } from "react-spinners";
 
-// params 
-import { useSearchParams } from "next/navigation";
-import { useRouter } from "next/navigation";
+// next/navigation
+import { useSearchParams, useRouter } from "next/navigation";
 
-// fetcher 
+// fetcher
 import { verifyMagicLink } from "@/app/api/services/auth";
 
-// useEffect 
+// hooks
 import { useEffect } from "react";
 
+// next/image
+import Image from "next/image";
+
+// toast 
+import toast from "react-hot-toast";
 
 export default function VerifyAccount() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const token = searchParams.get("token");
-  console.log(token);
-  
 
   useEffect(() => {
+    if (!token) return;
+
     const handleVerify = async () => {
       try {
-        const res: verifyResponse = await verifyMagicLink({ token });
-        if (res?.accessToken && res?.resetToken) {
-          localStorage.setItem("accessToken", res.accessToken);
-          localStorage.setItem("resetToken", res.resetToken);
-          router.push("/");
-          window.location.reload();
-        } else {
-          throw new Error("Missing tokens in response.");
-        }
-      }
-      catch (err) {
+        const res = await verifyMagicLink({ token });
+
+        localStorage.setItem('accessToken', res.accessToken)
+        localStorage.setItem('refreshToken', res.refreshToken)
+        toast("logged to account successfully")
+        router.push("/");
+        window.location.reload()
+      } catch (err) {
         console.error("Verification failed:", err);
-        alert("Verification failed. Please try again.");
-        // router.push("/auth/login");
+        toast("Verification failed. Please try again.");
+        router.push("/auth/login");
       }
-    }
+    };
 
     handleVerify();
-  }, []);
-
-
-
+  }, [token, router]);
 
   return (
     <div className="w-full h-screen flex items-center">
-
-      {/* left  */}
-      <div className="w-full md:w-[50%] h-screen flex items-center justify-center ">
-        <div className="w-[90%] max-w-[420px] bg-white border border-gray-200 text-gray-800 rounded-xl p-5  space-y-5">
+      {/* left */}
+      <div className="w-full md:w-[50%] h-screen flex items-center justify-center">
+        <div className="w-[90%] max-w-[420px] bg-white border border-gray-200 text-gray-800 rounded-xl p-5 space-y-5">
           <div className="flex items-center gap-2">
-            <img className="w-[80px] h-[80px] rounded-full" src="/assets/logo.svg" alt="logo" />
+            <Image
+              src="/assets/logo.svg"
+              alt="logo"
+              width={80}
+              height={80}
+              className="rounded-full"
+            />
             <p className="text-2xl font-semibold">Round</p>
           </div>
-          <h1 className="text-2xl font-semibold"> Verifying your account...</h1>
+          <h1 className="text-2xl font-semibold">
+            Verifying your account...
+          </h1>
           {/* Loader */}
           <HashLoader color="#6D28D9" size={50} />
           <p className="text-sm text-gray-500">
@@ -69,11 +71,15 @@ export default function VerifyAccount() {
         </div>
       </div>
 
-      {/* right  */}
+      {/* right */}
       <div className="hidden md:block w-[50%] h-screen bg-gray-300">
-        <img className="w-full h-full object-top object-cover" src="/assets/bg.png" alt="background-image" />
+        <Image
+          src="/assets/bg.png"
+          alt="background-image"
+          fill
+          className="object-top object-cover"
+        />
       </div>
-
     </div>
   );
 }

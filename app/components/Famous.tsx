@@ -14,24 +14,31 @@ import { get_products } from "../api/services/products";
 // toast 
 import toast from "react-hot-toast";
 
+// animation 
+import ConnectionError from "@/public/animations/connectionError.json";
 import ProductSkeleton from "./ProductSkeleton";
+import LottieAnimation from "./LottieAnimation";
 
 export default function Famous() {
     const [products, setProducts] = useState([]);
     const [loader, setLoader] = useState(false);
+    const [tryAgain, setTryAgain] = useState(false)
+
+    const get_products_function = async () => {
+        setLoader(true);
+
+        try {
+            setTryAgain(false)
+            const res = await get_products();
+            setProducts(res);
+        } catch (error) {
+            setTryAgain(true);
+            console.error("Login error:", error);
+            toast('something went wrong while getting products')
+        } finally { setLoader(false) }
+    }
 
     useEffect(() => {
-        const get_products_function = async () => {
-            setLoader(true);
-
-            try {
-                const res = await get_products();
-                setProducts(res);
-            } catch (error) {
-                console.error("Login error:", error);
-                toast('something went wrong while getting products')
-            } finally { setLoader(false) }
-        }
         get_products_function()
     }, [])
 
@@ -42,15 +49,16 @@ export default function Famous() {
                 <ChevronRight />
             </div>
 
+            {/* Loaing   */}
             {
                 loader &&
-                <ProductSkeleton/>
+                <ProductSkeleton />
             }
 
             {/* item here  */}
             <ul className="grid grid-cols-4 gap-5">
                 {
-                    products.map((item, id) => (
+                    products.map((item: { id: number, image: string, price: number, name: string, description: string }, id) => (
                         <li key={id} className="w-full h-[415px] rounded-lg overflow-hidden bg-[#e8e7e5] ">
                             <Link href={`/product/${item.id}`} className="p-2 h-full flex items-center justify-between flex-col">
                                 <img className="h-[70%] w-full object-cover object-center rounded-lg" src={item.image} alt={item.description} />
@@ -65,6 +73,34 @@ export default function Famous() {
                 }
 
             </ul>
+
+            {
+                tryAgain && (
+                    <div className="w-full flex flex-col items-center justify-center gap-6 relative">
+
+                        {/* Title */}
+                        <p className="text-lg font-medium text-gray-700 absolute top-5">
+                            Oops! Check your connection
+                        </p>
+
+                        {/* Animation */}
+                        <LottieAnimation
+                            animationData={ConnectionError}
+                            loop={true}
+                            className="w-[220px] h-[220px]"
+                        />
+
+                        {/* Try Again Button */}
+                        <button
+                            onClick={get_products_function}
+                            className="rounded-xl py-2 px-8 text-white bg-violet-600 hover:bg-violet-700 active:scale-95 transition-all z-10 cursor-pointer"
+                        >
+                            Try Again
+                        </button>
+                    </div>
+                )
+            }
+
 
         </div>
     )

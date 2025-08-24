@@ -1,58 +1,39 @@
-"use client";
+'use client'
 
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import { getProfile, refresh_token } from "../api/services/auth";
-import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { setUser } from "../store/feature/userSlice";
-import { RootState } from "../store/store";
+import { useDispatch } from 'react-redux'
+
+import { getProfile } from '../api/services/auth';
 
 export default function StoreUser() {
-  const router = useRouter();
-  const [loader, setLoader] = useState(false);
+  const router = useRouter()
   const dispatch = useDispatch();
-  const user = useSelector((state: RootState) => state.user.user);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const storeUserInfo = async () => {
-      let accessToken = localStorage.getItem("accessToken");
-
-      
-      if (!user) {
-        setLoader(true);
-        try {
-          
-          if (accessToken) {
-            const profile = await getProfile({ token: accessToken });
-            dispatch(setUser(profile));
-            return; 
-          }
-
-          throw new Error("No access token found"); 
-        } catch (error) {
-          console.log("Access token invalid or missing → refreshing...");
-          try {
-            const refreshed = await refresh_token();
-            accessToken = refreshed.accessToken;
-
-            localStorage.setItem("accessToken", accessToken);
-
-            const profile = await getProfile({ token: accessToken });
-            dispatch(setUser(profile));
-          } catch (e) {
-            console.error("Refresh failed → redirecting to login");
-            router.push("/auth/login");
-          }
-        } finally {
-          setLoader(false);
-        }
+    const storeuserinfo = async () => {
+      const accessToken = localStorage.getItem('accessToken');
+      if (!accessToken) {
+        router.push('/auth/login');
+        return
       }
-    };
+      try {
+        setLoading(true)
+        let res = await getProfile({ token: accessToken });
+        console.log(res);
+        dispatch(setUser(res));
+      } catch (error) {
+        console.log(error, "this error while storing information");
+        return router.push('/auth/login');
+      } finally { setLoading(false) };
+    }
+    storeuserinfo();
 
-    storeUserInfo();
-  }, [dispatch, router, user]);
+  }, [router, dispatch])
 
-  if (loader) {
+  if (loading) {
     return (
       <div className="fixed inset-0 flex flex-col items-center justify-between bg-white z-50 py-10">
         <span />
@@ -66,5 +47,5 @@ export default function StoreUser() {
     );
   }
 
-  return null;
+  return null
 }

@@ -38,7 +38,7 @@ export default function RootLayout({
         <ReduxProvider>
           <StoreUser />
           <Toaster
-            position="top-center" // still needed but we’ll override it
+            position="top-center"
             toastOptions={{
               style: {
                 background: '#393939ff',
