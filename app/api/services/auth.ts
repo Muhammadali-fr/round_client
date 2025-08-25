@@ -29,8 +29,9 @@ export async function getProfile(data: { token: string }) {
     })
 }
 
-export async function refresh_token(){
-    return fetcher('auth/refresh', {
+export async function refresh_token(token: { token: string }) {
+    return fetcher('/auth/refresh', {
         method: "POST",
+        data: token
     })
 }

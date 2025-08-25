@@ -1,7 +1,5 @@
 import { fetcher } from "../fetcher";
 const token = localStorage.getItem('accessToken');
-console.log(token);
-
 
 export async function create_product(data: { name: string, image: any, description: string, price: number, stock: number, images: any }) {
     return fetcher("/product", {
