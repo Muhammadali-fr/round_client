@@ -12,7 +12,7 @@ import {
   LogOut,
   ArrowLeftToLine
 } from "lucide-react"
- 
+
 // react and next
 import { useState } from "react"
 import { useRouter } from "next/navigation"
@@ -22,6 +22,10 @@ import Modal from "@/app/components/Modal";
 
 // loader 
 import ButtonLoader from "@/app/components/ButtonLoader"
+
+// redux 
+import { logout } from "@/app/store/feature/userSlice"
+import { useDispatch } from "react-redux"
 
 const navItems = [
   { label: "Edit Profile", href: "/user/settings", icon: CircleUserRound },
@@ -35,12 +39,13 @@ export default function Sidebar() {
   const [openModal, setOpenModal] = useState(false);
   const [logoutLoader, setLogoutLoader] = useState(false);
   const router = useRouter();
-
+  const dispatch = useDispatch()
 
   const handleLogout = () => {
     setLogoutLoader(true);
     localStorage.removeItem("accessToken");
     localStorage.removeItem("resetToken");
+    dispatch(logout())
     setTimeout(() => {
       router.push("/");
       setLogoutLoader(false);
@@ -49,7 +54,7 @@ export default function Sidebar() {
   }
 
   return (
-    <aside className="w-64 h-screen bg-white border-r flex flex-col justify-between px-4 py-6 shadow-sm">
+    <aside className="w-[330px] h-screen bg-white border-r flex flex-col justify-between px-4 py-6 shadow-sm">
       {/* Logo */}
       <Link href="/" className="flex items-center gap-3 mb-6">
         <img src="/assets/logo.svg" alt="logo" className="w-10 h-10" />
@@ -102,7 +107,7 @@ export default function Sidebar() {
               onClick={handleLogout}
               className="w-[50%] h-[40px] rounded-lg bg-red-600 hover:bg-red-500 text-white cursor-pointer flex items-center justify-center"
             >
-              {logoutLoader ? <ButtonLoader/> : "Log Out"}
+              {logoutLoader ? <ButtonLoader /> : "Log Out"}
             </button>
           </div>
         </div>

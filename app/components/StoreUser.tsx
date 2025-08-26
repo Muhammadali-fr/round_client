@@ -29,7 +29,7 @@ export default function StoreUser() {
         dispatch(setUser(res));
       } catch (error: any) {
         if (error.status === 401 && refreshToken) {
-          const res = await refresh_token({ token: refreshToken });
+          const res: any = await refresh_token({ token: refreshToken });
 
           localStorage.setItem('accessToken', res.accessToken);
 

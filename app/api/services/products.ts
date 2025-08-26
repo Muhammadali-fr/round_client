@@ -1,7 +1,15 @@
 import { fetcher } from "../fetcher";
-const token = localStorage.getItem('accessToken');
+
+// get token function 
+const get_token = () => {
+    if (typeof window !== 'undefined') {
+        return localStorage.getItem('accessToken');
+    }
+    return null;
+}
 
 export async function create_product(data: { name: string, image: any, description: string, price: number, stock: number, images: any }) {
+    const token = get_token()
     return fetcher("/product", {
         method: "POST",
         data,

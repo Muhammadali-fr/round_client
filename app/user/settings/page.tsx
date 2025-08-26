@@ -1,10 +1,10 @@
-"use client"
-import { Save, Camera } from "lucide-react";
+"use client";
+import { Save, Camera, Store } from "lucide-react";
 import { useState } from "react";
 
 export default function UserSettings() {
-  const [isSeller, setIsSeller] = useState(false);
   const [profileImage, setProfileImage] = useState("/assets/default-user.png");
+  const [isSeller, setIsSeller] = useState(false);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -13,26 +13,37 @@ export default function UserSettings() {
     }
   };
 
+  const handleBecomeSeller = () => {
+    setIsSeller(true);
+    // TODO: send request to backend
+    console.log("User became a seller!");
+  };
+
   return (
-    <div className="w-full min-h-screen bg-gray-100 flex items-center justify-center p-6">
-      <div className="w-full max-w-md bg-white rounded-2xl shadow-lg border border-gray-200 p-8 space-y-8">
-        {/* Header */}
-        <div className="text-center space-y-1">
-          <h2 className="text-2xl font-bold text-gray-900">Profile</h2>
-          <p className="text-sm text-gray-500">Update your info and role</p>
-        </div>
+    <div className="w-full max-w-3xl mx-auto px-6 py-12 space-y-12">
+      {/* Page Header */}
+      <div>
+        <h2 className="text-2xl font-bold text-violet-800">Profile Settings</h2>
+        <p className="text-sm text-gray-500">
+          Manage your personal information and account preferences
+        </p>
+      </div>
+
+      {/* Profile Info */}
+      <section className="space-y-6">
+        <h3 className="text-lg font-semibold text-gray-800">Profile Info</h3>
 
         {/* Profile Image */}
-        <div className="flex flex-col items-center gap-3">
-          <div className="relative w-28 h-28">
+        <div className="flex items-center gap-6">
+          <div className="relative w-24 h-24">
             <img
               src={profileImage}
               alt="Profile"
-              className="w-28 h-28 rounded-full object-cover border border-gray-300 shadow-sm"
+              className="w-24 h-24 rounded-full object-cover border-2 border-violet-300 shadow-sm"
             />
             <label
               htmlFor="profileImage"
-              className="absolute bottom-0 right-0 bg-violet-600 p-2 rounded-full shadow-md hover:bg-violet-500 cursor-pointer"
+              className="absolute bottom-0 right-0 bg-violet-600 p-2 rounded-full shadow hover:bg-violet-500 cursor-pointer transition"
             >
               <Camera size={16} className="text-white" />
               <input
@@ -44,45 +55,60 @@ export default function UserSettings() {
               />
             </label>
           </div>
-          <p className="text-xs text-gray-500">Click camera to change image</p>
+          <div>
+            <p className="font-medium text-gray-700">Profile Photo</p>
+            <p className="text-xs text-gray-500">
+              Click the camera to upload a new profile image
+            </p>
+          </div>
         </div>
 
-        {/* Name Field */}
-        <div className="space-y-1">
-          <label htmlFor="name" className="text-sm font-medium text-gray-600">
-            Name
+        {/* Name */}
+        <div>
+          <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+            Full Name
           </label>
           <input
             id="name"
             type="text"
             placeholder="Enter your name"
-            className="w-full p-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-violet-400 text-gray-800"
+            className="mt-1 w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-400 text-sm"
           />
         </div>
+      </section>
 
-        {/* Role Switch */}
-        <div className="flex items-center justify-between bg-gray-50 border border-gray-200 rounded-xl p-4">
-          <span className="text-gray-700 font-medium">
-            {isSeller ? "Seller" : "Buyer"}
-          </span>
-          <button
-            onClick={() => setIsSeller(!isSeller)}
-            className={`relative w-14 h-8 rounded-full transition-colors duration-300 ${
-              isSeller ? "bg-violet-500" : "bg-gray-300"
-            }`}
-          >
-            <span
-              className={`absolute top-1 left-1 w-6 h-6 bg-white rounded-full shadow-md transform transition-transform duration-300 ${
-                isSeller ? "translate-x-6" : ""
-              }`}
-            />
-          </button>
-        </div>
+      {/* Role Section */}
+      <section className="space-y-4">
+        <h3 className="text-lg font-semibold text-gray-800">Account Role</h3>
 
-        {/* Save Button */}
-        <button className="w-full py-3 bg-violet-600 text-white rounded-xl flex items-center justify-center gap-2 font-semibold hover:bg-violet-500 transition">
-          <Save size={18} />
-          Save
+        {!isSeller ? (
+          <div className="p-4 border border-dashed border-gray-300 rounded-lg bg-gray-50 flex flex-col items-start gap-3">
+            <p className="text-sm text-gray-600">
+              You are currently a <span className="font-medium">Buyer</span>.  
+              Become a seller to list products, manage your store, and start selling.
+            </p>
+            <button
+              onClick={handleBecomeSeller}
+              className="px-4 py-2 bg-violet-600 text-white rounded-lg flex items-center gap-2 text-sm font-semibold hover:bg-violet-700 transition"
+            >
+              <Store size={16} />
+              Become a Seller
+            </button>
+          </div>
+        ) : (
+          <div className="p-4 border border-green-300 rounded-lg bg-green-50">
+            <p className="text-sm text-green-700 font-medium">
+              ✅ You are registered as a Seller. You can now manage and sell products.
+            </p>
+          </div>
+        )}
+      </section>
+
+      {/* Save Button */}
+      <div>
+        <button className="px-6 py-2.5 bg-violet-600 text-white rounded-lg flex items-center gap-2 text-sm font-semibold hover:bg-violet-700 transition shadow">
+          <Save size={16} />
+          Save Changes
         </button>
       </div>
     </div>

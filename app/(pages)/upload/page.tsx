@@ -19,7 +19,7 @@ export default function AddProductPage() {
   const [images, setImages] = useState<File[]>([]);
 
   const handleImage = (e: any) => {
-    setImages([...e.target.files])
+    setImages([...e.target.files]);
   };
 
   // main function 
@@ -27,7 +27,7 @@ export default function AddProductPage() {
     if (images.length < 1) {
       toast('upload at least 1 image');
       return;
-    }
+    };
 
     setLoader(true);
 
@@ -35,8 +35,8 @@ export default function AddProductPage() {
       const image_array = await upload_image_product(images);
 
       if (!image_array) {
-        toast('something wen wrong.')
-      }
+        toast('something wen wrong.');
+      };
 
       // main image 
       const { url } = image_array[0];
@@ -48,24 +48,24 @@ export default function AddProductPage() {
         price: Number(price),
         stock: Number(stock),
         images: image_array
-      }
+      };
 
-      const res = await create_product(data)
+      const res = await create_product(data);
       console.log(res);
 
-      toast('uploaded successfully')
-    } catch (error) {
-      toast(error.message || 'error while creating');
-    } finally { setLoader(false) }
-  }
+      toast('uploaded successfully');
+    } catch (error: any) {
+      toast(error.response.data.message || 'error while creating');
+    } finally { setLoader(false) };
+  };
 
   const handle_remove = (id: number) => {
     setImages(images.filter((_, i) => i !== id));
   };
 
   const handle_clear = () => {
-    setImages([])
-  }
+    setImages([]);
+  };
 
   return (
     <div className="p-5">
