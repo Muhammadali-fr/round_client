@@ -12,12 +12,14 @@ import ButtonLoader from "@/app/components/ButtonLoader";
 
 export default function UserSettings() {
   const user = useSelector((state: RootState) => state.user.user);
+
+  // useState 
   const [preview, setPreview] = useState<string | null>(null)
   const [loading, setLoading] = useState(false);
 
-  const [name, setName] = useState(user ? user.name : "name")
+  const [name, setName] = useState<string>(user ? user.name : "name")
   const [file, setProfileImage] = useState<File | null>(null);
-  const [isSeller, setIsSeller] = useState(false);
+  const [isSeller, setIsSeller] = useState<Boolean>(false);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
