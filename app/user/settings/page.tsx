@@ -1,6 +1,9 @@
 "use client";
-import { Save, Camera, Store } from "lucide-react";
+import { Save, Camera, Store, Upload } from "lucide-react";
 import { useState } from "react";
+
+// shadcn 
+import { Switch } from "@/components/ui/switch"
 
 export default function UserSettings() {
   const [profileImage, setProfileImage] = useState("/assets/default-user.png");
@@ -13,14 +16,9 @@ export default function UserSettings() {
     }
   };
 
-  const handleBecomeSeller = () => {
-    setIsSeller(true);
-    // TODO: send request to backend
-    console.log("User became a seller!");
-  };
 
   return (
-    <div className="w-full max-w-3xl mx-auto px-6 py-12 space-y-12">
+    <div className="w-full max-w-[600px] mx-auto p-6 space-y-5 bg-white rounded-2xl">
       {/* Page Header */}
       <div>
         <h2 className="text-2xl font-bold text-violet-800">Profile Settings</h2>
@@ -79,35 +77,28 @@ export default function UserSettings() {
 
       {/* Role Section */}
       <section className="space-y-4">
-        <h3 className="text-lg font-semibold text-gray-800">Account Role</h3>
+        <h3 className="block text-sm font-medium text-gray-700">Account Role</h3>
 
-        {!isSeller ? (
-          <div className="p-4 border border-dashed border-gray-300 rounded-lg bg-gray-50 flex flex-col items-start gap-3">
-            <p className="text-sm text-gray-600">
-              You are currently a <span className="font-medium">Buyer</span>.  
-              Become a seller to list products, manage your store, and start selling.
-            </p>
-            <button
-              onClick={handleBecomeSeller}
-              className="px-4 py-2 bg-violet-600 text-white rounded-lg flex items-center gap-2 text-sm font-semibold hover:bg-violet-700 transition"
-            >
-              <Store size={16} />
-              Become a Seller
-            </button>
-          </div>
-        ) : (
-          <div className="p-4 border border-green-300 rounded-lg bg-green-50">
-            <p className="text-sm text-green-700 font-medium">
-              ✅ You are registered as a Seller. You can now manage and sell products.
-            </p>
-          </div>
-        )}
+        <div className="flex items-center space-x-3">
+          <Switch
+            id="seller-mode"
+            checked={isSeller}
+            onCheckedChange={setIsSeller}
+            className="
+          data-[state=checked]:bg-violet-700 
+          data-[state=unchecked]:bg-gray-400
+        "
+          />
+          <label htmlFor="seller-mode">
+            {isSeller ? "Seller Mode Enabled" : "Click to Become a Seller"}
+          </label>
+        </div>
       </section>
 
       {/* Save Button */}
       <div>
         <button className="px-6 py-2.5 bg-violet-600 text-white rounded-lg flex items-center gap-2 text-sm font-semibold hover:bg-violet-700 transition shadow">
-          <Save size={16} />
+          <Upload size={16} />
           Save Changes
         </button>
       </div>
