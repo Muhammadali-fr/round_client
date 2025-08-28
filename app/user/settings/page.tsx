@@ -1,23 +1,36 @@
 "use client";
-import { Save, Camera, Store, Upload } from "lucide-react";
+// react 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+
+// lucide 
+import { Camera, Upload } from "lucide-react";
 
 // shadcn 
-import { Switch } from "@/components/ui/switch"
+import { Switch } from "@/components/ui/switch";
+
+// redux 
 import { useSelector } from "react-redux";
 import { RootState } from "@/app/store/store";
+
+// toast and components
 import toast from "react-hot-toast";
-import { update_user } from "@/app/api/services/user";
 import ButtonLoader from "@/app/components/ButtonLoader";
 
+// services 
+import { update_user } from "@/app/api/services/user";
+
 export default function UserSettings() {
+  // redux 
   const user = useSelector((state: RootState) => state.user.user);
 
-  // useState 
-  const [preview, setPreview] = useState<string | null>(null)
-  const [loading, setLoading] = useState(false);
+  // states 
+  const [preview, setPreview] = useState<string | null>(null);
+  const [loading, setLoading] = useState<Boolean>(false);
+  const router = useRouter();
 
-  const [name, setName] = useState<string>(user ? user.name : "name")
+  // formdata 
+  const [name, setName] = useState<string>(user ? user.name : "name");
   const [file, setProfileImage] = useState<File | null>(null);
   const [isSeller, setIsSeller] = useState<Boolean>(false);
 
@@ -25,10 +38,11 @@ export default function UserSettings() {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
       setProfileImage(file);
-      setPreview(URL.createObjectURL(file))
-    }
+      setPreview(URL.createObjectURL(file));
+    };
   };
 
+  // main function 
   const handle_update = async () => {
     setLoading(true);
     const role = isSeller ? "SELLER" : "CUSTOMER";
@@ -36,11 +50,13 @@ export default function UserSettings() {
     try {
       const res: any = await update_user({ name, role, file });
       toast(res.message || 'updated successfully');
+      router.push("/");
+      window.location.reload();
     } catch (err: any) {
       console.log(err);
       toast(err.response.data.message || 'something went wrong updating account');
     } finally { setLoading(false) };
-  }
+  };
 
   return (
     <div className="w-full max-w-[600px] mx-auto p-6 space-y-5 bg-white rounded-2xl">
