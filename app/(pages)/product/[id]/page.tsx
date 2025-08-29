@@ -27,31 +27,25 @@ type Product = {
 };
 
 export default function ProductPage() {
+  // react 
   const { id } = useParams<{ id: string }>();
   const router = useRouter();
 
+  // states 
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [qty, setQty] = useState(1);
 
   // Swiper: thumbs + custom nav refs
-  const [thumbsSwiper, setThumbsSwiper] = useState<any>(null);
-  const prevRef = useRef<HTMLButtonElement | null>(null);
-  const nextRef = useRef<HTMLButtonElement | null>(null);
+  const swiperRef = useRef(null)
 
-  const fallbackImages = [
-    "/images/product-1.jpg",
-    "/images/product-2.jpg",
-    "/images/product-3.jpg",
-  ];
-
+  // main function 
   const handle_get_product = async () => {
     setLoading(true);
     if (!id) return router.push("/");
     try {
       const res: Product | any = await get_product(id);
       setProduct(res);
-      console.log(product);
     } catch (error) {
       console.log(error);
     } finally {
@@ -66,7 +60,7 @@ export default function ProductPage() {
   if (loading) return <p>Loading...</p>;
   if (!product) return <p>Product not found</p>;
 
-  const images = product.images?.length ? product.images : fallbackImages;
+  console.log(product.images);
 
   return (
     <div className="min-h-screen bg-white text-gray-800 p-6">
@@ -78,86 +72,41 @@ export default function ProductPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
           {/* Left: Images */}
-          <div className="space-y-4">
-            {/* Main Swiper with custom buttons */}
-            <div className="relative rounded-2xl overflow-hidden bg-gray-100">
-              <Swiper
-                modules={[Navigation, Pagination, Thumbs]}
-                loop={images.length > 1}
-                pagination={{ clickable: true }}
-                thumbs={{ swiper: thumbsSwiper }}
-                onBeforeInit={(swiper) => {
-                  swiper.params.navigation = {
-                    ...(typeof swiper.params.navigation === "boolean"
-                      ? {}
-                      : swiper.params.navigation),
-                    prevEl: prevRef.current,
-                    nextEl: nextRef.current,
-                  };
-                }}
-                onSwiper={(swiper) => {
-                  // Delay to ensure refs are set
-                  setTimeout(() => {
-                    if (!prevRef.current || !nextRef.current) return;
-                    // @ts-expect-error - navigation is object here
-                    swiper.params.navigation.prevEl = prevRef.current;
-                    // @ts-expect-error - navigation is object here
-                    swiper.params.navigation.nextEl = nextRef.current;
-                    swiper.navigation.destroy();
-                    swiper.navigation.init();
-                    swiper.navigation.update();
-                  });
-                }}
-                className="rounded-2xl"
-              >
-                {images.map((src, i) => (
-                  <SwiperSlide key={i}>
-                    <img
-                      src={src}
-                      alt={`product ${i}`}
-                      className="w-full h-[420px] object-cover"
-                    />
-                  </SwiperSlide>
-                ))}
-              </Swiper>
-
-              {/* Custom Prev/Next */}
-              <button
-                ref={prevRef}
-                aria-label="previous"
-                className="absolute left-4 top-1/2 -translate-y-1/2 z-10 bg-white/70 p-2 rounded-full hover:bg-white shadow"
-              >
-                <ChevronLeft size={20} />
-              </button>
-              <button
-                ref={nextRef}
-                aria-label="next"
-                className="absolute right-4 top-1/2 -translate-y-1/2 z-10 bg-white/70 p-2 rounded-full hover:bg-white shadow"
-              >
-                <ChevronRight size={20} />
-              </button>
-            </div>
-
-            {/* Thumbnails */}
+          <div className="relative">
             <Swiper
-              modules={[Thumbs]}
-              onSwiper={setThumbsSwiper}
-              slidesPerView={4}
-              spaceBetween={12}
-              freeMode
-              watchSlidesProgress
-              className="rounded-lg"
+              className="w-full h-[600px] rounded-lg bg-gray-200"
+              modules={[Pagination, Navigation]}
+              pagination={{ clickable: true }}
+              loop={true}
+              autoplay={{ delay: 3000 }}
+              onSwiper={(swiper) => {
+                swiperRef.current = swiper
+              }}
             >
-              {images.map((src, i) => (
-                <SwiperSlide key={i}>
-                  <img
-                    src={src}
-                    alt={`thumb ${i}`}
-                    className="w-full h-20 object-cover rounded-lg border border-gray-200 cursor-pointer"
-                  />
-                </SwiperSlide>
-              ))}
+              {
+                product.images.map((img, i) => (
+                  <SwiperSlide key={i}>
+                    <img className="w-full h-full object-cover" src={img.url} alt="swiper1" />
+                  </SwiperSlide>
+                ))
+              }
+
             </Swiper>
+
+            {/* Custom arrows */}
+            <button
+              className="absolute top-1/2 left-2 z-10 transform -translate-y-1/2 bg-white text-gray-700 p-2 rounded-full cursor-pointer hover:bg-gray-200"
+              onClick={() => swiperRef.current?.slidePrev()}
+            >
+              <ChevronLeft size={20} />
+            </button>
+
+            <button
+              className="absolute top-1/2 right-2 z-10 transform -translate-y-1/2 bg-white text-gray-700 p-2 rounded-full cursor-pointer hover:bg-gray-200"
+              onClick={() => swiperRef.current?.slideNext()}
+            >
+              <ChevronRight size={20} />
+            </button>
           </div>
 
           {/* Right: Details */}
