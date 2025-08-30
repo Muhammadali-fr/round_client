@@ -1,8 +1,14 @@
 "use client";
 
+// react 
 import React, { useEffect, useRef, useState } from "react";
-import { Heart, ShoppingCart, ChevronLeft, ChevronRight } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
+import Link from "next/link";
+
+// lucide 
+import { ShoppingCart, ChevronLeft, ChevronRight, Plus, Minus } from "lucide-react";
+
+// services 
 import { get_product } from "@/app/api/services/products";
 
 // Swiper
@@ -13,6 +19,7 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/thumbs";
 
+// types
 type Product = {
   id: string;
   image: string;
@@ -37,7 +44,7 @@ export default function ProductPage() {
   const [qty, setQty] = useState(1);
 
   // Swiper: thumbs + custom nav refs
-  const swiperRef = useRef(null)
+  const swiperRef: any = useRef(null)
 
   // main function 
   const handle_get_product = async () => {
@@ -67,14 +74,14 @@ export default function ProductPage() {
       <div className="max-w-[990px] mx-auto">
         {/* Breadcrumb */}
         <nav className="text-sm text-gray-500 mb-4">
-          Home / Bags / Backpacks / {product.name}
+          <Link href="/">Home</Link> / <Link href="/">products</Link> / {product.name}
         </nav>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
           {/* Left: Images */}
           <div className="relative">
             <Swiper
-              className="w-full h-[600px] rounded-lg bg-gray-200"
+              className="w-full h-[500px] rounded-lg bg-gray-200"
               modules={[Pagination, Navigation]}
               pagination={{ clickable: true }}
               loop={true}
@@ -113,46 +120,29 @@ export default function ProductPage() {
           <div className="pt-2">
             <h1 className="text-3xl font-semibold mb-2">{product.name}</h1>
 
-            <div className="flex items-center gap-6 mb-6">
+            <div className="flex items-center gap-6 mb-6 justify-between">
               <div className="text-sm text-gray-500">
-                {product.price.toLocaleString()} so&apos;m
+                <span className="text-lg text-violet-600 font-semibold">{product.price.toLocaleString()}</span> so'm
               </div>
 
               {/* Quantity + Actions */}
-              <div className="flex items-center gap-3">
-                <div className="flex items-center border rounded-lg overflow-hidden bg-gray-50">
-                  <button
-                    onClick={() => setQty((q) => Math.max(1, q - 1))}
-                    className="px-3 py-2"
-                    aria-label="decrease"
-                  >
-                    -
-                  </button>
-                  <div className="px-4 py-2 font-medium">{qty}</div>
-                  <button
-                    onClick={() => setQty((q) => q + 1)}
-                    className="px-3 py-2"
-                    aria-label="increase"
-                  >
-                    +
-                  </button>
-                </div>
-
-                <div className="flex items-center gap-2">
-                  <button className="flex items-center gap-2 px-4 py-2 rounded-lg bg-violet-600 text-white font-semibold shadow-md">
-                    <ShoppingCart size={16} /> Add to cart
-                  </button>
-                  <button
-                    className="p-2 rounded-lg border border-gray-300 bg-white"
-                    aria-label="wishlist"
-                  >
-                    <Heart />
-                  </button>
-                </div>
+              {/* cart quantity buttons */}
+              <div className="flex items-center justify-center gap-3 ">
+                <button className="p-2 cursor-pointer rounded-full border hover:bg-gray-200"><Minus size={18} className="text-gray-600" /></button>
+                <p className="text-[16px] text-gray-600">1</p>
+                <button title="add one same product" className="p-2 cursor-pointer rounded-full border hover:bg-gray-200"><Plus size={18} className="text-gray-600" /></button>
               </div>
+
+              <button className="flex items-center gap-2 px-4 py-2 rounded-lg bg-violet-600 text-white font-semibold cursor-pointer">
+                <ShoppingCart size={16} /> Add to cart
+              </button>
             </div>
 
-            <p className="text-gray-600 mb-4">{product.description}</p>
+            {/* description  */}
+            <div>
+              <p className="text-lg font-semibold">description</p>
+              <p className="text-gray-600 mb-4 text-sm">{product.description}</p>
+            </div>
           </div>
         </div>
 

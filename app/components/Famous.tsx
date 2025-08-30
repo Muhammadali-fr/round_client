@@ -19,6 +19,20 @@ import ConnectionError from "@/public/animations/connectionError.json";
 import ProductSkeleton from "./ProductSkeleton";
 import LottieAnimation from "./LottieAnimation";
 
+// types
+type Product = {
+    id: string;
+    image: string;
+    name: string;
+    description: string;
+    price: number;
+    stock: number;
+    createdAt: Date;
+    updatedAt: Date;
+    userId: string;
+    images?: string[];
+};
+
 export default function Famous() {
     const [products, setProducts] = useState([]);
     const [loader, setLoader] = useState(false);
@@ -58,16 +72,16 @@ export default function Famous() {
             {/* item here  */}
             <ul className="grid grid-cols-4 gap-5">
                 {
-                    products.map((item: { id: number, image: string, price: number, name: string, description: string }, id) => (
-                        <li key={id} className="w-full h-[415px] rounded-lg overflow-hidden bg-[#e8e7e5] ">
+                    products.map((item: Product) => (
+                        <li key={item.id} className="w-full h-[415px] rounded-lg overflow-hidden bg-[#e8e7e5] ">
                             <Link href={`/product/${item.id}`} className="p-2 h-full flex items-center justify-between flex-col">
                                 <img className="h-[70%] w-full object-cover object-center rounded-lg" src={item.image} alt={item.description} />
                                 <div className="py-2">
                                     <p className="font-semibold"><span className="text-violet-950">{item.price}</span> so'm</p>
                                     <p className="text-sm text-gray-800 line-clamp-2 leading-snug">{item.name}</p>
                                 </div>
-                                <button className="w-full py-1.5 bg-violet-700 text-white rounded-lg hover:bg-violet-600 cursor-pointer">Add to Cart</button>
                             </Link>
+                            <button className="w-full py-1.5 bg-violet-700 text-white rounded-lg hover:bg-violet-600 cursor-pointer">Add to Cart</button>
                         </li>
                     ))
                 }

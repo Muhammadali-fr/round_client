@@ -1,9 +1,10 @@
 "use client"
+
 // Link
 import Link from "next/link"
 
 // lucide 
-import { Search, Settings, ShoppingCart, User } from "lucide-react"
+import { Search, Settings, ShoppingCart } from "lucide-react"
 
 // navigation 
 import { usePathname } from "next/navigation"
