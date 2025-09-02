@@ -19,7 +19,7 @@ import {
 } from "../../components/ui/popover"
 
 export default function Header() {
-    const user = useSelector((state: RootState) => state.user.user);
+    const user: Object | null = useSelector((state: RootState) => state.user.user);
     const pathname = usePathname();
 
     return (

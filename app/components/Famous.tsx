@@ -43,14 +43,14 @@ export default function Famous() {
 
         try {
             setTryAgain(false)
-            const res = await get_products();
+            const res:any = await get_products();
             setProducts(res);
         } catch (error) {
             setTryAgain(true);
             console.error("Login error:", error);
             toast('something went wrong while getting products')
-        } finally { setLoader(false) }
-    }
+        } finally { setLoader(false)};
+    };
 
     useEffect(() => {
         get_products_function()
@@ -73,8 +73,8 @@ export default function Famous() {
             <ul className="grid grid-cols-4 gap-5">
                 {
                     products.map((item: Product) => (
-                        <li key={item.id} className="w-full h-[415px] rounded-lg overflow-hidden bg-[#e8e7e5] ">
-                            <Link href={`/product/${item.id}`} className="p-2 h-full flex items-center justify-between flex-col">
+                        <li key={item.id} className="w-full h-[415px] rounded-lg overflow-hidden bg-[#e8e7e5] p-2">
+                            <Link href={`/product/${item.id}`} className="flex items-center justify-between flex-col">
                                 <img className="h-[70%] w-full object-cover object-center rounded-lg" src={item.image} alt={item.description} />
                                 <div className="py-2">
                                     <p className="font-semibold"><span className="text-violet-950">{item.price}</span> so'm</p>
