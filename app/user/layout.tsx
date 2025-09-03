@@ -9,7 +9,7 @@ export default function UserLayout({ children }: { children: React.ReactNode }) 
     return (
         <div className="flex items-center">
             <Sidebar />
-            <div className="bg-[#f6f6f6] flex items-center justify-center w-full min-h-screen">
+            <div className="bg-[#f6f6f6] w-full min-h-screen">
                 {children}
             </div>
         </div>
