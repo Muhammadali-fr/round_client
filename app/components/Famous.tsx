@@ -34,10 +34,12 @@ type Product = {
 };
 
 export default function Famous() {
+    // states 
     const [products, setProducts] = useState([]);
     const [loader, setLoader] = useState(false);
     const [tryAgain, setTryAgain] = useState(false)
 
+    // main function 
     const get_products_function = async () => {
         setLoader(true);
 

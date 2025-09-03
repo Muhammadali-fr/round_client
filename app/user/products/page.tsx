@@ -1,8 +1,18 @@
 "use client";
 
-import { ShoppingCart, Heart } from "lucide-react";
+// react-router-dom 
+import Link from "next/link";
+
+// lucide 
+import { Pencil, Trash2 } from "lucide-react";
+
+// redux
 import { RootState } from "@/app/store/store";
 import { useSelector } from "react-redux";
+
+// animations 
+import EmptyAnimations from "@/public/animations/empty.json";
+import LottieAnimation from "@/app/components/LottieAnimation";
 
 // types
 type Product = {
@@ -23,56 +33,44 @@ export default function Products() {
 
   if (!user || !user.products || user.products.length === 0) {
     return (
-      <p className="text-center text-gray-500 py-10 text-lg">
-        No products yet 🚀
-      </p>
+      <div className="w-full h-screen flex items-center justify-center flex-col">
+        <LottieAnimation
+          animationData={EmptyAnimations}
+          loop={true}
+          className="w-[320px] h-[320px]"
+        />
+        <Link href={'/upload'}><p className="text-lg">No Products yet</p></Link>
+      </div>
     );
   }
 
   return (
     <div className="max-w-7xl mx-auto p-6">
-      <h1 className="text-2xl font-bold mb-6 text-violet-800">Your Products</h1>
+      <h1 className="text-2xl font-bold mb-6 text-violet-800 flex items-top gap-2">Your Products <p className="text-sm">({user.products.length})</p></h1>
 
-      <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-        {user.products.map((product) => (
-          <div
-            key={product.id}
-            className="group relative bg-white rounded-2xl shadow-sm hover:shadow-lg transition overflow-hidden"
-          >
-            {/* Product Image */}
-            <div className="relative w-full h-56 overflow-hidden">
-              <img
-                src={product.image || product.images?.[0] || "/placeholder.png"}
-                alt={product.name}
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-              />
-              {/* Wishlist Button */}
-              <button className="absolute top-3 right-3 p-2 rounded-full bg-white/80 backdrop-blur hover:bg-white text-gray-600 hover:text-red-500 transition">
-                <Heart className="w-5 h-5" />
-              </button>
-            </div>
+      <div className="grid grid-cols-5 gap-3">
+        {/* card  */}
+        {
+          user.products.map((product) => (
+            < div className="w-full h-[400px] bg-white rounded-lg flex items-center justify-between flex-col p-1 gap-2 relative" >
 
-            {/* Product Info */}
-            <div className="p-4 space-y-2">
-              <h3 className="text-base font-semibold text-gray-900 line-clamp-1">
-                {product.name}
-              </h3>
-              <p className="text-sm text-gray-500 line-clamp-2">
-                {product.description}
-              </p>
+              {/* image  */}
+              <img className="w-full h-[80%] rounded-lg" src={product.image} alt="product image" />
 
-              <div className="flex items-center justify-between pt-2">
-                <span className="text-lg font-bold text-violet-600">
-                  ${product.price}
-                </span>
-                <button className="p-2 rounded-lg bg-violet-600 hover:bg-violet-700 text-white shadow-sm transition">
-                  <ShoppingCart className="w-5 h-5" />
-                </button>
+              {/* name  */}
+              <p className="line-clamp-2 text-sm">{product.name}</p>
+              <button className="w-full flex items-center justify-center gap-2 bg-blue-700 text-white py-1 rounded-lg cursor-pointer hover:bg-blue-500"><Pencil size={14} />edit</button>
+
+              {/* delete button  */}
+              < div title="delete" className="bg-white p-2 border rounded-full text-red-500 cursor-pointer hover:bg-red-100 absolute top-3 right-3" >
+                <Trash2 size={20} />
               </div>
             </div>
-          </div>
-        ))}
-      </div>
-    </div>
+          ))
+        }
+
+
+      </div >
+    </div >
   );
 }
