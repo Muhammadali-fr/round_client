@@ -4,7 +4,7 @@ export default function Modal({ show, onClose, children }: { show: any, onClose:
     if (!show) return null
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/35 backdrop-blur">
+        <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-xs bg-black/30">
 
             {/* inside box  */}
             <div className="bg-white max-w-[400px] w-[95%] rounded-lg flex item-center justify-between flex-col overflow-hidden p-2 relative pt-5">

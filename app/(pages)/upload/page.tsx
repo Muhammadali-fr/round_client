@@ -10,13 +10,20 @@ import toast from "react-hot-toast";
 import LottieAnimation from "@/app/components/LottieAnimation";
 import UploadImageAnimation from "@/public/animations/uploadImage.json";
 
+// router 
+import { useRouter } from "next/navigation";
+
 export default function AddProductPage() {
+  // states 
   const [loader, setLoader] = useState(false);
   const [name, setName] = useState('');
   const [price, setPrice] = useState('');
   const [stock, setStock] = useState('');
   const [description, setDescription] = useState('');
   const [images, setImages] = useState<File[]>([]);
+
+  // router 
+  const router = useRouter()
 
   const handleImage = (e: any) => {
     setImages([...e.target.files]);
@@ -35,7 +42,7 @@ export default function AddProductPage() {
       const image_array = await upload_image_product(images);
 
       if (!image_array) {
-        toast('something wen wrong.');
+        toast('something went wrong.');
       };
 
       // main image 
@@ -54,6 +61,8 @@ export default function AddProductPage() {
       console.log(res);
 
       toast('uploaded successfully');
+      router.push('/user/products');
+      window.location.reload();
     } catch (error: any) {
       toast(error.response.data.message || 'error while creating');
     } finally { setLoader(false) };

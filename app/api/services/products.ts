@@ -39,8 +39,12 @@ export async function update_product(id: string, data: { name: string, image: st
 }
 
 export async function delete_product(id: string) {
+    const token = get_token();
     return fetcher(`/product/${id}`, {
         method: "DELETE",
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
     })
 }
 

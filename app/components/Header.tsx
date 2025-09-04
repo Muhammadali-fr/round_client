@@ -83,7 +83,7 @@ export default function Header() {
                                     {/* line  */}
                                     <div className="bg-gray-200 w-full h-[1px] my-1"></div>
 
-                                    <Link href={"/user/settings"}>
+                                    <Link href={"/user/products"}>
                                         <li className="flex items center gap-2 p-2 hover:bg-[#f5f7f9] rounded-lg cursor-pointer select-none">
                                             <Settings size={22} />
                                             Settings
