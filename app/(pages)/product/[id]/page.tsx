@@ -19,6 +19,9 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/thumbs";
 
+// ui 
+import Loader from "@/app/components/Loader";
+
 // types
 type Product = {
   id: string;
@@ -64,7 +67,15 @@ export default function ProductPage() {
     handle_get_product();
   }, [id]);
 
-  if (loading) return <p>Loading...</p>;
+  // laoding 
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-[90vh]">
+        <Loader />
+      </div>
+    )
+  }
+
   if (!product) return <p>Product not found</p>;
 
   console.log(product.images);

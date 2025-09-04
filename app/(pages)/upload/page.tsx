@@ -84,7 +84,7 @@ export default function AddProductPage() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Left Side - Image Upload */}
           <div>
-            <label className="border-2 border-dashed border-violet-300 rounded-lg flex flex-col items-center justify-center p-10 cursor-pointer hover:border-violet-500 transition">
+            <label className={`${images.length === 0 ? "h-full" : "h-auto"} border-2 border-dashed border-violet-300 rounded-lg flex flex-col items-center justify-center p-10 cursor-pointer hover:border-violet-500 transition`}>
 
               <ImagePlus className="h-12 w-12 text-gray-400 mb-3" />
 
@@ -129,17 +129,6 @@ export default function AddProductPage() {
               <button onClick={handle_clear} className="text-red-600 text-sm underline hover:text-red-500">
                 clear
               </button>
-            }
-
-            {images.length === 0 &&
-              <label htmlFor="imagesInput" className="w-full flex items-center justify-center flex-col">
-                <LottieAnimation
-                  animationData={UploadImageAnimation}
-                  loop={true}
-                  className="w-[200px] h-[200px]"
-                />
-                <p className="text-xl text-gray-800">Upload at least 1 image</p>
-              </label>
             }
 
           </div>
