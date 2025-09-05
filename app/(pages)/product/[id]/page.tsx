@@ -19,8 +19,10 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/thumbs";
 
-// ui 
+// ui and animations
 import Loader from "@/app/components/Loader";
+import LottieAnimation from "@/app/components/LottieAnimation";
+import notFoundProduct from "@/public/animations/notFoundProduct.json";
 
 // types
 type Product = {
@@ -76,7 +78,14 @@ export default function ProductPage() {
     )
   }
 
-  if (!product) return <p>Product not found</p>;
+  if (!product) {
+    return (
+      <div className="w-full min-h-[90vh] flex items-center justify-center flex-col gap-5">
+        <LottieAnimation className="w-[300px]" animationData={notFoundProduct} />
+        <p className="text-lg">oops! product not found</p>
+      </div>
+    )
+  };
 
   console.log(product.images);
 
