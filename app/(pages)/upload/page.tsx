@@ -3,7 +3,7 @@
 import { create_product, upload_image_product } from "@/app/api/services/products";
 import ButtonLoader from "@/app/components/ButtonLoader";
 import { X, ImagePlus } from "lucide-react";
-import { useState } from "react";
+import React, { useState } from "react";
 import toast from "react-hot-toast";
 
 // animation 
@@ -18,6 +18,7 @@ export default function AddProductPage() {
   const [loader, setLoader] = useState(false);
   const [name, setName] = useState('');
   const [price, setPrice] = useState('');
+  const [numberPrice, setNumberPrice] = useState<number>(0);
   const [stock, setStock] = useState('');
   const [description, setDescription] = useState('');
   const [images, setImages] = useState<File[]>([]);
@@ -52,7 +53,7 @@ export default function AddProductPage() {
         name,
         image: url,
         description,
-        price: Number(price),
+        price: numberPrice,
         stock: Number(stock),
         images: image_array
       };
@@ -75,6 +76,15 @@ export default function AddProductPage() {
   const handle_clear = () => {
     setImages([]);
   };
+
+  const handle_price_change = (e: React.ChangeEvent<HTMLElement>) => {
+    const raw = e.target.value.replace(/\D/g, "");
+    const formatted = raw.replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+    setPrice(formatted);
+
+    const numeric = Number(raw);
+    setNumberPrice(numeric);
+  }
 
   return (
     <div className="p-5">
@@ -148,14 +158,20 @@ export default function AddProductPage() {
 
             <label className="block text-sm font-medium text-gray-700">
               Price
-              <input
-                value={price}
-                onChange={e => setPrice(e.target.value)}
-                type="number"
-                placeholder="140 000 so'm"
-                className="w-full border border-gray-300 rounded-lg py-2 px-3 focus:ring-2 focus:ring-violet-500 outline-none"
-              />
+              <div className="relative mt-1">
+                <input
+                  value={price}
+                  onChange={handle_price_change}
+                  type="text"
+                  placeholder="140 000"
+                  className="w-full border border-gray-300 rounded-lg py-2 pr-12 pl-3 focus:ring-2 focus:ring-violet-500 outline-none"
+                />
+                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-600">
+                  so'm
+                </span>
+              </div>
             </label>
+
 
             {/* stock */}
             <label className="block text-sm font-medium text-gray-700">
