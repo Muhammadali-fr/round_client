@@ -46,9 +46,61 @@ export default function page() {
         handle_get_products()
     }, [id])
 
-    return (
-        <div className="max-w-[990px] w-[95%] border mx-auto bg-white rounded-xl p-5 my-5">
+    console.log(product);
 
+
+    return (
+        <div className="max-w-[990px] w-[95%] flex border mx-auto bg-white rounded-xl p-5 my-5">
+
+            {/* left  */}
+            <div>
+
+            </div>
+
+            {/* right  */}
+            <div>
+
+                {/* name  */}
+                <label className="text-sm font-medium text-gray-700">
+                    Product Name
+                    <input
+                        type="text"
+                        placeholder="Professional butsi va sorokonojka..."
+                        className="w-full border border-gray-300 rounded-lg py-2 px-3 focus:ring-2 focus:ring-violet-500 outline-none"
+                    />
+                </label>
+
+                {/* price  */}
+                <label className="text-sm font-medium text-gray-700">
+                    price
+                    <input
+                        type="text"
+                        placeholder="120 000 so'm"
+                        className="w-full border border-gray-300 rounded-lg py-2 px-3 focus:ring-2 focus:ring-violet-500 outline-none"
+                    />
+                </label>
+
+                {/* stock  */}
+                <label className="text-sm font-medium text-gray-700">
+                    stock
+                    <input
+                        type="number"
+                        placeholder="20"
+                        className="w-full border border-gray-300 rounded-lg py-2 px-3 focus:ring-2 focus:ring-violet-500 outline-none"
+                    />
+                </label>
+
+                {/* desc  */}
+                <label className="text-sm font-medium text-gray-700">
+                    description
+                    <textarea
+                        rows={3}
+                        placeholder="Yengil va bardoshli: Uzoq muddatli foydalanish uchun mos."
+                        className="w-full max-h-[200px] min-h-[100px] border border-gray-300 rounded-lg py-2 px-3 focus:ring-2 focus:ring-violet-500 outline-none"
+                    />
+                </label>
+
+            </div>
         </div>
     )
 }
