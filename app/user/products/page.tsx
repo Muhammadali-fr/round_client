@@ -96,7 +96,9 @@ export default function Products() {
                 {/* name  */}
                 <p className="line-clamp-2 text-sm">{product.name}</p>
               </Link>
-              <button className="w-full flex items-center justify-center gap-2 bg-blue-700 text-white py-1 rounded-lg cursor-pointer hover:bg-blue-500"><Pencil size={14} />edit</button>
+
+              {/* edit button  */}
+              <Link className="w-full" href={`/edit/${product.id}`}><button className="w-full flex items-center justify-center gap-2 bg-blue-700 text-white py-1 rounded-lg cursor-pointer hover:bg-blue-500"><Pencil size={14} />edit</button> </Link>
 
               {/* delete button  */}
               <div onClick={() => { setOpenModal(true); setSelectedProduct(product.id) }
