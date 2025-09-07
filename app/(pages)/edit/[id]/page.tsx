@@ -58,8 +58,7 @@ export default function page() {
             </div>
 
             {/* right  */}
-            <div>
-
+            <div className="w-[50%] flex flex-col gap-3">
                 {/* name  */}
                 <label className="text-sm font-medium text-gray-700">
                     Product Name
@@ -84,6 +83,7 @@ export default function page() {
                 <label className="text-sm font-medium text-gray-700">
                     stock
                     <input
+                        min={0}
                         type="number"
                         placeholder="20"
                         className="w-full border border-gray-300 rounded-lg py-2 px-3 focus:ring-2 focus:ring-violet-500 outline-none"
@@ -96,9 +96,12 @@ export default function page() {
                     <textarea
                         rows={3}
                         placeholder="Yengil va bardoshli: Uzoq muddatli foydalanish uchun mos."
-                        className="w-full max-h-[200px] min-h-[100px] border border-gray-300 rounded-lg py-2 px-3 focus:ring-2 focus:ring-violet-500 outline-none"
+                        className="w-full max-h-[100px] min-h-[100px] border border-gray-300 rounded-lg py-2 px-3 focus:ring-2 focus:ring-violet-500 outline-none"
                     />
                 </label>
+
+                {/* update button  */}
+                <button className="w-[150px] h-[35px] flex items-center justify-center text-white bg-violet-700 rounded-lg cursor-pointer hover:bg-violet-600 transition-all duration-300">update</button>
 
             </div>
         </div>

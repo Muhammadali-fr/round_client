@@ -177,6 +177,7 @@ export default function AddProductPage() {
             <label className="block text-sm font-medium text-gray-700">
               stock
               <input
+                min={0}
                 value={stock}
                 onChange={e => setStock(e.target.value)}
                 type="number"
