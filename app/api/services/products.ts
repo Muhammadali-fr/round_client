@@ -8,7 +8,9 @@ const get_token = () => {
     return null;
 }
 
-export async function create_product(data: { name: string, image: any, description: string, price: number, stock: number, images: any }) {
+export async function create_product(data: { name: string, image: any, description: string, price: number, stock: number, images: any, category: string }) {
+    console.log(data);
+
     const token = get_token()
     return fetcher("/product", {
         method: "POST",

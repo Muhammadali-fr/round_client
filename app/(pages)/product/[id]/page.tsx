@@ -58,6 +58,7 @@ export default function ProductPage() {
     try {
       const res: Product | any = await get_product(id);
       setProduct(res);
+      console.log(product);
     } catch (error) {
       console.log(error);
     } finally {
@@ -87,6 +88,8 @@ export default function ProductPage() {
     )
   };
 
+  console.log(product);
+  
   console.log(product.images);
 
   return (

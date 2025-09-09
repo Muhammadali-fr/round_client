@@ -6,10 +6,6 @@ import { X, ImagePlus } from "lucide-react";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 
-// animation 
-import LottieAnimation from "@/app/components/LottieAnimation";
-import UploadImageAnimation from "@/public/animations/uploadImage.json";
-
 // router 
 import { useRouter } from "next/navigation";
 
@@ -22,6 +18,7 @@ export default function AddProductPage() {
   const [stock, setStock] = useState('');
   const [description, setDescription] = useState('');
   const [images, setImages] = useState<File[]>([]);
+  const [category, setCategory] = useState<string | null>(null);
 
   // router 
   const router = useRouter()
@@ -36,6 +33,11 @@ export default function AddProductPage() {
       toast('upload at least 1 image');
       return;
     };
+
+    if (!category) {
+      toast('choose category')
+      return;
+    }
 
     setLoader(true);
 
@@ -55,7 +57,8 @@ export default function AddProductPage() {
         description,
         price: numberPrice,
         stock: Number(stock),
-        images: image_array
+        images: image_array,
+        category,
       };
 
       const res = await create_product(data);
@@ -84,6 +87,14 @@ export default function AddProductPage() {
 
     const numeric = Number(raw);
     setNumberPrice(numeric);
+  }
+
+  const handleCategory = (e: string) => {
+    if (e === category) {
+      setCategory(null);
+    } else {
+      setCategory(e);
+    }
   }
 
   return (
@@ -212,12 +223,19 @@ export default function AddProductPage() {
                   "Stylish",
                   "Nike",
                   "Menshoes",
+                  "watch"
                 ].map((tag, idx) => (
                   <span
                     key={idx}
-                    className="bg-violet-100 text-violet-600 px-3 py-1 rounded-full text-sm flex items-center gap-1"
+                    onClick={() => handleCategory(tag)}
+                    className={`${category === tag ? "bg-violet-700 text-white" : "bg-violet-100 text-violet-600"}  px-3 py-1 rounded-full text-sm flex items-center gap-1 cursor-pointer select-none`}
                   >
-                    {tag} <X size={14} className="cursor-pointer" />
+                    {tag}
+
+                    {
+                      category === tag &&
+                      <X size={14} className="cursor-pointer" />
+                    }
                   </span>
                 ))}
               </div>
