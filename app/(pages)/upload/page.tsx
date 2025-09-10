@@ -3,15 +3,19 @@
 import { create_product, upload_image_product } from "@/app/api/services/products";
 import ButtonLoader from "@/app/components/ButtonLoader";
 import { X, ImagePlus } from "lucide-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 // router 
 import { useRouter } from "next/navigation";
+import { get_categories } from "@/app/api/services/category";
+
+// types 
+import { CategoryType } from "@/app/types/category";
+import Loader from "@/app/components/Loader";
 
 export default function AddProductPage() {
   // states 
-  const [loader, setLoader] = useState(false);
   const [name, setName] = useState('');
   const [price, setPrice] = useState('');
   const [numberPrice, setNumberPrice] = useState<number>(0);
@@ -19,6 +23,11 @@ export default function AddProductPage() {
   const [description, setDescription] = useState('');
   const [images, setImages] = useState<File[]>([]);
   const [category, setCategory] = useState<string | null>(null);
+  const [categoryArray, setCategoryArray] = useState<CategoryType[]>([]);
+
+  // loader states 
+  const [loader, setLoader] = useState<Boolean>(false);
+  const [categoryLoader, setCategoryLoader] = useState<Boolean>(false);
 
   // router 
   const router = useRouter()
@@ -26,6 +35,22 @@ export default function AddProductPage() {
   const handleImage = (e: any) => {
     setImages([...e.target.files]);
   };
+
+  // get categories array 
+  const handle_get_categories = async () => {
+    setCategoryLoader(true);
+    try {
+      const res: CategoryType[] = await get_categories();
+      setCategoryArray(res);
+    } catch (r) {
+      console.log(r);
+      toast('pls reload page');
+    } finally { setCategoryLoader(false) };
+  };
+
+  useEffect(() => {
+    handle_get_categories();
+  }, []);
 
   // main function 
   const handle_upload = async () => {
@@ -35,9 +60,9 @@ export default function AddProductPage() {
     };
 
     if (!category) {
-      toast('choose category')
+      toast('choose category');
       return;
-    }
+    };
 
     setLoader(true);
 
@@ -80,7 +105,7 @@ export default function AddProductPage() {
     setImages([]);
   };
 
-  const handle_price_change = (e: React.ChangeEvent<HTMLElement>) => {
+  const handle_price_change = (e: any) => {
     const raw = e.target.value.replace(/\D/g, "");
     const formatted = raw.replace(/\B(?=(\d{3})+(?!\d))/g, " ");
     setPrice(formatted);
@@ -211,33 +236,29 @@ export default function AddProductPage() {
             {/* Tags */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                Tags
+                categories
               </label>
               <div className="flex flex-wrap gap-1 border border-gray-300 rounded-lg p-3">
-                {[
-                  "Sneaker",
-                  "Shoe",
-                  "Footwear",
-                  "Fashion",
-                  "Blue",
-                  "Stylish",
-                  "Nike",
-                  "Menshoes",
-                  "watch"
-                ].map((tag, idx) => (
-                  <span
-                    key={idx}
-                    onClick={() => handleCategory(tag)}
-                    className={`${category === tag ? "bg-violet-700 text-white" : "bg-violet-100 text-violet-600"}  px-3 py-1 rounded-full text-sm flex items-center gap-1 cursor-pointer select-none`}
-                  >
-                    {tag}
+                {categoryLoader ?
+                  <div className="p-2 w-full flex items-center justify-center bg-violet-100 rounded-lg">
+                     <Loader />
+                  </div>
+                :
+                  categoryArray.map((tag) => (
+                    <span
+                      key={tag.id}
+                      onClick={() => handleCategory(tag.name)}
+                      className={`${category === tag.name ? "bg-violet-700 text-white" : "bg-violet-100 text-violet-600"}  px-3 py-1 rounded-full text-sm flex items-center gap-1 cursor-pointer select-none`}
+                    >
+                      {tag.name}
 
-                    {
-                      category === tag &&
-                      <X size={14} className="cursor-pointer" />
-                    }
-                  </span>
-                ))}
+                      {
+                        category === tag.name &&
+                        <X size={14} className="cursor-pointer" />
+                      }
+                    </span>
+                  ))
+                }
               </div>
             </div>
 

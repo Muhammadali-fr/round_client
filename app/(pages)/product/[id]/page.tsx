@@ -25,18 +25,7 @@ import LottieAnimation from "@/app/components/LottieAnimation";
 import notFoundProduct from "@/public/animations/notFoundProduct.json";
 
 // types
-type Product = {
-  id: string;
-  image: string;
-  name: string;
-  description: string;
-  price: number;
-  stock: number;
-  createdAt: Date;
-  updatedAt: Date;
-  userId: string;
-  images?: string[];
-};
+import type { ProductType } from "@/app/types/product";
 
 export default function ProductPage() {
   // react 
@@ -44,7 +33,7 @@ export default function ProductPage() {
   const router = useRouter();
 
   // states 
-  const [product, setProduct] = useState<Product | null>(null);
+  const [product, setProduct] = useState<ProductType | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [qty, setQty] = useState(1);
 
@@ -56,7 +45,7 @@ export default function ProductPage() {
     setLoading(true);
     if (!id) return router.push("/");
     try {
-      const res: Product | any = await get_product(id);
+      const res: ProductType | any = await get_product(id);
       setProduct(res);
       console.log(product);
     } catch (error) {
@@ -90,7 +79,6 @@ export default function ProductPage() {
 
   console.log(product);
   
-  console.log(product.images);
 
   return (
     <div className="min-h-screen bg-white text-gray-800 p-6">
@@ -114,7 +102,7 @@ export default function ProductPage() {
               }}
             >
               {
-                product.images.map((img, i) => (
+                product.images?.map((img, i) => (
                   <SwiperSlide key={i}>
                     <img className="w-full h-full object-cover" src={img.url} alt="swiper1" />
                   </SwiperSlide>
