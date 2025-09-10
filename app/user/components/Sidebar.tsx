@@ -10,7 +10,8 @@ import {
   PackageSearch,
   ChartLine,
   LogOut,
-  ArrowLeftToLine
+  ArrowLeftToLine,
+  SquarePlus
 } from "lucide-react"
 
 // react and next
@@ -30,6 +31,7 @@ import { useDispatch } from "react-redux"
 const navItems = [
   { label: "Edit Profile", href: "/user/settings", icon: CircleUserRound },
   { label: "Products", href: "/user/products", icon: PackageSearch },
+  { label: "create category", href: "/user/category", icon: SquarePlus },
   { label: "Charts", href: "/user/charts", icon: ChartLine },
   { label: "Home", href: "/", icon: ArrowLeftToLine },
 ]
