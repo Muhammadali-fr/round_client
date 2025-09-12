@@ -9,6 +9,7 @@ import toast from "react-hot-toast";
 // router 
 import { useRouter } from "next/navigation";
 import { get_categories } from "@/app/api/services/category";
+import Link from "next/link";
 
 // types 
 import { CategoryType } from "@/app/types/category";
@@ -61,6 +62,11 @@ export default function AddProductPage() {
 
     if (!category) {
       toast('choose category');
+      return;
+    };
+
+    if (images.length > 6) {
+      toast('you can upload up to 6 images');
       return;
     };
 
@@ -238,12 +244,12 @@ export default function AddProductPage() {
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 categories
               </label>
-              <div className="flex flex-wrap gap-1 border border-gray-300 rounded-lg p-3">
+              <div className="flex flex-wrap gap-1 border border-gray-300 rounded-lg p-3 space-y-3">
                 {categoryLoader ?
                   <div className="p-2 w-full flex items-center justify-center bg-violet-100 rounded-lg">
-                     <Loader />
+                    <Loader />
                   </div>
-                :
+                  :
                   categoryArray.map((tag) => (
                     <span
                       key={tag.id}
@@ -259,6 +265,7 @@ export default function AddProductPage() {
                     </span>
                   ))
                 }
+                <Link href={'/user/category'}><p className="text-sm text-gray-700">No matching category? Just <span className="text-violet-900 font-semibold underline">create</span> your own.</p></Link>
               </div>
             </div>
 
@@ -267,7 +274,6 @@ export default function AddProductPage() {
             </button>
 
           </div>
-
         </div>
       </div>
     </div>

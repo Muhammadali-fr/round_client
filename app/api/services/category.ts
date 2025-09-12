@@ -8,3 +8,10 @@ export async function get_categories(): Promise<CategoryType[]> {
         method: 'GET',
     });
 };
+
+export async function create_category(name: string) {
+    return fetcher('/category', {
+        method: 'POST',
+        data: {name},
+    });
+};
