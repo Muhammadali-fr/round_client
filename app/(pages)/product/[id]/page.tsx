@@ -35,6 +35,7 @@ export default function ProductPage() {
   // states 
   const [product, setProduct] = useState<ProductType | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
+  const [releted, setReleted] = useState<ProductType[]>([]);
   const [qty, setQty] = useState(1);
 
   // Swiper: thumbs + custom nav refs
@@ -45,8 +46,9 @@ export default function ProductPage() {
     setLoading(true);
     if (!id) return router.push("/");
     try {
-      const res: ProductType | any = await get_product(id);
-      setProduct(res);
+      const res: { product: ProductType, releted: ProductType[] } = await get_product(id);
+      setProduct(res.product);
+      setReleted(res.releted);
       console.log(product);
     } catch (error) {
       console.log(error);
@@ -78,13 +80,13 @@ export default function ProductPage() {
   };
 
   console.log(product);
-  
+
 
   return (
     <div className="min-h-screen bg-white text-gray-800 p-6">
-      <div className="max-w-[990px] mx-auto">
+      <div className="max-w-[990px] mx-auto space-y-5">
         {/* Breadcrumb */}
-        <nav className="text-sm text-gray-500 mb-4">
+        <nav className="text-sm text-gray-500 ">
           <Link href="/">Home</Link> / <Link href="/">products</Link> / {product.name}
         </nav>
 
@@ -128,10 +130,10 @@ export default function ProductPage() {
           </div>
 
           {/* Right: Details */}
-          <div className="pt-2">
-            <h1 className="text-3xl font-semibold mb-2">{product.name}</h1>
+          <div className="space-y-3">
+            <h1 className="text-3xl font-semibold">{product.name}</h1>
 
-            <div className="flex items-center gap-6 mb-6 justify-between">
+            <div className="flex items-center gap-6 justify-between">
               <div className="text-sm text-gray-500">
                 <span className="text-lg text-violet-600 font-semibold">{product.price.toLocaleString()}</span> so'm
               </div>
@@ -152,36 +154,34 @@ export default function ProductPage() {
             {/* description  */}
             <div>
               <p className="text-lg font-semibold">description</p>
-              <p className="text-gray-600 mb-4 text-sm">{product.description}</p>
+              <p className="text-gray-600 text-sm">{product.description}</p>
             </div>
           </div>
         </div>
 
         {/* Related products */}
-        <section className="mt-12">
-          <h2 className="text-2xl font-semibold mb-4">Related products</h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {Array.from({ length: 4 }).map((_, i) => (
-              <div
-                key={i}
-                className="bg-white rounded-xl p-3 border border-gray-200 shadow-sm"
-              >
-                <div className="h-40 rounded-md overflow-hidden mb-3 bg-gray-100 flex items-center justify-center">
-                  <img
-                    src={`/images/related-${i + 1}.jpg`}
-                    alt={`related ${i}`}
-                    className="object-cover w-full h-full"
-                  />
-                </div>
-                <div className="text-sm font-medium">Product {i + 1}</div>
-                <div className="text-gray-500 text-xs">$49.00</div>
-              </div>
-            ))}
-          </div>
+        <section className="space-y-5">
+          <h2 className="text-2xl font-semibold">Related products</h2>
+          <ul className="grid grid-cols-4 gap-2">
+            {
+              releted.map((product: ProductType) => (
+                <li key={product.id} className="w-full h-[300px] bg-gray-100 rounded-lg flex items-center justify-between flex-col p-1 gap-2 relative" >
+                  <Link className="h-[90%]" href={`/product/${product.id}`}>
+
+                    {/* image  */}
+                    <img className="w-full h-[90%] rounded-lg object-cover mb-2" src={product.image} alt={product.name} />
+
+                    {/* name  */}
+                    <p className="line-clamp-2 text-sm">{product.name}</p>
+                  </Link>
+                </li>
+              ))
+            }
+          </ul>
         </section>
 
         {/* Footer CTA */}
-        <div className="mt-12 bg-violet-50 rounded-2xl p-6 flex items-center justify-between">
+        <div className="bg-violet-50 rounded-2xl p-6 flex items-center justify-between">
           <div>
             <div className="text-sm text-gray-500">Need help choosing?</div>
             <div className="font-semibold">Contact our product specialists</div>

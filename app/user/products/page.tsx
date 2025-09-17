@@ -86,7 +86,7 @@ export default function Products() {
       <div className="grid grid-cols-5 gap-3">
         {/* card  */}
         {
-          user.products.map((product) => (
+          user.products?.map((product:Product) => (
             <div key={product.id} className="w-full h-[400px] bg-white rounded-lg flex items-center justify-between flex-col p-1 gap-2 relative" >
               <Link className="h-[90%]" href={`/product/${product.id}`}>
 
