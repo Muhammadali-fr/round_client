@@ -154,7 +154,7 @@ export default function ProductPage() {
             {/* description  */}
             <div>
               <p className="text-lg font-semibold">description</p>
-              <p className="text-gray-600 text-sm">{product.description}</p>
+              <p className="text-gray-600 text-sm line-clamp-15 leading-snug">{product.description}</p>
             </div>
           </div>
         </div>

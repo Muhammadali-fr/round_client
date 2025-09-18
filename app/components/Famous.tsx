@@ -18,6 +18,7 @@ import toast from "react-hot-toast";
 import ConnectionError from "@/public/animations/connectionError.json";
 import ProductSkeleton from "./ProductSkeleton";
 import LottieAnimation from "./LottieAnimation";
+import Card from "./Card";
 
 // types
 type Product = {
@@ -75,16 +76,7 @@ export default function Famous() {
             <ul className="grid grid-cols-4 gap-5">
                 {
                     products.map((item: Product) => (
-                        <li key={item.id} className="w-full h-[415px] rounded-lg overflow-hidden bg-[#e8e7e5] p-2">
-                            <Link href={`/product/${item.id}`} className="flex items-center justify-between flex-col">
-                                <img loading="lazy" className="h-[70%] w-full object-cover object-center rounded-lg" src={item.image} alt={item.name} />
-                                <div className="py-2">
-                                    <p className="font-semibold"><span className="text-violet-950">{item.price}</span> so'm</p>
-                                    <p className="text-sm text-gray-800 line-clamp-2 leading-snug">{item.name}</p>
-                                </div>
-                            </Link>
-                            <button className="w-full py-1.5 bg-violet-700 text-white rounded-lg hover:bg-violet-600 cursor-pointer">Add to Cart</button>
-                        </li>
+                        <Card product={item} />
                     ))
                 }
 
