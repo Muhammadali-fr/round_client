@@ -1,0 +1,9 @@
+@import "tailwindcss";
+
+@layer components {
+  .custom-width {
+    max-width: 990px;
+    width: 95%;
+    margin: 0 auto;
+  }
+}
