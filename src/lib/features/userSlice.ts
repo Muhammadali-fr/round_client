@@ -10,8 +10,13 @@ const initialState: null | UserProp = null;
 
 const userSlice = createSlice({
     name: 'user',
-    initialState: null,
+    initialState,
     reducers: {
-
+        setUser:(state, action) => {
+            state = action.payload;
+        },
+        logout: (state, action) => {
+            state = null;
+        }
     }
 })
