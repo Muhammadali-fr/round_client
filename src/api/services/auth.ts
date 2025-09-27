@@ -22,3 +22,8 @@ export async function registerUser(data: { email: string, name: string }) {
         }
     });
 };
+
+// auth/verify?token = ... 
+export async function verifyUser(token: string) {
+    return fetcher(`/auth/verify?token=${token}`);
+}

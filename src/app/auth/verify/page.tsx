@@ -1,7 +1,60 @@
-export default function verify(){
+"use client";
+
+import { useEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { HashLoader } from "react-spinners";
+import toast from "react-hot-toast";
+import { verifyUser } from "@/src/api/services/auth";
+
+export default function Verify() {
+    const router = useRouter();
+    const searchParams = useSearchParams();
+    const token = searchParams.get("token");
+
+    useEffect(() => {
+        if (!token) {
+            toast.error("Missing token");
+            router.replace("/auth/login");
+            return;
+        }
+
+        const runVerify = async () => {
+            try {
+                const res = await verifyUser(token);
+                if (res?.accessToken) {
+                    localStorage.setItem("accessToken", res.accessToken);
+                    localStorage.setItem("refreshToken", res.refreshToken);
+                    toast.success("Account verified successfully!");
+                    router.push("/")
+                } else {
+                    toast.error("Invalid or expired token");
+                    router.replace("/auth/login");
+                }
+            } catch (err) {
+                toast.error("Something went wrong");
+                router.replace("/auth/login");
+            }
+        };
+
+        runVerify();
+    }, [token, router]);
+
     return (
-        <div className="bg-red-700">
-            verify
+        <div className="flex items-center justify-center min-h-screen">
+            <div className="w-[400px] bg-white rounded-xl shadow-lg p-8 text-center space-y-5 border border-gray-200">
+                <div className="flex justify-center">
+                    <HashLoader color="#6D28D9" />
+                </div>
+                <h1 className="text-xl font-semibold text-gray-800">
+                    Verifying your account
+                </h1>
+                <p className="text-gray-500 text-sm">
+                    Please wait, you will be redirected shortly.
+                </p>
+                <div className="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
+                    <div className="h-full bg-violet-500 animate-progress" />
+                </div>
+            </div>
         </div>
-    )
+    );
 }
