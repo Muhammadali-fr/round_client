@@ -14,7 +14,7 @@ export async function loginUser(data: { email: string }) {
 
 // auth/register 
 export async function registerUser(data: { email: string, name: string }) {
-    return fetcher('auth/register', {
+    return fetcher('/auth/register', {
         method: 'POST',
         body: JSON.stringify(data),
         headers: {

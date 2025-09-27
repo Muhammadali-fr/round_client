@@ -37,12 +37,13 @@ export default function page() {
             return toast('Please enter email.');
         }
 
+        setLoader(true);
         try {
-            const res = await registerUser({ email, name });
-            console.log(res);
-        } catch (error) {
-            console.log(error);
-        };
+            const res: { statusCode: number, message: string } = await registerUser({ email, name });
+            toast(res.message);
+        } catch (error: any) {
+            toast(error.response.data.message || "Error while creating account.");
+        } finally { setLoader(false) };
     };
 
     return (

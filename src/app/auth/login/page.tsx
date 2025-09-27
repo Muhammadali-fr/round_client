@@ -34,8 +34,8 @@ export default function page() {
             setLoader(true);
             const res: { message: string } = await loginUser({ email });
             toast(res.message);
-        } catch (error) {
-            console.log(error);
+        } catch (error:any) {
+            toast(error.response.data.message || "Error while loging in.");
         } finally { setLoader(false) };
     };
 
@@ -43,9 +43,10 @@ export default function page() {
         <div className="w-full md:w-[70%] h-screen flex items-center justify-center ">
             <div className="w-[90%] max-w-[400px] text-gray-700 space-y-3">
 
-
                 <h1 className="text-4xl md:text-5xl font-bold text-black">Welcome back</h1>
+
                 <p>Log in to your acconct</p>
+
                 {/* mail  */}
                 <a href="https://mail.google.com/">
                     <button type="button" className="flex items-center justify-center w-full gap-2 text-gray-700 border border-gray-400 rounded-lg cursor-pointer hover:bg-gray-100 py-2 mb-3">
