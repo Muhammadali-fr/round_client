@@ -11,9 +11,13 @@ import { useDispatch } from "react-redux";
 import { setUser } from "../lib/features/userSlice";
 
 export default function StoreUser() {
+  // states 
   const [loading, setLoading] = useState(false);
+
+  // redux 
   const dispatch = useDispatch();
 
+  // functions 
   const getUserFunction = async () => {
     try {
       setLoading(true);
@@ -24,10 +28,12 @@ export default function StoreUser() {
     } finally { setLoading(false) };
   };
 
+  // useEffects 
   useEffect(() => {
     getUserFunction();
   }, []);
 
+  // returns 
   if (loading) {
     return (
       <div className="fixed inset-0 flex flex-col items-center justify-between bg-white z-50 py-10">

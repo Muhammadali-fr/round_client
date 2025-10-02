@@ -8,9 +8,16 @@ import { Search, ShoppingCart } from "lucide-react"
 
 // navigation 
 import { usePathname } from "next/navigation"
+import { useSelector } from "react-redux";
+import { RootState } from "../lib/store";
+
+// types 
+import { UserProp } from "../types/user";
 
 export default function Header() {
     const pathname = usePathname();
+
+    const user = useSelector((state: RootState) => state.user);
 
     return (
         <div className="py-2 border-b border-[#e8e7e5] bg-gray-100">
@@ -37,9 +44,13 @@ export default function Header() {
                         <Link className="px-2" href={"/shop"}>shop</Link>
                     </li>
 
-                    <li className={`font-semibold cursor-pointer ${pathname === "/login" ? "text-violet-700" : "text-gray-600"}`}>
-                        <Link className="px-2" href={"/auth/login"}>login</Link>
-                    </li>
+                    {/* login link  */}
+                    {!user &&
+                        <li className={`font-semibold cursor-pointer ${pathname === "/login" ? "text-violet-700" : "text-gray-600"}`}>
+                            <Link className="px-2" href={"/auth/login"}>login</Link>
+                        </li>
+                    }
+
                 </ul>
 
                 {/* Right icons */}
@@ -51,6 +62,8 @@ export default function Header() {
                             <span className="text-xs text-white bg-violet-600 w-[15px] h-[15px] rounded-full flex items-center justify-center font-semibold absolute top-0 left-3">2</span>
                         </li>
                     </Link>
+
+                    {user && <p>{user.name}</p>}
                 </ul>
             </div>
         </div>
