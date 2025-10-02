@@ -20,16 +20,9 @@ export default function Verify() {
 
         const runVerify = async () => {
             try {
-                const res = await verifyUser(token);
-                if (res?.accessToken) {
-                    localStorage.setItem("accessToken", res.accessToken);
-                    localStorage.setItem("refreshToken", res.refreshToken);
-                    toast.success("Account verified successfully!");
-                    router.push("/")
-                } else {
-                    toast.error("Invalid or expired token");
-                    router.replace("/auth/login");
-                }
+                const res: { message: string } = await verifyUser(token);
+                toast(res.message);
+                router.replace("/");
             } catch (err) {
                 toast.error("Something went wrong");
                 router.replace("/auth/login");

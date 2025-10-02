@@ -21,6 +21,11 @@ export const metadata: Metadata = {
 import { Toaster } from "react-hot-toast";
 import NextTopLoader from "nextjs-toploader";
 
+// components 
+import StoreUser from "../components/StoreUser";
+
+// redux 
+import { ReduxProvider } from "../lib/ReduxProvider";
 
 export default function RootLayout({ children, }: Readonly<{ children: React.ReactNode; }>) {
   return (
@@ -28,26 +33,34 @@ export default function RootLayout({ children, }: Readonly<{ children: React.Rea
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        {/* redux provider  */}
+        <ReduxProvider>
 
-        {/* toaster  */}
-        <Toaster
-          position="top-center"
-          toastOptions={{
-            style: {
-              background: '#393939ff',
-              color: '#fff',
-              fontSize: '14px',
-              borderRadius: '10px',
-              padding: '5px 10px',
-            },
-          }}
-        />
+          {/* toaster  */}
+          <Toaster
+            position="top-center"
+            toastOptions={{
+              style: {
+                background: '#393939ff',
+                color: '#fff',
+                fontSize: '14px',
+                borderRadius: '10px',
+                padding: '5px 10px',
+              },
+            }}
+          />
 
-        {/* top loader  */}
-        <NextTopLoader color="#7f22fe" />
+          {/* top loader  */}
+          <NextTopLoader color="#7f22fe" />
 
-        {/* childrens   */}
-        {children}
+          {/* store user  */}
+          <StoreUser />
+
+          {/* childrens   */}
+          {children}
+
+          {/* redux provider end */}
+        </ReduxProvider>
       </body>
     </html>
   );

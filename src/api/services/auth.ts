@@ -2,7 +2,7 @@
 import { fetcher } from "../fetcher";
 
 // auth/login 
-export async function loginUser(data: { email: string }) {
+export function loginUser(data: { email: string }) {
     return fetcher('/auth/login', {
         method: 'POST',
         body: JSON.stringify(data),
@@ -13,7 +13,7 @@ export async function loginUser(data: { email: string }) {
 };
 
 // auth/register 
-export async function registerUser(data: { email: string, name: string }) {
+export function registerUser(data: { email: string, name: string }) {
     return fetcher('/auth/register', {
         method: 'POST',
         body: JSON.stringify(data),
@@ -24,6 +24,14 @@ export async function registerUser(data: { email: string, name: string }) {
 };
 
 // auth/verify?token = ... 
-export async function verifyUser(token: string) {
+export function verifyUser(token: string) {
     return fetcher(`/auth/verify?token=${token}`);
+}
+
+// get user 
+export function getUser() {
+    return fetcher('/auth/profile', {
+        method: 'GET',
+        credentials: 'include',
+    });
 }
