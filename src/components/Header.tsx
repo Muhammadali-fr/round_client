@@ -4,7 +4,7 @@
 import Link from "next/link"
 
 // lucide 
-import { Search, ShoppingCart } from "lucide-react"
+import { Search, Settings, ShoppingCart } from "lucide-react"
 
 // navigation 
 import { usePathname } from "next/navigation"
@@ -14,14 +14,17 @@ import { RootState } from "../lib/store";
 // types 
 import { UserProp } from "../types/user";
 
+// ui 
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+
 export default function Header() {
     const pathname = usePathname();
 
-    const user = useSelector((state: RootState) => state.user);
+    const user = useSelector((state: RootState) => state.user.data);
 
     return (
         <div className="py-2 border-b border-[#e8e7e5] bg-gray-100">
-            <div className="max-w-[990px] w-[90%] mx-auto flex items-center justify-between">
+            <div className="custom-width flex items-center justify-between">
                 {/* Logo */}
                 <div className="flex items-center">
                     <Link href={"/"} className="flex items-center gap-2">
@@ -63,6 +66,38 @@ export default function Header() {
                         </li>
                     </Link>
 
+                    {/* user icon  */}
+                    {user && <li>
+                        <Popover>
+                            <PopoverTrigger className="flex items-center-justify-center cursor-pointer">
+                                {/* user icon here  */}
+                                {/* <User /> */}
+                                <div className="w-[25px] h-[25px] rounded-full bg-white">
+                                    <img className="w-full h-full rounded-full" src={user ? user.profile : "/assets/bg.png"} alt="user" />
+                                </div>
+                            </PopoverTrigger>
+                            <PopoverContent className="mx-5 w-[200px] p-1 rounded-lg">
+                                <ul className="flex flex-col m-1 text-[#7a7c7d]">
+                                    <li className="flex items-center gap-2 p-2 select-none">
+                                        <div className="w-[25px] h-[25px] rounded-full bg-gray-200">
+                                            <img className="w-full h-full rounded-full" src={user ? user.profile : "/assets/bg.png"} alt="user" />
+                                        </div>
+                                        {user ? user.name : "username"}
+                                    </li>
+
+                                    {/* line  */}
+                                    <div className="bg-gray-200 w-full h-[1px] my-1"></div>
+
+                                    <Link href={"/user/products"}>
+                                        <li className="flex items center gap-2 p-2 hover:bg-[#f5f7f9] rounded-lg cursor-pointer select-none">
+                                            <Settings size={22} />
+                                            Settings
+                                        </li>
+                                    </Link>
+                                </ul>
+                            </PopoverContent>
+                        </Popover>
+                    </li>}
 
                 </ul>
             </div>

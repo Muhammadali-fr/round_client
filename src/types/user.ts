@@ -18,9 +18,9 @@ export interface UserProp {
     id: string;
     name: string;
     email: string;
-    prodile: string;
+    profile: string;
     role: string;
     createdAt: Date;
     updatedAt: Date;
-    products: UserProductProp[]
+    products: UserProductProp[];
 }
