@@ -2,6 +2,7 @@
 
 // react and next 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 // services 
 import { getUser } from "../api/services/auth";
@@ -10,6 +11,9 @@ import { getUser } from "../api/services/auth";
 import { useDispatch } from "react-redux";
 import { setUser } from "../lib/features/userSlice";
 
+// loader and toast 
+import toast from "react-hot-toast";
+
 export default function StoreUser() {
   // states 
   const [loading, setLoading] = useState(false);
@@ -17,14 +21,24 @@ export default function StoreUser() {
   // redux 
   const dispatch = useDispatch();
 
+  // veriables 
+  const router = useRouter();
+
   // functions 
   const getUserFunction = async () => {
     try {
       setLoading(true);
-      const user = await getUser();
-      dispatch(setUser(user));
+      const { user, success } = await getUser();
+      if (success) {
+        dispatch(setUser(user));
+      } else {
+        toast('something went wrong login again')
+        router.replace('/auth/login');
+      }
     } catch (error) {
       console.log(error);
+      toast('something went wrong login again')
+      router.replace('/auth/login');
     } finally { setLoading(false) };
   };
 

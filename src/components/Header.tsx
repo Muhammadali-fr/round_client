@@ -63,7 +63,7 @@ export default function Header() {
                         </li>
                     </Link>
 
-                    {user && <p>{user.name}</p>}
+
                 </ul>
             </div>
         </div>
