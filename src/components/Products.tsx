@@ -1,6 +1,21 @@
+
+// types 
+import { ProductProp } from "../types/user";
+
+// services 
+import { getProducts } from "../api/services/products"
+
 export default async function Products() {
+
+    const products:ProductProp[]  = await getProducts();
         
     return (
-        <p>get Products</p>
+        <div>
+            {
+                products.map((item: ProductProp) => (
+                    <p>{item.name}</p>
+                ))
+            }
+        </div>
     )
 }

@@ -3,9 +3,8 @@
 import { fetcher } from "../fetcher";
 
 // get user 
-export function getUser() {
-    return fetcher('/auth/profile', {
+export function getProducts() {
+    return fetcher('/product', {
         method: 'GET',
-        credentials: 'include',
     });
 }

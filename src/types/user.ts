@@ -1,5 +1,5 @@
 // one product 
-export interface UserProductProp {
+export interface ProductProp {
     id: string;
     image: string;
     name: string;
@@ -10,8 +10,7 @@ export interface UserProductProp {
     updatedAt: string;
     userId: string;
     categoryId: string;
-}
-
+};
 
 // user 
 export interface UserProp {
@@ -22,5 +21,5 @@ export interface UserProp {
     role: string;
     createdAt: Date;
     updatedAt: Date;
-    products: UserProductProp[];
-}
+    products: ProductProp[];
+};
