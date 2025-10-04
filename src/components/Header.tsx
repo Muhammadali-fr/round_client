@@ -1,7 +1,8 @@
 "use client"
 
-// Link
+//next stuff
 import Link from "next/link"
+import Image from "next/image";
 
 // lucide 
 import { Search, Settings, ShoppingCart } from "lucide-react"
@@ -11,11 +12,11 @@ import { usePathname } from "next/navigation"
 import { useSelector } from "react-redux";
 import { RootState } from "../lib/store";
 
-// types 
-import { UserProp } from "../types/user";
-
 // ui 
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+
+// assets 
+import LogoImage from '@/public/assets/logo.svg';
 
 export default function Header() {
     const pathname = usePathname();
@@ -28,11 +29,7 @@ export default function Header() {
                 {/* Logo */}
                 <div className="flex items-center">
                     <Link href={"/"} className="flex items-center gap-2">
-                        <img
-                            className="w-[35px] h-[35px] select-none"
-                            src="/assets/logo.svg"
-                            alt="logo"
-                        />
+                        <Image className="select-none" src={LogoImage} alt="logo" width={35} height={35} />
                         <p className="text-2xl text-black font-semibold">Round</p>
                     </Link>
                 </div>
@@ -73,7 +70,7 @@ export default function Header() {
                                 {/* user icon here  */}
                                 {/* <User /> */}
                                 <div className="w-[25px] h-[25px] rounded-full bg-white">
-                                    <img className="w-full h-full rounded-full" src={user ? user.profile : "/assets/bg.png"} alt="user" />
+                                    <Image className="rounded-full" src={user.profile} width={25} height={25} alt="user image"/>
                                 </div>
                             </PopoverTrigger>
                             <PopoverContent className="mx-5 w-[200px] p-1 rounded-lg">

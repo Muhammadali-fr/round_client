@@ -3,6 +3,7 @@
 // react and next 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 // services 
 import { getUser } from "../api/services/auth";
@@ -13,6 +14,9 @@ import { setUser } from "../lib/features/userSlice";
 
 // loader and toast 
 import toast from "react-hot-toast";
+
+// assets 
+import LogoImage from '@/public/assets/logo.svg';
 
 export default function StoreUser() {
   // states 
@@ -32,7 +36,6 @@ export default function StoreUser() {
       if (success) {
         dispatch(setUser(user));
       } else {
-        toast('something went wrong login again')
         router.replace('/auth/login');
       }
     } catch (error) {
@@ -50,13 +53,9 @@ export default function StoreUser() {
   // returns 
   if (loading) {
     return (
-      <div className="fixed inset-0 flex flex-col items-center justify-between bg-white z-50 py-10">
+      <div className="fixed inset-0 flex flex-col items-center justify-between bg-white z-50 py-5">
         <span />
-        <img
-          className="w-[120px] h-[120px] rounded-full"
-          src="/assets/logo.svg"
-          alt="logo"
-        />
+        <Image src={LogoImage} alt="logo" width={120} height={120} className="rounded-full"/>
         <p className="text-black">Loading your account...</p>
       </div>
     );

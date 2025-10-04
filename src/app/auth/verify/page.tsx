@@ -23,10 +23,11 @@ export default function Verify() {
                 const res: { message: string } = await verifyUser(token);
                 toast(res.message);
                 router.replace("/");
+                window.location.reload();
             } catch (err) {
                 toast.error("Something went wrong");
                 router.replace("/auth/login");
-            }
+            };
         };
 
         runVerify();
