@@ -20,13 +20,26 @@ export default function Verify() {
 
         const runVerify = async () => {
             try {
-                const res: { message: string } = await verifyUser(token);
-                toast(res.message);
-                router.replace("/");
-                window.location.reload();
+                const res: { tokens: { accessToken: string, refreshToken: string }, success: Boolean, message: string } = await verifyUser(token);
+
+                if (res.success) {
+                    // saving tokens 
+                    localStorage.setItem('accessToken', res.tokens.accessToken);
+                    localStorage.setItem('refreshToken', res.tokens.refreshToken);
+
+                    // messages 
+                    toast(res.message);
+                    router.replace("/");
+                    return window.location.reload();
+                }
+
+                // if token epired 
+                toast('The link has expired. Please request a new one.');
+                router.replace("/auth/login");
             } catch (err) {
                 toast.error("Something went wrong");
                 router.replace("/auth/login");
+                console.log(err);
             };
         };
 

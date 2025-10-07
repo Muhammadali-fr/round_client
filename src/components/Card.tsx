@@ -16,8 +16,6 @@ export default function Card({ item }: { item: ProductProp }) {
     return (
         <li className="w-full h-[400px] bg-gray-100 rounded-lg overflow-hidden group border-1 border-gray-200">
 
-
-
             {/* card image  */}
             <div className="h-3/4 overflow-hidden relative">
 
@@ -29,7 +27,7 @@ export default function Card({ item }: { item: ProductProp }) {
                 }
 
                 {/* image  */}
-                <Image className={`w-full h-full group-hover:scale-105 transition-all duration-150 ${imageLoader ? 'opacity-0' : 'opacity-100'}`} width={300} height={400} src={item.image} alt={item.name} onLoadingComplete={() => setImageLoader(false)} />
+                <Image className={`w-full h-full group-hover:scale-105 transition-all duration-150 ${imageLoader ? 'opacity-0' : 'opacity-100'}`} width={300} height={400} src={item.image} alt={item.name} onLoad={() => setImageLoader(false)} />
             </div>
 
             {/* card details  */}
@@ -42,4 +40,4 @@ export default function Card({ item }: { item: ProductProp }) {
             </div>
         </li>
     )
-}
+};

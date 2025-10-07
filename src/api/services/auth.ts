@@ -29,9 +29,19 @@ export function verifyUser(token: string) {
 }
 
 // get user 
-export function getUser() {
+export function getUser(data: { token: string }) {
     return fetcher('/auth/profile', {
         method: 'GET',
-        credentials: 'include',
+        headers: {
+            'Authorization' : `Bearer ${data.token}`
+        }
     });
+}
+
+//auth/refresh
+export function authRefreshToken() {
+    return fetcher('/auth/refresh', {
+        method: 'GET',
+        credentials: 'include'
+    })
 }

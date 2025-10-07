@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 
 // services 
-import { getUser } from "../api/services/auth";
+import { getUser, authRefreshToken } from "../api/services/auth";
 
 // redux 
 import { useDispatch } from "react-redux";
@@ -27,6 +27,8 @@ export default function StoreUser() {
 
   // veriables 
   const router = useRouter();
+  const accessToken = localStorage.getItem('accessToken');
+  const refreshToken = localStorage.getItem('refreshToken');
 
   // functions 
   const getUserFunction = async () => {
@@ -36,7 +38,8 @@ export default function StoreUser() {
       if (success) {
         dispatch(setUser(user));
       } else {
-        router.replace('/auth/login');
+        const res = await authRefreshToken();
+        console.log('refresh', res);
       }
     } catch (error) {
       console.log(error);
