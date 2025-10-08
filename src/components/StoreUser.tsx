@@ -27,20 +27,31 @@ export default function StoreUser() {
 
   // veriables 
   const router = useRouter();
-  const accessToken = localStorage.getItem('accessToken');
-  const refreshToken = localStorage.getItem('refreshToken');
 
   // functions 
   const getUserFunction = async () => {
+    // tokens 
+    const accessToken = localStorage.getItem('accessToken');
+    const refreshToken = localStorage.getItem('refreshToken');
+
+    if (!accessToken || !refreshToken) {
+      return router.push('/auth/login');
+    };
+
     try {
       setLoading(true);
-      const { user, success } = await getUser();
+      const { user, success } = await getUser({ token: accessToken });
       if (success) {
         dispatch(setUser(user));
       } else {
-        const res = await authRefreshToken();
-        console.log('refresh', res);
-      }
+        const { accessToken, success } = await authRefreshToken({ token: refreshToken });
+        if (success) {
+          toast('wait we are logging again into your account...');
+          localStorage.setItem('accessToken', accessToken);
+          return window.location.reload();
+        };
+        router.push('auth/login');
+      };
     } catch (error) {
       console.log(error);
       toast('something went wrong login again')
@@ -58,7 +69,7 @@ export default function StoreUser() {
     return (
       <div className="fixed inset-0 flex flex-col items-center justify-between bg-white z-50 py-5">
         <span />
-        <Image src={LogoImage} alt="logo" width={120} height={120} className="rounded-full"/>
+        <Image src={LogoImage} alt="logo" width={120} height={120} className="rounded-full" />
         <p className="text-black">Loading your account...</p>
       </div>
     );

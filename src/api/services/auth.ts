@@ -33,15 +33,18 @@ export function getUser(data: { token: string }) {
     return fetcher('/auth/profile', {
         method: 'GET',
         headers: {
-            'Authorization' : `Bearer ${data.token}`
+            'Authorization': `Bearer ${data.token}`
         }
     });
 }
 
 //auth/refresh
-export function authRefreshToken() {
+export function authRefreshToken(data: { token: string }) {
     return fetcher('/auth/refresh', {
-        method: 'GET',
-        credentials: 'include'
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
     })
 }

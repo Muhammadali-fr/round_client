@@ -36,6 +36,9 @@ export default function RootLayout({ children, }: Readonly<{ children: React.Rea
         {/* redux provider  */}
         <ReduxProvider>
 
+          {/* store user  */}
+          <StoreUser />
+
           {/* toaster  */}
           <Toaster
             position="top-center"
@@ -52,9 +55,6 @@ export default function RootLayout({ children, }: Readonly<{ children: React.Rea
 
           {/* top loader  */}
           <NextTopLoader color="#7f22fe" />
-
-          {/* store user  */}
-          <StoreUser />
 
           {/* childrens   */}
           {children}

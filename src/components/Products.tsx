@@ -6,7 +6,6 @@ import { ProductProp } from "../types/user";
 import { getProducts } from "../api/services/products"
 
 // next and react 
-import Image from "next/image";
 import Card from "./Card";
 
 export default async function Products() {
