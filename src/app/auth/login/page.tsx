@@ -35,7 +35,8 @@ export default function page() {
             const res: { message: string } = await loginUser({ email });
             toast(res.message);
         } catch (error:any) {
-            toast(error.response.data.message || "Error while loging in.");
+            // toast(error.response.data.message || "Error while loging in.");
+            console.log(error)
         } finally { setLoader(false) };
     };
 
