@@ -6,8 +6,11 @@ import Products from "@/src/components/Products";
 export default function () {
     return (
         <div className="custom-width min-h-[90vh] space-y-5 py-5">
-            <Hero/>
-            <Products/>
+            <Hero />
+            <div className="space-y-5">
+                <p className="text-2xl font-semibold">Products</p>
+                <Products />
+            </div>
         </div>
     )
 }
