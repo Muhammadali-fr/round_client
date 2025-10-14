@@ -10,7 +10,7 @@ import Card from "./Card";
 
 export default async function Products() {
 
-    const products: ProductProp[] = await getProducts();
+    const {products, success}: {products: ProductProp[], success: boolean} = await getProducts();
 
     if(!products){
         return (

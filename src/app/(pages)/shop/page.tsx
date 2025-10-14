@@ -1,85 +1,77 @@
 'use client';
 
-import { useEffect, useMemo, useState } from "react";
-import { Search } from "lucide-react";
+import { useEffect, useState } from "react";
 
-// services
-import { getProducts } from "@/src/api/services/products";
-
-// components
-import Card from "@/src/components/Card";
-
-// types
-import { ProductProp } from "@/src/types/user";
-
-export default function Shop() {
+export default function ShopPage() {
   const [query, setQuery] = useState("");
-  const [products, setProducts] = useState<ProductProp[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [products, setProducts] = useState<any[]>([]);
+  const [loading, setLoading] = useState(false);
 
-  // Fetch products on mount
+  // fetch products (initial + on search)
+  const fetchProducts = async (search: string = "") => {
+    try {
+      setLoading(true);
+      const res = await fetch(`http://localhost:8000/product?search=${search}`);
+      const data = await res.json();
+      setProducts(data);
+    } catch (err) {
+      console.error("Error fetching products:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const res = await getProducts();
-        setProducts(res || []);
-      } catch (err) {
-        console.error("Error fetching products:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchProducts();
   }, []);
 
-  // UseMemo for performance (avoid recalculating on every render)
-  const filteredProducts = useMemo(() => {
-    const lower = query.toLowerCase();
-    return products.filter((item) => item.name.toLowerCase().includes(lower));
-  }, [query, products]);
-
-  if (loading) {
-    return (
-      <div className="custom-width py-10 text-center text-gray-500">
-        Loading products...
-      </div>
-    );
-  }
+  // debounce search typing
+  useEffect(() => {
+    const delay = setTimeout(() => {
+      fetchProducts(query);
+    }, 400);
+    return () => clearTimeout(delay);
+  }, [query]);
 
   return (
-    <div className="custom-width py-8 space-y-6">
-      {/* Search Section */}
-      <div className="space-y-2">
-        <p className="text-2xl font-semibold">Search</p>
-        <div className="relative">
-          <Search className="absolute top-2.5 left-3 text-gray-400 w-5 h-5" />
-          <input
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            type="text"
-            placeholder="Search for products..."
-            className="border border-violet-400 w-full p-2 pl-10 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-300"
-          />
+    <div className="max-w-6xl mx-auto p-6">
+      {/* Search input */}
+      <div className="flex justify-center mb-8">
+        <input
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder="Search for products..."
+          className="w-full md:w-1/2 p-3 border rounded-xl shadow-sm focus:ring-2 focus:ring-blue-500 outline-none"
+        />
+      </div>
+
+      {/* Loading state */}
+      {loading ? (
+        <div className="text-center text-gray-500">Loading...</div>
+      ) : (
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {products.length ? (
+            products.map((p) => (
+              <div
+                key={p.id}
+                className="p-4 border rounded-xl hover:shadow-lg transition bg-white"
+              >
+                <img
+                  src={p.image}
+                  alt={p.name}
+                  className="w-full h-40 object-cover rounded-lg mb-2"
+                />
+                <h2 className="font-semibold">{p.name}</h2>
+                <p className="text-gray-600">${p.price}</p>
+              </div>
+            ))
+          ) : (
+            <p className="text-gray-400 col-span-full text-center">
+              No products found.
+            </p>
+          )}
         </div>
-      </div>
-
-      {/* Product Section */}
-      <div className="space-y-2">
-        <p className="text-2xl font-semibold">Products</p>
-
-        {filteredProducts.length === 0 ? (
-          <p className="text-gray-500 py-10 text-center">
-            No products found.
-          </p>
-        ) : (
-          <ul className="grid gap-5 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-            {filteredProducts.map((item) => (
-              <Card key={item.id} item={item} />
-            ))}
-          </ul>
-        )}
-      </div>
+      )}
     </div>
   );
 }
