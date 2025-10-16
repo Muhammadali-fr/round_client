@@ -55,7 +55,7 @@ export default function Header() {
 
                 {/* Right icons */}
                 <ul className="flex items-center gap-3 text-sm text-gray-500">
-                    <li><Search /></li>
+                    <Link href={'/shop'}><li><Search /></li></Link>
                     <Link href={"/cart"}>
                         <li className="relative">
                             <ShoppingCart />
@@ -70,7 +70,7 @@ export default function Header() {
                                 {/* user icon here  */}
                                 {/* <User /> */}
                                 <div className="w-[25px] h-[25px] rounded-full bg-white">
-                                    <Image className="rounded-full" src={user.profile} width={25} height={25} alt="user image"/>
+                                    <Image className="rounded-full" src={user.profile} width={25} height={25} alt="user image" />
                                 </div>
                             </PopoverTrigger>
                             <PopoverContent className="mx-5 w-[200px] p-1 rounded-lg">
