@@ -10,13 +10,7 @@ import Card from "./Card";
 
 export default async function Products() {
 
-    const {products, success}: {products: ProductProp[], success: boolean} = await getProducts();
-
-    if(!products){
-        return (
-            <div>hatooo</div>
-        )
-    }
+    const {products}: {products: ProductProp[], success: boolean} = await getProducts();
 
     return (
         <ul className="grid grid-cols-4 gap-5">

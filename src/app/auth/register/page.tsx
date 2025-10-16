@@ -9,7 +9,7 @@ import Link from "next/link";
 import Image from "next/image";
 
 // toast and loader 
-import ButtonLoader from "@/src/components/ButtonLoader";
+import ButtonLoader from "@/src/components/loaders/ButtonLoader";
 
 // images 
 import mailImage from '@/public/auth/mail.png';

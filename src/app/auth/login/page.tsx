@@ -12,7 +12,7 @@ import mailImage from '@/public/auth/mail.png';
 
 // loaders and toasts 
 import toast from "react-hot-toast";
-import ButtonLoader from "@/src/components/ButtonLoader";
+import ButtonLoader from "@/src/components/loaders/ButtonLoader";
 
 // services 
 import { loginUser } from "@/src/api/services/auth";
