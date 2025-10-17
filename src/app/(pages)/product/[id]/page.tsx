@@ -1,25 +1,22 @@
-
 // next 
 import Link from "next/link";
-
-// Swiper
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination, Thumbs } from "swiper/modules";
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
-import "swiper/css/thumbs";
-
 
 // services 
 import { getOneProduct } from "@/src/api/services/products"
 
+// interfaces 
+import { ProductProp, SingleProductProp } from "@/src/types/product";
+
+// components 
+import ProductView from "./components/Product-view";
+
 export default async function Product({ params }: { params: { id: string } }) {
 
+    // params id 
     const { id } = await params;
 
-    const { product, related } = await getOneProduct(id);
-    console.log(product, related)
+    // fetching data 
+    const { product, related }: { product: SingleProductProp, related: ProductProp[] } = await getOneProduct(id);
 
     return (
         <div className="custom-width space-y-5 py-5">
@@ -28,6 +25,8 @@ export default async function Product({ params }: { params: { id: string } }) {
                 <Link href="/">Home</Link> / <Link href="/">products</Link> / <p className="line-clamp-1">{product.name}</p>
             </nav>
 
+            {/* Product view  */}
+            <ProductView product={product} />
         </div>
     )
 }

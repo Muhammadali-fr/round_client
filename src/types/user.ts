@@ -1,16 +1,5 @@
-// one product 
-export interface ProductProp {
-    id: string;
-    image: string;
-    name: string;
-    description: string;
-    price: number;
-    stock: number;
-    createdAt: string;
-    updatedAt: string;
-    userId: string;
-    categoryId: string;
-};
+// interfaces 
+import { ProductProp } from "./product";
 
 // user 
 export interface UserProp {
