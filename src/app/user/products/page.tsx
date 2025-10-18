@@ -10,7 +10,7 @@ import { PackagePlus, Pencil, Trash2 } from "lucide-react";
 // redux
 import { RootState } from "@/src/lib/store";
 import { useSelector, useDispatch } from "react-redux";
-import { setUserProducts } from "@/src/lib/features/userProducts";
+import { removeUserProduct, setUserProducts } from "@/src/lib/features/userProducts";
 
 // animations  and loader or toast
 import EmptyAnimations from "@/public/animations/empty-not-found.json";
@@ -37,6 +37,7 @@ export default function Products() {
     const dispatch = useDispatch();
     const user = useSelector((state: RootState) => state.user.data);
     const userProducts = useSelector((state: RootState) => state.userProducts.data);
+    console.log(userProducts);
 
     // functions 
     const handle_delete = async () => {
@@ -46,10 +47,8 @@ export default function Products() {
         setDeleteLoader(true);
         try {
             const res = await deleteProduct(selectedProduct);
-            const filteredUserProducts = userProducts?.filter((userProduct: ProductProp) => {
-                return userProduct.id !== selectedProduct;
-            });
-            dispatch(setUserProducts(filteredUserProducts));
+            dispatch(removeUserProduct(selectedProduct));
+            setOpenModal(false);
             toast.success(res.message);
         } catch (r: any) {
             toast(r?.response?.data.message || "deleting failed.");
