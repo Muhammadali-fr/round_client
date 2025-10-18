@@ -21,6 +21,8 @@ import LogoImage from '@/public/assets/logo.svg';
 export default function Header() {
     const pathname = usePathname();
     const user = useSelector((state: RootState) => state.user.data);
+    const userProducts = useSelector((state: RootState) => state.userProducts.data);
+    console.log(userProducts)
 
     return (
         <div className="py-2 border-b border-[#e8e7e5] bg-gray-100">

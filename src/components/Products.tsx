@@ -1,6 +1,6 @@
 
 // types 
-import { ProductProp } from "../types/user";
+import { ProductProp } from "../types/product";
 
 // services 
 import { getProducts } from "../api/services/products"
@@ -20,5 +20,5 @@ export default async function Products() {
                 ))
             }
         </ul>
-    )
-}
+    );
+};

@@ -11,12 +11,14 @@ import { getUser, authRefreshToken } from "../api/services/auth";
 // redux 
 import { useDispatch } from "react-redux";
 import { setUser } from "../lib/features/userSlice";
+import { setUserProducts } from "../lib/features/userProducts";
 
 // loader and toast 
 import toast from "react-hot-toast";
 
 // assets 
 import LogoImage from '@/public/assets/logo.svg';
+import { UserProp } from "../types/user";
 
 export default function StoreUser() {
   // states 
@@ -40,9 +42,10 @@ export default function StoreUser() {
 
     try {
       setLoading(true);
-      const { user, success } = await getUser({ token: accessToken });
+      const { user, success }: {user: UserProp, success: boolean} = await getUser({ token: accessToken });
       if (success) {
         dispatch(setUser(user));
+        dispatch(setUserProducts(user.products));
       } else {
         const { accessToken, success } = await authRefreshToken({ token: refreshToken });
         if (success) {

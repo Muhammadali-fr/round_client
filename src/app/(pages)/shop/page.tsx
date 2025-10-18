@@ -1,9 +1,11 @@
 'use client'
 
+// sercices 
+import { getProducts } from "@/src/api/services/products";
 import Card from "@/src/components/Card";
 import ProductLoaderSkeleton from "@/src/components/loaders/ProductLoaderSkeleton";
 import ProductsNotFound from "@/src/components/not-found/Product-not-found";
-import { ProductProp } from "@/src/types/user";
+import { ProductProp } from "@/src/types/product";
 import { Search } from "lucide-react";
 import { useEffect, useState } from "react";
 
@@ -16,10 +18,7 @@ export default function ShopPage() {
     const getSearchProducts = async () => {
       setLoading(true);
       try {
-        const res = await fetch(`http://localhost:8000/product?search=${query}`, {
-          method: 'GET'
-        });
-        const { products, success } = await res.json();
+        const { products, success } = await getProducts(query);
         if (success) {
           setProducts(products);
         }
