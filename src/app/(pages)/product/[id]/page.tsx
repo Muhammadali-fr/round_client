@@ -26,7 +26,7 @@ export default async function Product({ params }: { params: { id: string } }) {
             </nav>
 
             {/* Product view  */}
-            <ProductView product={product} />
+            <ProductView product={product} related={related}/>
         </div>
     )
 }
