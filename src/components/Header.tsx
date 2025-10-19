@@ -21,8 +21,6 @@ import LogoImage from '@/public/assets/logo.svg';
 export default function Header() {
     const pathname = usePathname();
     const user = useSelector((state: RootState) => state.user.data);
-    const userProducts = useSelector((state: RootState) => state.userProducts.data);
-    console.log(userProducts)
 
     return (
         <div className="py-2 border-b border-[#e8e7e5] bg-gray-100">
@@ -46,9 +44,13 @@ export default function Header() {
                     </li>
 
                     {/* login link  */}
-                    {!user &&
+                    {!user ?
                         <li className={`font-semibold cursor-pointer ${pathname === "/login" ? "text-violet-700" : "text-gray-600"}`}>
                             <Link className="px-2" href={"/auth/login"}>login</Link>
+                        </li>
+                        :
+                        <li className={`font-semibold  cursor-pointer ${pathname === "/upload" ? "text-violet-700" : "text-gray-600"}`}>
+                            <Link className="px-2" href={"/upload"}>new</Link>
                         </li>
                     }
 

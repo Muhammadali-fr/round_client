@@ -1,4 +1,138 @@
+'use client';
+
+// react and next 
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+
+// loader toast 
+import toast from "react-hot-toast";
+import ButtonLoader from "@/src/components/loaders/ButtonLoader";
+
+// types 
+import { CategoryProp } from "@/src/types/category";
+
+// services 
+import { GetCategory } from "@/src/api/services/category";
+import { UploadImagesProduct } from "@/src/api/services/image-product";
+import { CreateProduct } from "@/src/api/services/products";
+
+// lucide and icons 
+import { ImagePlus, Loader, X } from "lucide-react";
+
 export default function UploadProduct() {
+    // states 
+    const [name, setName] = useState('');
+    const [price, setPrice] = useState('');
+    const [numberPrice, setNumberPrice] = useState<number>(0);
+    const [stock, setStock] = useState('');
+    const [description, setDescription] = useState('');
+    const [images, setImages] = useState<File[]>([]);
+    const [category, setCategory] = useState<string | null>(null);
+    const [categoryArray, setCategoryArray] = useState<CategoryProp[]>([]);
+
+    // loader states 
+    const [loader, setLoader] = useState<Boolean>(false);
+    const [categoryLoader, setCategoryLoader] = useState<Boolean>(false);
+
+    // router 
+    const router = useRouter()
+
+    const handleImage = (e: any) => {
+        setImages([...e.target.files]);
+    };
+
+    // get categories array 
+    const handle_get_categories = async () => {
+        setCategoryLoader(true);
+        try {
+            const categories: CategoryProp[] = await GetCategory();
+            setCategoryArray(categories);
+        } catch (r) {
+            console.log(r);
+            toast('Some thing went wrong.');
+        } finally { setCategoryLoader(false) };
+    };
+
+    useEffect(() => {
+        handle_get_categories();
+    }, []);
+
+    // main function 
+    const handle_upload = async () => {
+        if (images.length < 1) {
+            toast('upload at least 1 image');
+            return;
+        };
+
+        if (!category) {
+            toast('choose category');
+            return;
+        };
+
+        if (images.length > 6) {
+            toast('you can upload up to 6 images');
+            return;
+        };
+
+        setLoader(true);
+
+        try {
+            const image_array = await UploadImagesProduct(images);
+
+            if (!image_array) {
+                toast('something went wrong.');
+            };
+
+            // main image 
+            const { url } = image_array[0];
+
+            const data = {
+                name,
+                image: url,
+                description,
+                price: numberPrice,
+                stock: Number(stock),
+                images: image_array,
+                category,
+            };
+
+            const res = await CreateProduct(data);
+            console.log(res);
+
+            toast('uploaded successfully');
+            router.push('/user/products');
+            window.location.reload();
+        } catch (error: any) {
+            toast(error.response.data.message || 'error while creating');
+        } finally { setLoader(false) };
+    };
+
+    const handle_remove = (id: number) => {
+        setImages(images.filter((_, i) => i !== id));
+    };
+
+    const handle_clear = () => {
+        setImages([]);
+    };
+
+    const handle_price_change = (e: any) => {
+        const raw = e.target.value.replace(/\D/g, "");
+        const formatted = raw.replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+        setPrice(formatted);
+
+        const numeric = Number(raw);
+        setNumberPrice(numeric);
+    }
+
+    const handleCategory = (e: string) => {
+        if (e === category) {
+            setCategory(null);
+        } else {
+            setCategory(e);
+        }
+    }
+
     return (
         <div className="p-5">
             <div className="max-w-[990px] w-[95%] border mx-auto bg-white rounded-xl p-5">
@@ -136,8 +270,8 @@ export default function UploadProduct() {
                                         </span>
                                     ))
                                 }
-                                <Link href={'/user/category'}><p className="text-sm text-gray-700">No matching category? Just <span className="text-violet-900 font-semibold underline">create</span> your own.</p></Link>
                             </div>
+                            <Link href={'/user/category'}><p className="mt-2 text-sm text-gray-700">No matching category? Just <span className="text-violet-900 font-semibold underline">create</span> your own.</p></Link>
                         </div>
 
                         <button onClick={handle_upload} className="w-[200px] h-[40px] text-sm bg-violet-700 text-white rounded-lg hover:bg-violet-500 transition cursor-pointer flex items-center justify-center">

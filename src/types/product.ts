@@ -1,9 +1,5 @@
-// image type 
-interface ProductImageProp {
-    id: string;
-    url: string;
-    productId: string;
-};
+// types and interfaces importing 
+import { ProductImageProp } from "./product-image";
 
 // category type 
 interface ProductCategoryProp {
