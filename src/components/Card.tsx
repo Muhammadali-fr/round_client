@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 // types 
-import { ProductProp } from "../types/user";
+import { ProductProp } from "../types/product";
 
 // huks
 import { useState } from "react";
@@ -33,7 +33,7 @@ export default function Card({ item }: { item: ProductProp }) {
 
             {/* card details  */}
             <div className="h-1/4 p-1 flex flex-col justify-between">
-            
+
                 <Link href={`/product/${item.id}`}>
                     {/* card name  */}
                     <p className="line-clamp-2">{item.name}</p>
