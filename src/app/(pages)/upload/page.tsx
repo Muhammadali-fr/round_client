@@ -1,17 +1,19 @@
 'use client'
 import { Form, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
-import { ImagePlus } from "lucide-react";
-import { useState } from "react"
+import { ImagePlus, X } from "lucide-react";
+import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import { FormProp } from "@/src/types/upload-page";
 import UploadPageImagePreview from "./components/image-preview";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { GetCategory } from "@/src/api/services/category";
+import { CategoryProp } from "@/src/types/category";
 
 export default function Upload() {
-
-    const [category, setCategory] = useState(null);
+    const [categorys, setCategorys] = useState<CategoryProp[] | null>(null);
     const [preview, setPreview] = useState<string[]>([]);
+    const [selectedCategory, setSelectedCategory] = useState<string>('');
 
     const form = useForm<FormProp>({
         defaultValues: {
@@ -41,6 +43,18 @@ export default function Upload() {
     const clearPreview = () => {
         setPreview([]);
         form.setValue('images', []);
+    };
+
+    useEffect(() => {
+        const getCategories = async () => {
+            const res = await GetCategory();
+            setCategorys(res);
+        };
+        getCategories();
+    }, []);
+
+    const selectCategoryFunc = (id: string) => {  
+        setSelectedCategory(id);
     };
 
     return (
@@ -141,7 +155,17 @@ export default function Upload() {
                         </FormField>
 
                         {/* tags  */}
-                        <ul></ul>
+                        <ul className="flex flex-wrap gap-1 select-none">
+
+                            {
+                                categorys?.map((category: CategoryProp) => (
+                                    <li onClick={() => selectCategoryFunc(category.id)} key={category.id} className={`${selectedCategory == category.id ? "bg-violet-700 text-white" : "bg-gray-300 text-gray-600"}  py-0.5 px-3 rounded-2xl flex items-center gap-2`}>
+                                        <span>{category.name}</span>
+                                        <span><X size={15} /></span>
+                                    </li>
+                                ))
+                            }
+                        </ul>
                     </div>
 
                 </Form>
