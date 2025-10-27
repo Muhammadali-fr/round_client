@@ -5,6 +5,8 @@ import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { FormProp } from "@/src/types/upload-page";
 import UploadPageImagePreview from "./components/image-preview";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 
 export default function Upload() {
 
@@ -50,9 +52,9 @@ export default function Upload() {
                     {/* images legft side */}
                     <div className="h-full w-full space-y-5">
                         <FormField control={form.control} name="images" render={({ field }) => (
-                            <FormItem>
+                            <FormItem className={`${preview.length === 0 ? "h-full" : "h-auto"}`}>
                                 <FormLabel>
-                                    <label className={`${preview.length === 0 ? "h-full" : "h-auto"} w-full border-2 border-dashed border-violet-300 rounded-lg flex flex-col items-center justify-center p-10 cursor-pointer hover:border-violet-500 transition`}>
+                                    <label className={`h-full w-full border-2 border-dashed border-violet-300 rounded-lg flex flex-col items-center justify-center p-10 cursor-pointer hover:border-violet-500 transition`}>
 
                                         <ImagePlus className="h-12 w-12 text-gray-400 mb-3" />
 
@@ -62,7 +64,7 @@ export default function Upload() {
                                         </p>
 
                                         {/* upload input  */}
-                                        <input
+                                        <Input
                                             multiple
                                             onChange={handleImage}
                                             className="hidden"
@@ -92,16 +94,54 @@ export default function Upload() {
                     </div>
 
                     {/* images right  */}
-                    <div>
+                    <div className="space-y-3">
+
+                        {/* product name  */}
                         <FormField control={form.control} name="productName" render={({ field }) => (
                             <FormItem>
-                                <FormLabel className="grid grid-col-1">
+                                <FormLabel className="grid">
                                     <p>Product name:</p>
-                                    
+                                    <Input type="text" placeholder="Logitech MX Keys Combo, Logitech MX Klaviaturasi" />
                                 </FormLabel>
                             </FormItem>
                         )}>
                         </FormField>
+
+                        {/* product price  */}
+                        <FormField control={form.control} name="productName" render={({ field }) => (
+                            <FormItem>
+                                <FormLabel className="grid grid-col-1">
+                                    <p>Price:</p>
+                                    <Input type="number" placeholder="220 000" />
+                                </FormLabel>
+                            </FormItem>
+                        )}>
+                        </FormField>
+
+                        {/* product stock  */}
+                        <FormField control={form.control} name="productName" render={({ field }) => (
+                            <FormItem>
+                                <FormLabel className="grid grid-col-1">
+                                    <p>Stock:</p>
+                                    <Input type="number" placeholder="6" />
+                                </FormLabel>
+                            </FormItem>
+                        )}>
+                        </FormField>
+
+                        {/* product stock  */}
+                        <FormField control={form.control} name="productName" render={({ field }) => (
+                            <FormItem>
+                                <FormLabel className="grid grid-col-1">
+                                    <p>Description:</p>
+                                    <Textarea className="max-h-[100px]" rows={3} placeholder="Barmoqlaringiz uchun maxsus moʻljallangan sferik tugmachalar yordamida ishonchli va tezlikda silliq ..." />
+                                </FormLabel>
+                            </FormItem>
+                        )}>
+                        </FormField>
+
+                        {/* tags  */}
+                        <ul></ul>
                     </div>
 
                 </Form>
