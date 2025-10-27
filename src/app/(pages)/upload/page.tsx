@@ -1,10 +1,9 @@
 'use client'
-import { Form, FormField, FormItem, FormLabel } from "@/components/ui/form"
+import { Form, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { ImagePlus } from "lucide-react";
 import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { FormProp } from "@/src/types/upload-page";
-import Image from "next/image";
 import UploadPageImagePreview from "./components/image-preview";
 
 export default function Upload() {
@@ -20,7 +19,7 @@ export default function Upload() {
             stock: '',
             description: '',
         }
-    })
+    });
 
     const handleImage = (e: React.ChangeEvent<HTMLInputElement>) => {
         const files = Array.from(e.target.files || []);
@@ -35,6 +34,11 @@ export default function Upload() {
         form.setValue("images", newFiles);
         const newPreviews = preview.filter((_, i) => i !== index);
         setPreview(newPreviews);
+    };
+
+    const clearPreview = () => {
+        setPreview([]);
+        form.setValue('images', []);
     };
 
     return (
@@ -79,10 +83,26 @@ export default function Upload() {
                                     <UploadPageImagePreview key={id} image={img} id={id} removePreviewImage={removePreviewImage} />
                                 ))
                             }
-                        </ul>
 
+                        </ul>
+                        {
+                            preview.length > 1 &&
+                            <p onClick={clearPreview} className="text-red-700 underline cursor-pointer hover:text-red-500">clear</p>
+                        }
                     </div>
 
+                    {/* images right  */}
+                    <div>
+                        <FormField control={form.control} name="productName" render={({ field }) => (
+                            <FormItem>
+                                <FormLabel className="grid grid-col-1">
+                                    <p>Product name:</p>
+                                    
+                                </FormLabel>
+                            </FormItem>
+                        )}>
+                        </FormField>
+                    </div>
 
                 </Form>
             </div>
