@@ -9,11 +9,14 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { GetCategory } from "@/src/api/services/category";
 import { CategoryProp } from "@/src/types/category";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 export default function Upload() {
     const [categorys, setCategorys] = useState<CategoryProp[] | null>(null);
     const [preview, setPreview] = useState<string[]>([]);
     const [selectedCategory, setSelectedCategory] = useState<string>('');
+    console.log(selectedCategory)
 
     const form = useForm<FormProp>({
         defaultValues: {
@@ -53,7 +56,7 @@ export default function Upload() {
         getCategories();
     }, []);
 
-    const selectCategoryFunc = (id: string) => {  
+    const selectCategoryFunc = (id: string) => {
         setSelectedCategory(id);
     };
 
@@ -155,17 +158,26 @@ export default function Upload() {
                         </FormField>
 
                         {/* tags  */}
-                        <ul className="flex flex-wrap gap-1 select-none">
+                        <div className="space-y-2">
+                            <p className="text-sm font-semibold">Choose category</p>
+                            <ul className="flex flex-wrap gap-1 select-none">
 
-                            {
-                                categorys?.map((category: CategoryProp) => (
-                                    <li onClick={() => selectCategoryFunc(category.id)} key={category.id} className={`${selectedCategory == category.id ? "bg-violet-700 text-white" : "bg-gray-300 text-gray-600"}  py-0.5 px-3 rounded-2xl flex items-center gap-2`}>
-                                        <span>{category.name}</span>
-                                        <span><X size={15} /></span>
-                                    </li>
-                                ))
-                            }
-                        </ul>
+                                {
+                                    categorys?.map((category: CategoryProp) => (
+                                        <li onClick={() => selectCategoryFunc(category.id)} key={category.id} className={`${selectedCategory == category.id ? "bg-violet-700 text-white" : "bg-gray-300 text-gray-600"}  py-0.5 px-3 rounded-2xl flex items-center gap-2`}>
+                                            <span>{category.name}</span>
+                                            {category.id === selectedCategory && <span><X size={15} /></span>}
+                                        </li>
+                                    ))
+                                }
+                            </ul>
+                            <p>You can't find correct category. <Link className="underline text-blue-700 " href={'/user/category'}>create one</Link></p>
+                        </div>
+
+                        {/* supmit button  */}
+                        <div className="w-full flex justify-center cursor-pointer">
+                            <Button className="bg-violet-700 hover:bg-violet-500 px-15">create</Button>
+                        </div>
                     </div>
 
                 </Form>

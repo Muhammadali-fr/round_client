@@ -26,6 +26,7 @@ import { deleteProduct } from "@/src/api/services/products";
 
 // types and interfaces 
 import { ProductProp } from "@/src/types/product";
+import Image from "next/image";
 
 export default function Products() {
     // states 
@@ -89,7 +90,8 @@ export default function Products() {
                             <Link className="h-[90%]" href={`/product/${product.id}`}>
 
                                 {/* image  */}
-                                <img className="w-full h-[90%] rounded-lg" src={product.image} alt={product.name} />
+                                {/* <img className="w-full h-[90%] rounded-lg" src={product.image} alt={product.name} /> */}
+                                <Image width={200} height={200} className="w-full h-[90%] rounded-lg" src={product.image} alt={product.name}/>
 
                                 {/* name  */}
                                 <p className="line-clamp-2 text-sm">{product.name}</p>
