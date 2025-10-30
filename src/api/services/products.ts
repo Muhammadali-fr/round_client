@@ -38,7 +38,7 @@ export function deleteProduct(id: string) {
 };
 
 // create product 
-export function CreateProduct(product: { name: string, image: string, description: string, price: number, stock: number, images: ProductImageProp[], category: string }) {
+export function createProduct(product: { name: string, image: string, description: string, price: number, stock: number, images: ProductImageProp[], category: string }) {
     const token = getToken();
     return fetcher('/product', {
         method: 'POST',
@@ -48,4 +48,17 @@ export function CreateProduct(product: { name: string, image: string, descriptio
             Authorization: `Bearer ${token}`
         },
     });
+};
+
+// upload product images 
+export function uploadProductImages(images: File[]) {
+    const formData = new FormData();
+    images.forEach((image: File) => {
+        formData.append('images', image);
+    });
+
+    return fetcher('/product/image', {
+        method: 'POST',
+        body: formData
+    })
 };
