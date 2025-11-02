@@ -1,6 +1,6 @@
 
 export async function fetcher(url: string, options: RequestInit = {}) {
-    const res = await fetch(`http://localhost:8000${url}`, {
+    const res = await fetch(`https://round-server-3.onrender.com${url}`, {
         ...options,
         credentials: 'include',
         headers: {
