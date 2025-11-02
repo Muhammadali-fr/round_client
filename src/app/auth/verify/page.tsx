@@ -12,12 +12,6 @@ export default function Verify() {
     const token = searchParams.get("token");
 
     useEffect(() => {
-        if (!token) {
-            toast.error("Missing token");
-            router.replace("/auth/login");
-            return;
-        }
-
         const runVerify = async () => {
             try {
                 const res: { tokens: { accessToken: string, refreshToken: string }, success: Boolean, message: string } = await verifyUser(token);

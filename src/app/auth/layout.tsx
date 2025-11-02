@@ -8,6 +8,7 @@ import backgroundImage from "@/public/auth/background-image.png";
 import logoImage from '@/public/assets/logo.svg';
 
 export default function authLayout({ children }: { children: React.ReactNode }) {
+
     return (
         <div className="flex justify-between">
             {/* logo  */}
@@ -17,5 +18,5 @@ export default function authLayout({ children }: { children: React.ReactNode }) 
             {children}
             <Image src={backgroundImage} alt="auth background image" sizes="100vh" className="w-1/3 h-screen hidden md:block object-cover" />
         </div>
-    )
-}
+    );
+};

@@ -35,11 +35,7 @@ export default function StoreUser() {
     // tokens 
     const accessToken = localStorage.getItem('accessToken');
     const refreshToken = localStorage.getItem('refreshToken');
-
-    if (!accessToken || !refreshToken) {
-      return router.push('/auth/login');
-    };
-
+    
     try {
       setLoading(true);
       const { user, success }: {user: UserProp, success: boolean} = await getUser({ token: accessToken });
@@ -53,7 +49,7 @@ export default function StoreUser() {
           localStorage.setItem('accessToken', accessToken);
           return window.location.reload();
         };
-        router.push('auth/login');
+        // router.push('auth/login');
       };
     } catch (error) {
       console.log(error);

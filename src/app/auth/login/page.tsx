@@ -32,8 +32,9 @@ export default function page() {
 
         try {
             setLoader(true);
-            const res: { message: string } = await loginUser({ email });
-            toast(res.message);
+            const res = await loginUser({ email });
+            // toast(res.message);
+            console.log(res);
         } catch (error:any) {
             // toast(error.response.data.message || "Error while loging in.");
             console.log(error)
