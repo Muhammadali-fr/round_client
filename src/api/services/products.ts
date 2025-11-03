@@ -40,6 +40,7 @@ export function deleteProduct(id: string) {
 // create product 
 export function createProduct(product: { name: string, image: string, description: string, price: number, stock: number, images: ProductImageProp[], category: string }) {
     const token = getToken();
+    console.log(product.category)
     return fetcher('/product', {
         method: 'POST',
         body: JSON.stringify(product),

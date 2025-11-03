@@ -11,12 +11,14 @@ import { GetCategory } from "@/src/api/services/category";
 import { CategoryProp } from "@/src/types/category";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { uploadProductImages } from "@/src/api/services/products";
+import { createProduct, uploadProductImages } from "@/src/api/services/products";
+import ButtonLoader from "@/src/components/loaders/ButtonLoader";
 
 export default function Upload() {
     const [categorys, setCategorys] = useState<CategoryProp[] | null>(null);
     const [preview, setPreview] = useState<string[]>([]);
     const [selectedCategory, setSelectedCategory] = useState<string>('');
+    const [submitLoader, setSubmitLoader] = useState(false);
 
     const form = useForm<FormProp>({
         defaultValues: {
@@ -61,13 +63,24 @@ export default function Upload() {
     };
 
     const handleSubmitForm = async () => {
-        const {images, productName, price, stock, description} = form.getValues();  
+        const { images, productName, price, stock, description } = form.getValues();
         try {
+            setSubmitLoader(true);
             const imageUrls = await uploadProductImages(images);
-            console.log(imageUrls);
+            const product = {
+                name: productName,
+                image: imageUrls[0].url,
+                description,
+                price: Number(price),
+                stock: Number(stock),
+                images: imageUrls,
+                category: selectedCategory
+            }
+            const res = await createProduct(product);
+            console.log(res);
         } catch (error) {
             console.log(error);
-        };
+        } finally { setSubmitLoader(false) };
     };
 
     return (
@@ -106,7 +119,7 @@ export default function Upload() {
                         )}>
                         </FormField>
 
-                        <ul className="grid grid-cols-3 gap-2">
+                        <ul className="grid grid-cols-4 lg:grid-cols-3 gap-2">
                             {
                                 preview.map((img: string, id: number) => (
                                     <UploadPageImagePreview key={id} image={img} id={id} removePreviewImage={removePreviewImage} />
@@ -170,12 +183,12 @@ export default function Upload() {
                         {/* tags  */}
                         <div className="space-y-2">
                             <p className="text-sm font-semibold">Choose category</p>
-                            <ul className="flex flex-wrap gap-1 select-none">
+                            <ul className="flex flex-wrap gap-1">
 
                                 {
                                     categorys?.map((category: CategoryProp) => (
                                         <li onClick={() => selectCategoryFunc(category.id)} key={category.id} className={`${selectedCategory == category.id ? "bg-violet-700 text-white" : "bg-gray-300 text-gray-600"}  py-0.5 px-3 rounded-2xl flex items-center gap-2`}>
-                                            <span>{category.name}</span>
+                                            <span>{category.name}, {category.id}</span>
                                             {category.id === selectedCategory && <span><X size={15} /></span>}
                                         </li>
                                     ))
@@ -186,7 +199,7 @@ export default function Upload() {
 
                         {/* supmit button  */}
                         <div className="w-full flex justify-center cursor-pointer">
-                            <Button type="submit" className="bg-violet-700 hover:bg-violet-500 px-15">create</Button>
+                            <Button type="submit" className="bg-violet-700 hover:bg-violet-500 w-[200px]">{submitLoader ? <ButtonLoader /> : 'create'}</Button>
                         </div>
                     </div>
 
