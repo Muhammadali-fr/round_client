@@ -13,6 +13,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { createProduct, uploadProductImages } from "@/src/api/services/products";
 import ButtonLoader from "@/src/components/loaders/ButtonLoader";
+import toast from "react-hot-toast";
 
 export default function Upload() {
     const [categorys, setCategorys] = useState<CategoryProp[] | null>(null);
@@ -67,7 +68,7 @@ export default function Upload() {
         try {
             setSubmitLoader(true);
             const imageUrls = await uploadProductImages(images);
-            const product = {
+            const productPreview = {
                 name: productName,
                 image: imageUrls[0].url,
                 description,
@@ -76,8 +77,10 @@ export default function Upload() {
                 images: imageUrls,
                 category: selectedCategory
             }
-            const res = await createProduct(product);
-            console.log(res);
+            const {success, product} = await createProduct(productPreview);
+            if(success){
+                toast.success(`${productPreview.name} created successfully.`);
+            };
         } catch (error) {
             console.log(error);
         } finally { setSubmitLoader(false) };
