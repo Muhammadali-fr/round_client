@@ -38,7 +38,6 @@ export default function Products() {
     const dispatch = useDispatch();
     const user = useSelector((state: RootState) => state.user.data);
     const userProducts = useSelector((state: RootState) => state.userProducts.data);
-    console.log(userProducts);
 
     // functions 
     const handle_delete = async () => {

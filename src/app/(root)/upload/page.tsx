@@ -14,12 +14,17 @@ import { Button } from "@/components/ui/button";
 import { createProduct, uploadProductImages } from "@/src/api/services/products";
 import ButtonLoader from "@/src/components/loaders/ButtonLoader";
 import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 export default function Upload() {
+    // redux 
+    
+
     const [categorys, setCategorys] = useState<CategoryProp[] | null>(null);
     const [preview, setPreview] = useState<string[]>([]);
     const [selectedCategory, setSelectedCategory] = useState<string>('');
     const [submitLoader, setSubmitLoader] = useState(false);
+    const router = useRouter();
 
     const form = useForm<FormProp>({
         defaultValues: {
@@ -67,7 +72,13 @@ export default function Upload() {
         const { images, productName, price, stock, description } = form.getValues();
         try {
             setSubmitLoader(true);
+
+            if (!selectedCategory || !productName || !price || !stock) {
+                return toast('Please fill all fields.');
+            }
+
             const imageUrls = await uploadProductImages(images);
+
             const productPreview = {
                 name: productName,
                 image: imageUrls[0].url,
@@ -76,10 +87,12 @@ export default function Upload() {
                 stock: Number(stock),
                 images: imageUrls,
                 category: selectedCategory
-            }
-            const {success, product} = await createProduct(productPreview);
-            if(success){
+            };
+
+            const { success, product } = await createProduct(productPreview);
+            if (success) {
                 toast.success(`${productPreview.name} created successfully.`);
+                router.push('/user/products');
             };
         } catch (error) {
             console.log(error);
@@ -191,7 +204,7 @@ export default function Upload() {
                                 {
                                     categorys?.map((category: CategoryProp) => (
                                         <li onClick={() => selectCategoryFunc(category.id)} key={category.id} className={`${selectedCategory == category.id ? "bg-violet-700 text-white" : "bg-gray-300 text-gray-600"}  py-0.5 px-3 rounded-2xl flex items-center gap-2`}>
-                                            <span>{category.name}, {category.id}</span>
+                                            <span>{category.name}</span>
                                             {category.id === selectedCategory && <span><X size={15} /></span>}
                                         </li>
                                     ))
