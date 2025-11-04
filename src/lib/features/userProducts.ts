@@ -2,11 +2,11 @@ import { ProductProp } from "@/src/types/product";
 import { createSlice } from "@reduxjs/toolkit";
 
 interface UserProductsProp {
-    data: ProductProp[] | null;
+    data: ProductProp[];
 };
 
 let initialState: UserProductsProp = {
-    data: null,
+    data: [],
 };
 
 const userProductsSlice = createSlice({

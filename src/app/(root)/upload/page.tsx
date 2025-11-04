@@ -15,11 +15,16 @@ import { createProduct, uploadProductImages } from "@/src/api/services/products"
 import ButtonLoader from "@/src/components/loaders/ButtonLoader";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/src/lib/store";
+import { setUserProducts } from "@/src/lib/features/userProducts";
 
 export default function Upload() {
     // redux 
-    
+    const userProducts = useSelector((state: RootState) => state.userProducts.data);
+    const dispatch = useDispatch();
 
+    // states 
     const [categorys, setCategorys] = useState<CategoryProp[] | null>(null);
     const [preview, setPreview] = useState<string[]>([]);
     const [selectedCategory, setSelectedCategory] = useState<string>('');
@@ -92,6 +97,7 @@ export default function Upload() {
             const { success, product } = await createProduct(productPreview);
             if (success) {
                 toast.success(`${productPreview.name} created successfully.`);
+                dispatch(setUserProducts([...userProducts, product]));
                 router.push('/user/products');
             };
         } catch (error) {
