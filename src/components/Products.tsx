@@ -9,7 +9,6 @@ import { getProducts } from "../api/services/products"
 import Card from "./Card";
 
 export default async function Products() {
-
     const {products}: {products: ProductProp[], success: boolean} = await getProducts();
 
     return (
