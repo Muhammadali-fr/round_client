@@ -60,7 +60,7 @@ export default function ShopPage() {
               ))
             }
           </ul>
-        )};
+        )}
       </div>
     </div>
   )

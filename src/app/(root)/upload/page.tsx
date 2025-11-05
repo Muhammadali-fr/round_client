@@ -1,7 +1,7 @@
 'use client'
 import { Form, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { ImagePlus, X } from "lucide-react";
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { FormProp } from "@/src/types/upload-page";
 import UploadPageImagePreview from "./components/image-preview";
@@ -19,6 +19,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/src/lib/store";
 import { setUserProducts } from "@/src/lib/features/userProducts";
 import CategoryLoader from "./components/category-loader";
+import { useQuery } from "@tanstack/react-query";
 
 export default function Upload() {
     // redux 
@@ -28,13 +29,11 @@ export default function Upload() {
     const router = useRouter();
 
     // states 
-    const [categorys, setCategorys] = useState<CategoryProp[] | null>(null);
     const [preview, setPreview] = useState<string[]>([]);
     const [selectedCategory, setSelectedCategory] = useState<string>('');
 
     // loaders 
     const [submitLoader, setSubmitLoader] = useState<boolean>(false);
-    const [categoryLoader, setCategoryLoader] = useState<boolean>(false);
 
     const form = useForm<FormProp>({
         defaultValues: {
@@ -66,18 +65,10 @@ export default function Upload() {
         form.setValue('images', []);
     };
 
-    useEffect(() => {
-        const getCategories = async () => {
-            try {
-                setCategoryLoader(true);
-                const res = await GetCategory();
-                setCategorys(res);
-            } catch (r) {
-                console.log(r);
-            } finally { setCategoryLoader(false) };
-        };
-        getCategories();
-    }, []);
+    const {data:categories, isPending:categoryLoader} = useQuery({
+        queryKey: ['categories'],
+        queryFn:  () => GetCategory(),
+    });
 
     const selectCategoryFunc = (id: string) => {
         setSelectedCategory(id);
@@ -205,7 +196,7 @@ export default function Upload() {
                                 categoryLoader ? <CategoryLoader /> :
                                     <ul className="flex flex-wrap gap-1">
                                         {
-                                            categorys?.map((category: CategoryProp) => (
+                                            categories?.map((category: CategoryProp) => (
                                                 <li onClick={() => selectCategoryFunc(category.id)} key={category.id} className={`${selectedCategory == category.id ? "bg-violet-700 text-white" : "bg-gray-300 text-gray-600"}  py-0.5 px-3 rounded-2xl flex items-center gap-2`}>
                                                     <span>{category.name}</span>
                                                     {category.id === selectedCategory && <span><X size={15} /></span>}
