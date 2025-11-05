@@ -18,30 +18,23 @@ import { getProducts } from "@/src/api/services/products";
 
 // lucide react 
 import { Search } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
 
 export default function ShopPage() {
-  const [query, setQuery] = useState('');
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [query, setQuery] = useState<string>('');
+  const [debauncedQuery, setDebauncedQuery] = useState<string>('');
 
   useEffect(() => {
     const delay = setTimeout(() => {
-      const getSearchProducts = async () => {
-        setLoading(true);
-        try {
-          const { products, success } = await getProducts(query);
-          if (success) {
-            setProducts(products);
-          }
-        } catch (error) {
-          console.log(error);
-        } finally { setLoading(false) };
-      };
-      getSearchProducts();
+      setDebauncedQuery(query);
     }, 500)
-
     return () => clearTimeout(delay);
   }, [query]);
+
+  const { data, isPending, error } = useQuery({
+    queryKey: ['product', debauncedQuery],
+    queryFn: () => getProducts(debauncedQuery),
+  });
 
   return (
     <div className="custom-width py-5 space-y-5">
@@ -54,20 +47,21 @@ export default function ShopPage() {
 
       <div className="space-y-5">
         <p className="text-2xl font-semibold">Products</p>
-        {loading ?
-          <ProductLoaderSkeleton /> :
-          products.length === 0 ?
-            <ProductsNotFound />
-            :
-            <ul className="grid grid-cols-4 gap-5">
-              {
-                products.map((item: ProductProp) => (
-                  <Card key={item.id} item={item} />
-                ))
-              }
-            </ul>
-        }
+        {isPending ? (
+          <ProductLoaderSkeleton />
+        ) : !data?.products?.length ? (
+          <ProductsNotFound />
+        ) : (
+
+          <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-5">
+            {
+              data?.products?.map((item: ProductProp) => (
+                <Card key={item.id} item={item} />
+              ))
+            }
+          </ul>
+        )};
       </div>
     </div>
   )
-}
+};

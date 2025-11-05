@@ -26,6 +26,7 @@ import StoreUser from "../components/StoreUser";
 
 // redux 
 import { ReduxProvider } from "../lib/ReduxProvider";
+import TanstackQueryProvider from "../providers/tanstack-query-provider";
 
 export default function RootLayout({ children, }: Readonly<{ children: React.ReactNode; }>) {
   return (
@@ -33,34 +34,39 @@ export default function RootLayout({ children, }: Readonly<{ children: React.Rea
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {/* redux provider  */}
-        <ReduxProvider>
+        {/* tansctack provider  */}
+        <TanstackQueryProvider>
 
-          {/* store user  */}
-          <StoreUser />
+          {/* redux provider  */}
+          <ReduxProvider>
 
-          {/* toaster  */}
-          <Toaster
-            position="top-center"
-            toastOptions={{
-              style: {
-                background: '#393939ff',
-                color: '#fff',
-                fontSize: '14px',
-                borderRadius: '10px',
-                padding: '5px 10px',
-              },
-            }}
-          />
+            {/* store user  */}
+            <StoreUser />
 
-          {/* top loader  */}
-          <NextTopLoader color="#7f22fe" />
+            {/* toaster  */}
+            <Toaster
+              position="top-center"
+              toastOptions={{
+                style: {
+                  background: '#393939ff',
+                  color: '#fff',
+                  fontSize: '14px',
+                  borderRadius: '10px',
+                  padding: '5px 10px',
+                },
+              }}
+            />
 
-          {/* childrens   */}
-          {children}
+            {/* top loader  */}
+            <NextTopLoader color="#7f22fe" />
 
-          {/* redux provider end */}
-        </ReduxProvider>
+            {/* childrens   */}
+            {children}
+
+            {/* redux provider end */}
+          </ReduxProvider>
+
+        </TanstackQueryProvider>
       </body>
     </html>
   );
