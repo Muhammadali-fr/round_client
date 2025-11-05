@@ -80,7 +80,7 @@ export default function Header() {
                                 <ul className="flex flex-col m-1 text-[#7a7c7d]">
                                     <li className="flex items-center gap-2 p-2 select-none">
                                         <div className="w-[25px] h-[25px] rounded-full bg-gray-200">
-                                            <img className="w-full h-full rounded-full" src={user ? user.profile : "/assets/bg.png"} alt="user" />
+                                            <Image width={25} height={25} className="w-full h-full rounded-full" src={user ? user.profile : "/assets/bg.png"} alt="user" />
                                         </div>
                                         {user ? user.name : "username"}
                                     </li>
