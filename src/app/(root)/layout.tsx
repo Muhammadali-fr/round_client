@@ -5,9 +5,9 @@ import Header from "@/src/components/Header";
 
 export default function PagesLayout({ children }: { children: React.ReactNode }) {
     return (
-        <div className="flex flex-col justify-between min-h-screen">
+        <div className="flex flex-col justify-start min-h-screen">
             <Header />
-            <div>
+            <div className="flex-1">
                 {children}
             </div>
             <Footer />

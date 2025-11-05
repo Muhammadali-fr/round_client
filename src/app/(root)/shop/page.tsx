@@ -1,5 +1,6 @@
 'use client'
 
+import { Input } from "@/components/ui/input";
 // sercices 
 import { getProducts } from "@/src/api/services/products";
 import Card from "@/src/components/Card";
@@ -34,7 +35,7 @@ export default function ShopPage() {
       <div>
         <label className="relative">
           <Search className="absolute -top-[2px] left-3 text-gray-400" />
-          <input onChange={e => setQuery(e.target.value)} value={query} type="text" autoFocus className="border border-violet-400 w-full p-2 pl-10 rounded-lg" placeholder="Search for products..." />
+          <Input onChange={e => setQuery(e.target.value)} value={query} type="text" autoFocus className="border border-violet-400 w-full p-2 pl-10 rounded-lg outline-none outline-violet-700" placeholder="Search for products..." />
         </label>
       </div>
 

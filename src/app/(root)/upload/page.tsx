@@ -18,18 +18,23 @@ import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/src/lib/store";
 import { setUserProducts } from "@/src/lib/features/userProducts";
+import CategoryLoader from "./components/category-loader";
 
 export default function Upload() {
     // redux 
     const userProducts = useSelector((state: RootState) => state.userProducts.data);
     const dispatch = useDispatch();
 
+    const router = useRouter();
+
     // states 
     const [categorys, setCategorys] = useState<CategoryProp[] | null>(null);
     const [preview, setPreview] = useState<string[]>([]);
     const [selectedCategory, setSelectedCategory] = useState<string>('');
-    const [submitLoader, setSubmitLoader] = useState(false);
-    const router = useRouter();
+
+    // loaders 
+    const [submitLoader, setSubmitLoader] = useState<boolean>(false);
+    const [categoryLoader, setCategoryLoader] = useState<boolean>(false);
 
     const form = useForm<FormProp>({
         defaultValues: {
@@ -63,8 +68,13 @@ export default function Upload() {
 
     useEffect(() => {
         const getCategories = async () => {
-            const res = await GetCategory();
-            setCategorys(res);
+            try {
+                setCategoryLoader(true);
+                const res = await GetCategory();
+                setCategorys(res);
+            } catch (r) {
+                console.log(r);
+            } finally { setCategoryLoader(false) };
         };
         getCategories();
     }, []);
@@ -108,7 +118,6 @@ export default function Upload() {
     return (
         <div className="custom-width border rounded-xl p-5 my-5">
             <h1 className="text-xl font-bold text-gray-600 mb-2">Add Product</h1>
-
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(handleSubmitForm)} className="grid grid-cols-1 lg:grid-cols-2 gap-5">
                     {/* images legft side */}
@@ -117,14 +126,11 @@ export default function Upload() {
                             <FormItem className={`${preview.length === 0 ? "h-full" : "h-auto"}`}>
                                 <FormLabel>
                                     <label className={`h-full w-full border-2 border-dashed border-violet-300 rounded-lg flex flex-col items-center justify-center p-10 cursor-pointer hover:border-violet-500 transition`}>
-
                                         <ImagePlus className="h-12 w-12 text-gray-400 mb-3" />
-
                                         <p className="text-gray-500">
                                             Drop your files here. or{" "}
                                             <span className="text-violet-500 cursor-pointer">Browse</span>
                                         </p>
-
                                         {/* upload input  */}
                                         <Input
                                             multiple
@@ -133,31 +139,25 @@ export default function Upload() {
                                             type="file"
                                             id="imagesInput"
                                         />
-
                                     </label>
-
                                 </FormLabel>
                             </FormItem>
                         )}>
                         </FormField>
-
                         <ul className="grid grid-cols-4 lg:grid-cols-3 gap-2">
                             {
                                 preview.map((img: string, id: number) => (
                                     <UploadPageImagePreview key={id} image={img} id={id} removePreviewImage={removePreviewImage} />
                                 ))
                             }
-
                         </ul>
                         {
                             preview.length > 1 &&
                             <p onClick={clearPreview} className="text-red-700 underline cursor-pointer hover:text-red-500">clear</p>
                         }
                     </div>
-
                     {/* images right  */}
                     <div className="space-y-3">
-
                         {/* product name  */}
                         <FormField control={form.control} name="productName" render={({ field }) => (
                             <FormItem>
@@ -168,7 +168,6 @@ export default function Upload() {
                             </FormItem>
                         )}>
                         </FormField>
-
                         {/* product price  */}
                         <FormField control={form.control} name="price" render={({ field }) => (
                             <FormItem>
@@ -179,7 +178,6 @@ export default function Upload() {
                             </FormItem>
                         )}>
                         </FormField>
-
                         {/* product stock  */}
                         <FormField control={form.control} name="stock" render={({ field }) => (
                             <FormItem>
@@ -190,7 +188,6 @@ export default function Upload() {
                             </FormItem>
                         )}>
                         </FormField>
-
                         {/* product stock  */}
                         <FormField control={form.control} name="description" render={({ field }) => (
                             <FormItem>
@@ -201,30 +198,29 @@ export default function Upload() {
                             </FormItem>
                         )}>
                         </FormField>
-
                         {/* tags  */}
                         <div className="space-y-2">
                             <p className="text-sm font-semibold">Choose category</p>
-                            <ul className="flex flex-wrap gap-1">
-
-                                {
-                                    categorys?.map((category: CategoryProp) => (
-                                        <li onClick={() => selectCategoryFunc(category.id)} key={category.id} className={`${selectedCategory == category.id ? "bg-violet-700 text-white" : "bg-gray-300 text-gray-600"}  py-0.5 px-3 rounded-2xl flex items-center gap-2`}>
-                                            <span>{category.name}</span>
-                                            {category.id === selectedCategory && <span><X size={15} /></span>}
-                                        </li>
-                                    ))
-                                }
-                            </ul>
+                            {
+                                categoryLoader ? <CategoryLoader /> :
+                                    <ul className="flex flex-wrap gap-1">
+                                        {
+                                            categorys?.map((category: CategoryProp) => (
+                                                <li onClick={() => selectCategoryFunc(category.id)} key={category.id} className={`${selectedCategory == category.id ? "bg-violet-700 text-white" : "bg-gray-300 text-gray-600"}  py-0.5 px-3 rounded-2xl flex items-center gap-2`}>
+                                                    <span>{category.name}</span>
+                                                    {category.id === selectedCategory && <span><X size={15} /></span>}
+                                                </li>
+                                            ))
+                                        }
+                                    </ul>
+                            }
                             <p>You can't find correct category. <Link className="underline text-blue-700 " href={'/user/category'}>create one</Link></p>
                         </div>
-
                         {/* supmit button  */}
                         <div className="w-full flex justify-center cursor-pointer">
                             <Button type="submit" className="bg-violet-700 hover:bg-violet-500 w-[200px]">{submitLoader ? <ButtonLoader /> : 'create'}</Button>
                         </div>
                     </div>
-
                 </form>
             </Form>
         </div>
