@@ -1,14 +1,23 @@
 'use client'
 
+// react or next 
+import { useEffect, useState } from "react";
+
+
+// component 
 import { Input } from "@/components/ui/input";
-// sercices 
-import { getProducts } from "@/src/api/services/products";
 import Card from "@/src/components/Card";
 import ProductLoaderSkeleton from "@/src/components/loaders/ProductLoaderSkeleton";
 import ProductsNotFound from "@/src/components/not-found/Product-not-found";
+
+// types 
 import { ProductProp } from "@/src/types/product";
+
+// sercices 
+import { getProducts } from "@/src/api/services/products";
+
+// lucide react 
 import { Search } from "lucide-react";
-import { useEffect, useState } from "react";
 
 export default function ShopPage() {
   const [query, setQuery] = useState('');
@@ -16,18 +25,22 @@ export default function ShopPage() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const getSearchProducts = async () => {
-      setLoading(true);
-      try {
-        const { products, success } = await getProducts(query);
-        if (success) {
-          setProducts(products);
-        }
-      } catch (error) {
-        console.log(error);
-      } finally { setLoading(false) };
-    };
-    getSearchProducts();
+    const delay = setTimeout(() => {
+      const getSearchProducts = async () => {
+        setLoading(true);
+        try {
+          const { products, success } = await getProducts(query);
+          if (success) {
+            setProducts(products);
+          }
+        } catch (error) {
+          console.log(error);
+        } finally { setLoading(false) };
+      };
+      getSearchProducts();
+    }, 500)
+
+    return () => clearTimeout(delay);
   }, [query]);
 
   return (
@@ -54,7 +67,6 @@ export default function ShopPage() {
               }
             </ul>
         }
-
       </div>
     </div>
   )
