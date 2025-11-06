@@ -22,11 +22,18 @@ export default function StoreUser() {
   // redux 
   const dispatch = useDispatch();
 
+  // states 
+  const [accessToken, setAccessToken] = useState<string | null>(null);
+  const [refreshToken, setRefreshToken] = useState<string | null>(null);
 
-  // tokens 
-  const accessToken = typeof window === 'undefined' ? localStorage.getItem('accessToken') : null;
-  const refreshToken = typeof window === 'undefined' ? localStorage.getItem('refreshToken') : null;
-
+  // safely read tokens after mount
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setAccessToken(localStorage.getItem("accessToken"));
+      setRefreshToken(localStorage.getItem("refreshToken"));
+    }
+  }, []);
+  
   const accessQuery = useQuery({
     queryKey: ['user', accessToken],
     queryFn: () => getUser({ token: accessToken }),
@@ -34,14 +41,12 @@ export default function StoreUser() {
     retry: false
   });
 
-
   useEffect(() => {
     if (accessQuery.data?.success) {
       dispatch(setUser(accessQuery.data.user));
       dispatch(setUserProducts(accessQuery.data.user.products));
     };
   }, [accessQuery.data, dispatch]);
-
 
   if (accessQuery.isPending) {
     return (
