@@ -24,19 +24,17 @@ export default function StoreUser() {
 
   // states 
   const [accessToken, setAccessToken] = useState<string | null>(null);
-  const [refreshToken, setRefreshToken] = useState<string | null>(null);
 
   // safely read tokens after mount
   useEffect(() => {
     if (typeof window !== "undefined") {
       setAccessToken(localStorage.getItem("accessToken"));
-      setRefreshToken(localStorage.getItem("refreshToken"));
     }
   }, []);
-  
+
   const accessQuery = useQuery({
     queryKey: ['user', accessToken],
-    queryFn: () => getUser({ token: accessToken }),
+    queryFn: () => getUser({ token: accessToken as string }),
     enabled: !!accessToken,
     retry: false
   });

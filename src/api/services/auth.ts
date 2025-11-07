@@ -26,7 +26,7 @@ export function registerUser(data: { email: string, name: string }) {
 // auth/verify?token = ... 
 export function verifyUser(token: string) {
     return fetcher(`/auth/verify?token=${token}`);
-}
+};
 
 // get user 
 export function getUser(data: { token: string }) {
@@ -36,15 +36,4 @@ export function getUser(data: { token: string }) {
             'Authorization': `Bearer ${data.token}`
         }
     });
-}
-
-//auth/refresh
-export function authRefreshToken(data: { token: string }) {
-    return fetcher('/auth/refresh', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-    })
-}
+};
