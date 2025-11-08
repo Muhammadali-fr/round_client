@@ -1,10 +1,10 @@
 enum Role {
-    COSTUMER = "costumer",
-    SELLER = "seller"
-}
+    COSTUMER = "CUSTOMER",
+    SELLER = "SELLER",
+};
 
 export interface UserEditProp {
     image: File;
     name: string;
     role: Role;
-}``
+};
