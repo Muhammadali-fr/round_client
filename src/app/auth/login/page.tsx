@@ -33,7 +33,7 @@ export default function page() {
         try {
             setLoader(true);
             const res = await loginUser({ email });
-            // toast(res.message);
+            toast(res.message);
             console.log(res);
         } catch (error:any) {
             // toast(error.response.data.message || "Error while loging in.");

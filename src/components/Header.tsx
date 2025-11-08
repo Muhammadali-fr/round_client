@@ -28,7 +28,7 @@ export default function Header() {
                 {/* Logo */}
                 <div className="flex items-center">
                     <Link href={"/"} className="flex items-center gap-2">
-                        <Image className="select-none" src={LogoImage} alt="logo" width={35} height={35} />
+                        <Image loading="eager" priority className="select-none" src={LogoImage} alt="logo" width={35} height={35} />
                         <p className="text-2xl text-black font-semibold">Round</p>
                     </Link>
                 </div>
@@ -103,4 +103,4 @@ export default function Header() {
             </div>
         </div>
     )
-}
+};

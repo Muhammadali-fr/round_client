@@ -12,7 +12,7 @@ export async function fetcher(url: string, options: RequestInit = {}) {
 }
 
 // get token function 
- export const getToken = () => {
+export const getToken = () => {
     if (typeof window !== 'undefined') {
         return localStorage.getItem('accessToken');
     }
