@@ -53,10 +53,10 @@ export default function Sidebar() {
       setLogoutLoader(false);
       window.location.reload();
     }, 1000)
-  }
+  };
 
   return (
-    <aside className="sticky top-0 w-[330px] h-screen bg-white border-r flex flex-col justify-between px-4 py-6 shadow-sm">
+    <aside className="sticky top-0 w-[250px] h-screen bg-white border-r flex flex-col justify-between px-4 py-6 shadow-sm">
       {/* Logo */}
       <Link href="/" className="flex items-center gap-3 mb-6">
         <img src="/assets/logo.svg" alt="logo" className="w-10 h-10" />
