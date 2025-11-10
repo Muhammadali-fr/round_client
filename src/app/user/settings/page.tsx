@@ -21,6 +21,8 @@ import { Button } from "@/components/ui/button";
 
 // tanstack 
 import { useForm } from '@tanstack/react-form';
+import { updateUser } from "@/src/api/services/user";
+import toast from "react-hot-toast";
 
 // interface and types 
 interface IForm {
@@ -40,8 +42,9 @@ export default function EditUser() {
       name: user?.name || '',
       role: user?.role || 'CUSTOMER',
     } as IForm,
-    onSubmit: ({ value }) => {
-      console.log(value);
+    onSubmit: async ({ value }) => {
+      let {message, user} = await updateUser(value);
+      toast.success(message);
     },
   });
 
