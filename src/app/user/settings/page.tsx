@@ -43,7 +43,7 @@ export default function EditUser() {
       role: user?.role || 'CUSTOMER',
     } as IForm,
     onSubmit: async ({ value }) => {
-      let {message, user} = await updateUser(value);
+      let { message, user } = await updateUser(value);
       toast.success(message);
     },
   });
@@ -61,7 +61,7 @@ export default function EditUser() {
           <form.Field name="image">
             {(field) => (
               <label className="flex flex-col items-center">
-                <div className="w-[200px] h-[200px] rounded-full bg-red-300 relative">
+                <div className="w-[200px] h-[200px] rounded-full relative">
                   <Image className="w-full h-full rounded-full object-cover" width={200} height={200} src={previewImage} alt="user's image" />
                   <span className="w-[40px] h-[40px] bg-violet-100 absolute bottom-2 right-2 flex items-center justify-center rounded-full border border-violet-300 hover:bg-violet-200 cursor-pointer"><Camera color="#8B5CF6" /></span>
                 </div>
