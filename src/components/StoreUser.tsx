@@ -43,6 +43,7 @@ export default function StoreUser() {
     if (accessQuery.data?.success) {
       dispatch(setUser(accessQuery.data.user));
       dispatch(setUserProducts(accessQuery.data.user.products));
+      console.log(accessQuery.data.user.cart)
     };
   }, [accessQuery.data, dispatch]);
 

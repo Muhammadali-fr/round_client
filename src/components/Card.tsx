@@ -9,6 +9,7 @@ import { ProductProp } from "../types/product";
 
 // huks
 import { useState } from "react";
+import AddToCartButton from "./AddToCartButton";
 
 export default function Card({ item }: { item: ProductProp }) {
     const [imageLoader, setImageLoader] = useState(true);
@@ -40,7 +41,7 @@ export default function Card({ item }: { item: ProductProp }) {
                 </Link>
 
                 {/* add button  */}
-                <button className="w-full py-1 bg-violet-700 text-white rounded-lg cursor-pointer hover:bg-violet-600 active:bg-violet-800">add to cart</button>
+                <AddToCartButton />
             </div>
         </li>
     )

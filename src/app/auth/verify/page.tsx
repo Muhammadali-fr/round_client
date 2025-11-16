@@ -19,13 +19,12 @@ export default function Verify() {
                 if (res.success) {
                     // saving tokens 
                     localStorage.setItem('accessToken', res.tokens.accessToken);
-                    localStorage.setItem('refreshToken', res.tokens.refreshToken);
 
                     // messages 
                     toast(res.message);
                     router.replace("/");
                     return window.location.reload();
-                }
+                };
 
                 // if token epired 
                 toast('The link has expired. Please request a new one.');
