@@ -41,7 +41,7 @@ export default function Card({ item }: { item: ProductProp }) {
                 </Link>
 
                 {/* add button  */}
-                <AddToCartButton />
+                <AddToCartButton productId={item.id} />
             </div>
         </li>
     )
