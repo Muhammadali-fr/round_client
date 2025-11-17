@@ -1,6 +1,6 @@
 
 // next and react 
-import { Minus, Plus } from "lucide-react";
+import { Minus, Plus, Trash2 } from "lucide-react";
 import Image from "next/image";
 
 export default function Cart() {
@@ -17,6 +17,11 @@ export default function Cart() {
                         <p className="text-[16px] text-gray-600">1</p>
                         <button title="add one same product" className="p-2 cursor-pointer rounded-full border hover:bg-gray-200"><Plus size={18} className="text-gray-600" /></button>
                     </div>
+
+                    <div title="delete" className="bg-white p-2 border rounded-full text-red-500 cursor-pointer hover:bg-red-100" >
+                        <Trash2 size={20} />
+                    </div>
+                    
                 </li>
 
                 <li className="flex items-center justify-between gap-5">
