@@ -17,6 +17,7 @@ import LogoImage from '@/public/assets/logo.svg';
 
 // tanstack query 
 import { useQuery } from "@tanstack/react-query";
+import { setUserCart } from "../lib/features/userCart";
 
 export default function StoreUser() {
   // redux 
@@ -43,7 +44,7 @@ export default function StoreUser() {
     if (accessQuery.data?.success) {
       dispatch(setUser(accessQuery.data.user));
       dispatch(setUserProducts(accessQuery.data.user.products));
-      console.log(accessQuery.data.user.cart)
+      dispatch(setUserCart(accessQuery.data.user.cart.items));
     };
   }, [accessQuery.data, dispatch]);
 
