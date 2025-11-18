@@ -2,7 +2,7 @@
 
 // react or next 
 import { useEffect, useState } from "react";
-
+import { useSearchParams, usePathname, useRouter } from "next/navigation";
 
 // component 
 import { Input } from "@/components/ui/input";
@@ -24,6 +24,20 @@ export default function ShopPage() {
   const [query, setQuery] = useState<string>('');
   const [debauncedQuery, setDebauncedQuery] = useState<string>('');
 
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const { replace } = useRouter();
+
+  const handleChange = (term: string) => {
+    const param = new URLSearchParams(searchParams);
+    if (term) {
+      param.set('query', term);
+    } else {
+      param.delete('query');
+    };
+    replace(`${pathname}?${param.toString()}`);
+  };
+
   useEffect(() => {
     const delay = setTimeout(() => {
       setDebauncedQuery(query);
@@ -41,7 +55,7 @@ export default function ShopPage() {
       <div>
         <label className="relative">
           <Search className="absolute -top-[2px] left-3 text-gray-400" />
-          <Input onChange={e => setQuery(e.target.value)} value={query} type="text" autoFocus className="border border-violet-400 w-full p-2 pl-10 rounded-lg outline-none outline-violet-700" placeholder="Search for products..." />
+          <Input onChange={e => handleChange(e.target.value)} defaultValue={searchParams.get('query').?toString()} type="text" autoFocus className="border border-violet-400 w-full p-2 pl-10 rounded-lg outline-none outline-violet-700" placeholder="Search for products..." />
         </label>
       </div>
 
