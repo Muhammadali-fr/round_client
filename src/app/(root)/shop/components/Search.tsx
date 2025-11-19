@@ -3,6 +3,7 @@
 
 // react or next 
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
+import { useDebouncedCallback } from 'use-debounce'
 
 // component 
 import { Input } from "@/components/ui/input";
@@ -16,7 +17,7 @@ export default function ShopPageSearch() {
     const pathname = usePathname();
     const { replace } = useRouter();
 
-    const handleChange = (term: string) => {
+    const handleChange = useDebouncedCallback((term: string) => {
         const param = new URLSearchParams(searchParams);
         if (term) {
             param.set('query', term);
@@ -24,7 +25,7 @@ export default function ShopPageSearch() {
             param.delete('query');
         };
         replace(`${pathname}?${param.toString()}`);
-    };
+    }, 300);
 
     return (
         <div>
@@ -34,4 +35,4 @@ export default function ShopPageSearch() {
             </label>
         </div>
     )
-}
+};

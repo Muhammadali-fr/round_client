@@ -1,21 +1,24 @@
-'use client'
 
+// components 
+import ShopPageProducts from "./components/Products";
+import ShopPageSearch from "./components/Search";
+import ProductLoaderSkeleton from "@/src/components/loaders/ProductLoaderSkeleton";
 
-import ShopPageProducts from "./components/products";
+// next and react 
+import { Suspense } from "react";
 
-export default function ShopPage() {
+export default async function ShopPage({ searchParams }: { searchParams: { query: string, page: string } }) {
 
-
+  const { query } = await searchParams;
 
   return (
     <div className="custom-width py-5 space-y-5">
-      
-      
-
-      <div className="space-y-5">
-        <p className="text-2xl font-semibold">Products</p>
-        <ShopPageProducts />
-      </div>
+      <ShopPageSearch />
+      <Suspense fallback={
+        <ProductLoaderSkeleton />
+      }>
+        <ShopPageProducts query={query} />
+      </Suspense>
     </div>
   )
 };
