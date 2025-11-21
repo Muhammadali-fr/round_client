@@ -22,11 +22,11 @@ export default async function Product({ params }: { params: { id: string } }) {
         <div className="custom-width space-y-5 py-5">
             {/* Breadcrumb */}
             <nav className="text-sm text-gray-500 flex gap-1">
-                <Link href="/">Home</Link> / <Link href="/">{product.category.name}</Link> / <p className="line-clamp-1">{product.name}</p>
+                <Link href="/">Home</Link> / <Link href={`/shop?query=${product.category.name}`}>{product.category.name}</Link> / <p className="line-clamp-1">{product.name}</p>
             </nav>
 
             {/* Product view  */}
             <ProductView product={product} related={related} />
         </div>
-    )
-}
+    );
+};
