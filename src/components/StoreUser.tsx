@@ -33,8 +33,6 @@ export default function StoreUser() {
     }
   }, []);
 
-  console.log(accessToken)
-
   const accessQuery = useQuery({
     queryKey: ['user', accessToken],
     queryFn: () => getUser({ token: accessToken as string }),

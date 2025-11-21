@@ -50,6 +50,7 @@ export default function Products() {
             dispatch(removeUserProduct(selectedProduct));
             setOpenModal(false);
             toast.success(res.message);
+            console.log(res);
         } catch (r: any) {
             toast(r?.response?.data.message || "deleting failed.");
             console.log(r);
@@ -94,7 +95,7 @@ export default function Products() {
                     <div className="text-center space-y-4">
                         <h2 className="text-xl font-semibold text-gray-800">Ready to delete?</h2>
                         <p className="text-sm text-gray-600">
-                            You’re about to this product. Are you sure you want to continue?
+                            You’re about to delete this product. Are you sure you want to continue?
                         </p>
                         <div className="flex justify-center gap-2">
                             <button

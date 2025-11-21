@@ -98,9 +98,9 @@ export default function ProductView({ product, related }: { product: SingleProdu
             </div>
 
             {/* realted products  */}
-            <section className="space-y-5">
+            <section className="space-y-5 pt-5">
                 <h2 className="text-2xl font-semibold">Related products</h2>
-                <ul className="grid grid-cols-4 gap-2">
+                <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
                     {
                         related.map((product: ProductProp) => (
                             <RelatedProducts key={product.id} product={product} />

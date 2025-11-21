@@ -2,6 +2,7 @@ import { ProductProp } from "@/src/types/product";
 import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
+import AddToCartButton from "@/src/components/AddToCartButton";
 
 export default function RelatedProducts({ product }: { product: ProductProp }) {
     const [imageLoader, setImageLoader] = useState(true);
@@ -21,6 +22,8 @@ export default function RelatedProducts({ product }: { product: ProductProp }) {
 
                 {/* name  */}
                 <p className="line-clamp-2 text-sm">{product.name}</p>
+
+                <AddToCartButton productId={product.id}/>
             </Link>
         </li>
     );
