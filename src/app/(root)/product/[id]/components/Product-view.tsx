@@ -17,6 +17,8 @@ import Link from "next/link";
 
 // icons 
 import { ChevronLeft, ChevronRight, Minus, Plus, ShoppingCart } from "lucide-react";
+import ProductViewImage from "./Product-view-images";
+import RelatedProducts from "./Related-products";
 
 
 export default function ProductView({ product, related }: { product: SingleProductProp, related: ProductProp[] }) {
@@ -42,7 +44,7 @@ export default function ProductView({ product, related }: { product: SingleProdu
                         {
                             product.images?.map((img, i) => (
                                 <SwiperSlide key={i}>
-                                    <img className="w-full h-full object-cover" src={img.url} alt="swiper1" />
+                                    <ProductViewImage img={img} />
                                 </SwiperSlide>
                             ))
                         }
@@ -101,16 +103,7 @@ export default function ProductView({ product, related }: { product: SingleProdu
                 <ul className="grid grid-cols-4 gap-2">
                     {
                         related.map((product: ProductProp) => (
-                            <li key={product.id} className="w-full h-[300px] bg-gray-100 rounded-lg flex items-center justify-between flex-col p-1 gap-2 relative" >
-                                <Link className="h-[90%]" href={`/product/${product.id}`}>
-
-                                    {/* image  */}
-                                    <img className="w-full h-[90%] rounded-lg object-cover mb-2" src={product.image} alt={product.name} />
-
-                                    {/* name  */}
-                                    <p className="line-clamp-2 text-sm">{product.name}</p>
-                                </Link>
-                            </li>
+                            <RelatedProducts key={product.id} product={product} />
                         ))
                     }
                 </ul>
