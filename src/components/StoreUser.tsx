@@ -33,6 +33,8 @@ export default function StoreUser() {
     }
   }, []);
 
+  console.log(accessToken)
+
   const accessQuery = useQuery({
     queryKey: ['user', accessToken],
     queryFn: () => getUser({ token: accessToken as string }),
@@ -48,7 +50,7 @@ export default function StoreUser() {
     };
   }, [accessQuery.data, dispatch]);
 
-  if (accessQuery.isPending) {
+  if (accessQuery.isPending && accessToken) {
     return (
       <div className="fixed inset-0 flex flex-col items-center justify-between bg-white z-50 py-5">
         <span />
