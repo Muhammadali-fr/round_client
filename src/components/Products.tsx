@@ -12,7 +12,7 @@ export default async function Products() {
     const { products }: { products: ProductProp[], success: boolean } = await getProducts();
 
     return (
-        <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-5">
+        <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
             {
                 products.map((item: ProductProp) => (
                     <Card key={item.id} item={item} />

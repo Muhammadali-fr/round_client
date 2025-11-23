@@ -15,10 +15,10 @@ export default function Card({ item }: { item: ProductProp }) {
     const [imageLoader, setImageLoader] = useState(true);
 
     return (
-        <li className="w-full h-[400px] bg-gray-100 rounded-lg overflow-hidden group border-1 border-gray-200">
+        <li className="w-full h-[400px] bg-white rounded-3xl overflow-hidden group border-1 border-gray-200 p-1">
             <Link href={`/product/${item.id}`}>
                 {/* card image  */}
-                <div className="h-3/4 overflow-hidden relative">
+                <div className="h-7/10 overflow-hidden relative rounded-3xl">
 
                     {/* image loader  */}
                     {imageLoader &&
@@ -28,16 +28,18 @@ export default function Card({ item }: { item: ProductProp }) {
                     }
 
                     {/* image  */}
-                    <Image className={`w-full h-full group-hover:scale-105 transition-all duration-500 ${imageLoader ? 'opacity-0' : 'opacity-100'}`} width={300} height={400} src={item.image} alt={item.name} onLoad={() => setImageLoader(false)} />
+                    <Image className={`w-full h-full group-hover:scale-105 transition-all duration-500 object-cover ${imageLoader ? 'opacity-0' : 'opacity-100'}`} width={300} height={400} src={item.image} alt={item.name} onLoad={() => setImageLoader(false)} />
                 </div>
             </Link>
 
             {/* card details  */}
-            <div className="h-1/4 p-1 flex flex-col justify-between">
+            <div className="h-3/10 p-1 flex flex-col justify-between">
 
                 <Link href={`/product/${item.id}`}>
                     {/* card name  */}
-                    <p className="line-clamp-2">{item.name}</p>
+                    <p className="line-clamp-2 text-lg font-[500] text-black">{item.name}</p>
+
+                    <p>{item.price} so'm</p>
                 </Link>
 
                 {/* add button  */}

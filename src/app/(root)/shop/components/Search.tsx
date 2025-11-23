@@ -43,7 +43,7 @@ export default function ShopPageSearch() {
           value={value}
           type="text"
           autoFocus
-          className="border border-violet-400 w-full p-2 pl-10 rounded-lg outline-none outline-violet-700"
+          className="border border-violet-400 w-full p-5 pl-10 rounded-3xl outline-none outline-violet-700"
           placeholder="Search for products..."
         />
 

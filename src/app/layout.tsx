@@ -32,7 +32,7 @@ export default function RootLayout({ children, }: Readonly<{ children: React.Rea
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[#f6f5f8]`}
       >
         {/* tansctack provider  */}
         <TanstackQueryProvider>
