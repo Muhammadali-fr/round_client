@@ -23,7 +23,7 @@ export default function Header() {
     const user = useSelector((state: RootState) => state.user.data);
 
     return (
-        <div className="py-2 border-b border-[#e8e7e5] bg-gray-100">
+        <div className="py-2 border-b border-[#e8e7e5] bg-white">
             <div className="custom-width flex items-center justify-between">
                 {/* Logo */}
                 <div className="flex items-center">

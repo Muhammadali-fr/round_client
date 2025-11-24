@@ -12,7 +12,7 @@ export default async function ShopPage({ searchParams }: { searchParams: { query
   const { query } = await searchParams;
 
   return (
-    <div className="custom-width py-5 space-y-5">
+    <div className="custom-width py-5 space-y-2">
       <ShopPageSearch />
       <Suspense fallback={
         <ProductLoaderSkeleton />

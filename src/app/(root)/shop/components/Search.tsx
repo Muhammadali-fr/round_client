@@ -43,13 +43,13 @@ export default function ShopPageSearch() {
           value={value}
           type="text"
           autoFocus
-          className="border border-violet-400 w-full p-5 pl-10 rounded-3xl outline-none outline-violet-700"
+          className="bg-white border border-violet-400 w-full p-5 pl-10 rounded-3xl outline-none outline-violet-700"
           placeholder="Search for products..."
         />
 
         {
           value &&
-          <div onClick={clearQuery} className="bg-gray-500 p-1 rounded-full absolute top-0 right-2 cursor-pointer hover:bg-gray-400">
+          <div onClick={clearQuery} className="bg-gray-500 p-1 rounded-full absolute top-0 right-3 cursor-pointer hover:bg-gray-400">
             <X className="font-bold" size={12} color="#FFFFFF" />
           </div>
         }

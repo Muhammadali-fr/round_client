@@ -33,13 +33,13 @@ export default function Card({ item }: { item: ProductProp }) {
             </Link>
 
             {/* card details  */}
-            <div className="h-3/10 p-1 flex flex-col justify-between">
+            <div className="h-3/10 p-2 flex flex-col justify-between">
 
                 <Link href={`/product/${item.id}`}>
                     {/* card name  */}
-                    <p className="line-clamp-2 text-lg font-[500] text-black">{item.name}</p>
+                    <p className="line-clamp-2 text-lg font-[500] text-black leading-5">{item.name}</p>
 
-                    <p>{item.price} so'm</p>
+                    <p className="text-gray-600">{item.price} <span className="text-violet-700">so'm</span></p>
                 </Link>
 
                 {/* add button  */}

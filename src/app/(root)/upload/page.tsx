@@ -107,7 +107,7 @@ export default function Upload() {
     };
 
     return (
-        <div className="custom-width border rounded-xl p-5 my-5">
+        <div className="custom-width border rounded-xl p-5 my-5 bg-white">
             <h1 className="text-xl font-bold text-gray-600 mb-2">Add Product</h1>
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(handleSubmitForm)} className="grid grid-cols-1 lg:grid-cols-2 gap-5">

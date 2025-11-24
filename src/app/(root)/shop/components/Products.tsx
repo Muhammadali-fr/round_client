@@ -16,14 +16,14 @@ export default async function ShopPageProducts({ query }: { query: string | unde
     const data: { products: ProductProp[], success: boolean } = await getProducts(query || '');
 
     return (
-        <div className="space-y-5">
+        <div className="space-y-2">
             <p className="text-2xl font-semibold">Products</p>
 
             {
                 data.products.length == 0 ? (
                     <ProductsNotFound />
                 ) : (
-                    <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-5">
+                    <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
                         {
                             data?.products?.map((item: ProductProp) => (
                                 <Card key={item.id} item={item} />
