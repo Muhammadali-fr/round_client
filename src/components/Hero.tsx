@@ -39,7 +39,7 @@ export default function Hero() {
 
             {/* Swiper */}
             <Swiper
-                className="w-full h-[400px] rounded-lg bg-gray-200"
+                className="w-full h-[400px] rounded-3xl bg-gray-200"
                 modules={[Pagination, Navigation]}
                 pagination={{ clickable: true }}
                 loop={true}
