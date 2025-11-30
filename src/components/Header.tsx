@@ -23,7 +23,7 @@ export default function Header() {
     const user = useSelector((state: RootState) => state.user.data);
 
     return (
-        <div className="py-2 bg-white/90 sticky top-0 z-11 backdrop-blur-xl">
+        <div className="bg-white/80 sticky top-0 z-11 backdrop-blur-xl">
             <div className="custom-width flex items-center justify-between">
                 {/* Logo */}
                 <div className="flex items-center">
@@ -34,22 +34,22 @@ export default function Header() {
                 </div>
 
                 {/* Nav links */}
-                <ul className="flex items-center">
-                    <li className={`font-semibold cursor-pointer ${pathname === "/" ? "text-violet-700" : "text-gray-600"}`}>
+                <ul className="flex items-center h-full">
+                    <li className={`font-semibold cursor-pointer  py-3 ${pathname === "/" ? "text-violet-700 border-b border-violet-700 h-full" : "text-gray-600"}`}>
                         <Link className="px-2" href={"/"}>home</Link>
                     </li>
 
-                    <li className={`font-semibold cursor-pointer ${pathname === "/shop" ? "text-violet-700" : "text-gray-600"}`}>
+                    <li className={`font-semibold cursor-pointer  py-3 ${pathname === "/shop" ? "text-violet-700 border-b border-violet-700 h-full" : "text-gray-600"}`}>
                         <Link className="px-2" href={"/shop"}>shop</Link>
                     </li>
 
                     {/* login link  */}
                     {!user ?
-                        <li className={`font-semibold cursor-pointer ${pathname === "/login" ? "text-violet-700" : "text-gray-600"}`}>
+                        <li className={`font-semibold cursor-pointer  py-3 ${pathname === "/login" ? "text-violet-700 border-b border-violet-700 h-full" : "text-gray-600"}`}>
                             <Link className="px-2" href={"/auth/login"}>login</Link>
                         </li>
                         :
-                        <li className={`font-semibold  cursor-pointer ${pathname === "/upload" ? "text-violet-700" : "text-gray-600"}`}>
+                        <li className={`font-semibold  cursor-pointer  py-3 ${pathname === "/upload" ? "text-violet-700 border-b border-violet-700 h-full" : "text-gray-600"}`}>
                             <Link className="px-2" href={"/upload"}>new</Link>
                         </li>
                     }
