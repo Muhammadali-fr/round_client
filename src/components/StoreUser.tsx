@@ -44,7 +44,9 @@ export default function StoreUser() {
     if (accessQuery.data?.success) {
       dispatch(setUser(accessQuery.data.user));
       dispatch(setUserProducts(accessQuery.data.user.products));
-      dispatch(setUserCart(accessQuery.data.user.cart.items));
+      if (accessQuery.data.user.cart) {
+        dispatch(setUserCart(accessQuery.data.user.cart.items));
+      }
     };
   }, [accessQuery.data, dispatch]);
 

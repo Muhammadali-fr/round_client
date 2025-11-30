@@ -58,7 +58,7 @@ export default function RootLayout({ children, }: Readonly<{ children: React.Rea
             />
 
             {/* top loader  */}
-            <NextTopLoader color="#7f22fe" />
+            <NextTopLoader showSpinner={false} color="#7f22fe" />
 
             {/* childrens   */}
             {children}
