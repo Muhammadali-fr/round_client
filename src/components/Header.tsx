@@ -17,6 +17,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 
 // assets 
 import LogoImage from '@/public/assets/logo.svg';
+import { Button } from "@/components/ui/button";
 
 export default function Header() {
     const pathname = usePathname();
@@ -76,24 +77,18 @@ export default function Header() {
                                     <Image className="rounded-full" src={user.profile} width={25} height={25} alt="user image" />
                                 </div>
                             </PopoverTrigger>
-                            <PopoverContent className="mx-5 w-[200px] p-1 rounded-lg">
-                                <ul className="flex flex-col m-1 text-[#7a7c7d]">
-                                    <li className="flex items-center gap-2 p-2 select-none">
-                                        <div className="w-[25px] h-[25px] rounded-full bg-gray-200">
-                                            <Image width={25} height={25} className="w-full h-full rounded-full" src={user ? user.profile : "/assets/bg.png"} alt="user" />
-                                        </div>
-                                        {user ? user.name : "username"}
+                            <PopoverContent className="mx-5 w-[250px] rounded-3xl bg-black/60 backdrop-blur-xl text-white border-none p-4 space-y-2">
+                                <ul className="p-2">
+                                    <li><p className="text-lg font-semibold">{user.name}</p></li>
+                                    <li><p className="text-sm text-gray-300">{user.email}</p></li>
+                                    <li><Button className="w-full rounded-3xl mt-2 bg-[#545454] hover:bg-[#5a5857]">View profile</Button></li>
+                                </ul>
+                                <div className="w-full h-[1px] bg-white/40"></div>
+                                <ul>
+                                    <li className="flex items-center gap-2 font-semibold text-lg hover:bg-white/10 p-2 rounded-xl">
+                                        <Settings />
+                                        <p>Settings</p>
                                     </li>
-
-                                    {/* line  */}
-                                    <div className="bg-gray-200 w-full h-[1px] my-1"></div>
-
-                                    <Link href={"/user/products"}>
-                                        <li className="flex items center gap-2 p-2 hover:bg-[#f5f7f9] rounded-lg cursor-pointer select-none">
-                                            <Settings size={22} />
-                                            Settings
-                                        </li>
-                                    </Link>
                                 </ul>
                             </PopoverContent>
                         </Popover>

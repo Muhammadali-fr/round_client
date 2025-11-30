@@ -24,7 +24,7 @@ export default function AddToCartButton({ productId }: { productId: string }) {
     });
 
     return (
-        <button disabled={addToCartMuatation.isPending} onClick={async () => await addToCartMuatation.mutateAsync()} className={`${addToCartMuatation.isPending ? "bg-violet-900" : "bg-violet-700 hover:bg-violet-600 active:bg-violet-800"} w-full h-8 flex items-center justify-center text-white rounded-3xl cursor-pointer`}>
+        <button disabled={addToCartMuatation.isPending} onClick={async () => await addToCartMuatation.mutateAsync()} className={`${addToCartMuatation.isPending ? "bg-violet-900" : "bg-violet-700 hover:bg-violet-600 active:bg-violet-800"} w-full h-[35px] flex items-center justify-center text-white rounded-3xl cursor-pointer`}>
             {addToCartMuatation.isPending ?
                 <ButtonLoader /> :
                 "add to cart"
