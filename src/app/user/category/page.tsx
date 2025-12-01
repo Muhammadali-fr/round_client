@@ -24,7 +24,7 @@ export default function CategoryCreate() {
 
     const form = useForm({
         defaultValues: {
-            category: '',
+            category: '',   
         },
         onSubmit: async ({ value }) => {
             await createCategoryMutataion.mutateAsync({ name: value.category });
