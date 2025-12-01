@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export default function Footer() {
     return (
-        <footer className="bg-white py-3">
+        <footer className="bg-white py-3 border-t border-gray-200">
             <div className="custom-width flex items-center justify-between text-sm">
                 <p className="text-gray-600">© 2025 E-commerce. All rights reserved.</p>
                 <p className="text-gray-500 flex gap-1">Made with by 

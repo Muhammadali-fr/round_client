@@ -5,7 +5,7 @@ import Link from "next/link"
 import Image from "next/image";
 
 // lucide 
-import { Search, Settings, ShoppingCart } from "lucide-react"
+import { LogOut, Search, Settings, ShoppingCart } from "lucide-react"
 
 // navigation 
 import { usePathname } from "next/navigation"
@@ -77,20 +77,32 @@ export default function Header() {
                                     <Image className="rounded-full" src={user.profile} width={25} height={25} alt="user image" />
                                 </div>
                             </PopoverTrigger>
-                            <PopoverContent className="mx-5 w-[250px] rounded-3xl bg-black/60 backdrop-blur-xl text-white border-none p-4 space-y-2">
-                                <ul className="p-2">
+                            <PopoverContent className="mx-5 w-[250px] rounded-3xl bg-white/90 text-black border border-gray-200 shadow-xl p-4 space-y-2 backdrop-blur-sm">
+                                <ul className="p-1">
                                     <li><p className="text-lg font-semibold">{user.name}</p></li>
-                                    <li><p className="text-sm text-gray-300">{user.email}</p></li>
-                                    <li><Button className="w-full rounded-3xl mt-2 bg-[#545454] hover:bg-[#5a5857]">View profile</Button></li>
-                                </ul>
-                                <div className="w-full h-[1px] bg-white/40"></div>
-                                <ul>
-                                    <li className="flex items-center gap-2 font-semibold text-lg hover:bg-white/10 p-2 rounded-xl">
-                                        <Settings />
-                                        <p>Settings</p>
+                                    <li><p className="text-sm text-gray-600">{user.email}</p></li>
+                                    <li>
+                                        <Button className="w-full rounded-3xl mt-2 bg-gray-100 hover:bg-gray-200 text-black cursor-pointer">
+                                            View profile
+                                        </Button>
                                     </li>
                                 </ul>
+
+                                <div className="w-full h-[1px] bg-gray-300"></div>
+
+                                <ul>
+                                    <Link href={"user/settings"} className="flex items-center gap-2 font-semibold text-lg hover:bg-white/50 p-2 rounded-xl cursor-pointer">
+                                        <Settings className="text-gray-700" />
+                                        <p>Settings</p>
+                                    </Link>
+
+                                    <Link href={"user/settings"} className="flex items-center gap-2 font-semibold text-lg hover:bg-white/50 p-2 rounded-xl cursor-pointer">
+                                        <LogOut className="text-gray-700" />
+                                        <p>Log out</p>
+                                    </Link>
+                                </ul>
                             </PopoverContent>
+
                         </Popover>
                     </li>}
 

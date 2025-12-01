@@ -1,95 +1,69 @@
-
-'use client'
-
-// react 
-import { ChangeEvent, FormEvent, useState } from "react"
-
-// next 
-import Link from "next/link";
 import Image from "next/image";
+import backgroundImage from "@/public/auth/background-image.png";
+import Link from "next/link";
 
-// toast and loader 
-import ButtonLoader from "@/src/components/loaders/ButtonLoader";
+export default function RegisterPage() {
 
-// images 
-import mailImage from '@/public/auth/mail.png';
-
-// services 
-import { registerUser } from "@/src/api/services/auth";
-import toast from "react-hot-toast";
-
-export default function page() {
-
-    // states 
-    const [email, setEmail] = useState<string>('');
-    const [name, setName] = useState<string>('');
-    const [loader, setLoader] = useState<boolean>(false);
-
-    // functions 
-    const handleRegister = async (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-
-        if (!name) {
-            return toast('Please enter name.')
-        }
-
-        if (!email) {
-            return toast('Please enter email.');
-        }
-
-        setLoader(true);
-        try {
-            const res: { statusCode: number, message: string } = await registerUser({ email, name });
-            toast(res.message);
-        } catch (error: any) {
-            toast(error.response.data.message || "Error while creating account.");
-        } finally { setLoader(false) };
-    };
+    
 
     return (
-        <div className="w-full md:w-[80%] h-screen flex items-center justify-center ">
-            <div className="w-[90%] max-w-[400px] text-gray-700 space-y-3">
+        <div className="w-full md:w-1/2 flex items-center justify-center px-10">
+            <div className="w-full max-w-sm space-y-8">
 
-                <h1 className="text-4xl md:text-5xl font-bold text-black">Welcome</h1>
-                <p>Sign up to your account</p>
-                {/* mail  */}
-                <a href="https://mail.google.com/">
-                    <button type="button" className="flex items-center justify-center w-full gap-2 text-gray-700 border border-gray-400 rounded-lg cursor-pointer hover:bg-gray-100 py-2 mb-3">
-                        <Image className="w-[20px] h-[20px]" src={mailImage} alt="mail image" />
-                        Open Mail
-                    </button>
-                </a>
-
-                <div className="w-full flex items-center justify-between gap-2">
-                    <div className="w-full h-[1px] bg-gray-400"></div>
-                    <p>OR</p>
-                    <div className="w-full h-[1px] bg-gray-400"></div>
+                <div className="space-y-1">
+                    <h1 className="text-4xl font-bold text-gray-900">
+                        Welcome
+                    </h1>
+                    <p className="text-gray-600">
+                        Register account to continue shopping
+                    </p>
                 </div>
 
-                <form onSubmit={handleRegister} className="flex flex-col gap-3">
+                <form className="space-y-5">
 
-                    {/* name  */}
-                    <label className="flex flex-col gap-0.5">
-                        <p className="text-sm">Name</p>
-                        <input name="name" value={name} onChange={e => setName(e.target.value)} autoFocus className="p-2 border border-gray-400 rounded-lg" type="text" />
-                    </label>
+                    <div className="space-y-1">
+                        <label className="text-sm font-medium text-gray-700">
+                            Name
+                        </label>
+                        <input
+                            type="text"
+                            placeholder="David"
+                            className="w-full p-3 rounded-2xl border border-gray-300 
+                                    focus:ring-2 focus:ring-violet-700 focus:outline-none
+                                    bg-white/80 backdrop-blur-sm"
+                        />
+                    </div>
 
-                    {/* email  */}
-                    <label className="flex flex-col gap-0.5">
-                        <p className="text-sm">Email</p>
-                        <input name="email" value={email} onChange={e => setEmail(e.target.value)} className="p-2 border border-gray-400 rounded-lg" type="text" />
-                    </label>
+                    <div className="space-y-1">
+                        <label className="text-sm font-medium text-gray-700">
+                            Email
+                        </label>
+                        <input
+                            type="email"
+                            placeholder="you@example.com"
+                            className="w-full p-3 rounded-2xl border border-gray-300 
+                                    focus:ring-2 focus:ring-violet-700 focus:outline-none
+                                    bg-white/80 backdrop-blur-sm"
+                        />
+                    </div>
 
-                    <button type="submit" className="w-full h-[42px] bg-[#4c64d9] hover:bg-[#4c80d9] text-white text-center rounded-lg cursor-pointer flex items-center justify-center">{loader ? <ButtonLoader /> : "create account"}</button>
+                    <button
+                        type="submit"
+                        className="w-full p-3 rounded-2xl bg-violet-700 text-white font-medium 
+                                hover:bg-violet-900 transition"
+                    >
+                        Sign in
+                    </button>
                 </form>
 
-                <p className="text-sm">Have an account? <Link className="text-blue-700 underline" href={"/auth/login"}>Login</Link></p>
-
-                <div className="w-full h-[1px] bg-gray-400"></div>
-
-                <p className="text-sm">By signing up you agree to our <Link className="text-blue-700 underline" href={"/terms"}>terms</Link> and have read the <Link className="text-blue-700 underline" href={"/privacy"}>privacy policy</Link></p>
+                <p className="text-sm text-gray-600 text-center">
+                    Already have an account?{" "}
+                    <Link href={"/auth/login"} className="text-black font-medium cursor-pointer hover:underline">
+                        Login
+                    </Link>
+                </p>
 
             </div>
         </div>
-    )
+    );
 }

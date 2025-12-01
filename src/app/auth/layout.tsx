@@ -10,13 +10,20 @@ import logoImage from '@/public/assets/logo.svg';
 export default function authLayout({ children }: { children: React.ReactNode }) {
 
     return (
-        <div className="flex justify-between">
-            {/* logo  */}
-                <Link href={"/"}>
-                    <Image className="absolute top-5 left-5 w-[50px] h-[50px] rounded-full" src={logoImage} alt="logo" />
-                </Link>
+        <div className="flex justify-between p-2 h-screen">
+            <div className="hidden md:block w-1/2 relative ">
+                <Image
+                    width={500}
+                    height={500}
+                    src={backgroundImage}
+                    alt="Login background"
+                    className="w-full h-full object-cover rounded-3xl"
+                />
+
+                {/* optional overlay */}
+                <div className="absolute inset-0 bg-black/10 rounded-3xl" />
+            </div>
             {children}
-            <Image src={backgroundImage} alt="auth background image" sizes="100vh" className="w-1/3 h-screen hidden md:block object-cover" />
         </div>
     );
 };
