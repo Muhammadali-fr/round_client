@@ -5,6 +5,8 @@ import { loginUser } from "@/src/api/services/auth";
 import { useForm } from "@tanstack/react-form";
 import toast from "react-hot-toast";
 import ButtonLoader from "@/src/components/loaders/ButtonLoader";
+import Image from "next/image";
+import MailLogo from "@/public/auth/mail.png";
 
 export default function LoginPage() {
 
@@ -61,6 +63,7 @@ export default function LoginPage() {
                         )}
                     </loginForm.Field>
 
+                    {/* submit button     */}
                     <button
                         type="submit"
                         disabled={loginMutation.isPending}
@@ -68,6 +71,24 @@ export default function LoginPage() {
                                  transition flex items-center justify-center ${loginMutation.isPending ? "bg-violet-950" : "bg-violet-700 hover:bg-violet-900"}`}
                     >
                         {loginMutation.isPending ? <ButtonLoader /> : "Sign in"}
+                    </button>
+
+                    {/* email button  */}
+                    <button
+                        type="button"
+                        onClick={() => (window.location.href = "https://mail.google.com")}
+                        className="w-full h-[48px] rounded-2xl bg-gray-100 text-gray-900 font-medium 
+                        border border-gray-300 hover:bg-gray-200 transition
+                        flex items-center justify-center gap-2"
+                    >
+                        <Image
+                            width={20}
+                            height={20}
+                            src={MailLogo}
+                            alt="mail logo"
+                            className="opacity-80"
+                        />
+                        <span>Open Mail App</span>
                     </button>
                 </form>
 
