@@ -5,7 +5,7 @@
 
 @layer components {
   .custom-width {
-    max-width: 990px;
+    max-width: 1050px;
     width: 95%;
     margin: 0 auto;
   }

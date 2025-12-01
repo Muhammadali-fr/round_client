@@ -54,8 +54,10 @@ export default function Hero() {
                 }}
             >
                 <SwiperSlide>
-                    <Image fill loading="eager" priority className="h-full w-full object-top-left object-cover" src={'https://images.uzum.uz/d2mklsr4eu2h0tmov5o0/main_page_banner.jpg'} alt="swiper image 1"/>
+                    <Image fill loading="eager" priority className="h-full w-full object-top-left object-cover" src={'https://images.uzum.uz/d4dolldv2sjnqk4haqt0/main_page_banner.jpg'} alt="swiper image 1"/>
                 </SwiperSlide>
+                
+                
 
                 <SwiperSlide>
                     <Image fill className="h-full w-full object-top-left object-cover" src={'https://images.uzum.uz/d2m6l0fiub35i07hpvq0/main_page_banner.jpg'} alt="swiper image 2"/>
