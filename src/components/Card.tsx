@@ -8,38 +8,32 @@ import Link from "next/link";
 import { ProductProp } from "../types/product";
 
 // huks
-import { useState } from "react";
 import AddToCartButton from "./AddToCartButton";
+import CardImagesSwiper from "./CardImageSwiper";
 
 export default function Card({ item }: { item: ProductProp }) {
-    const [imageLoader, setImageLoader] = useState(true);
+
 
     return (
-        <li className="w-full bg-white rounded-3xl overflow-hidden group border-1 border-gray-200 p-1">
-            <Link href={`/product/${item.id}`}>
-                {/* card image  */}
-                <div className="h-6/10 overflow-hidden relative rounded-3xl">
+        <li className="w-full h-[380px] bg-white rounded-3xl overflow-hidden group border-1 border-gray-200 p-1">
+            {/* card image  */}
+            <div className="h-6/10 overflow-hidden relative rounded-3xl">
 
-                    {/* image loader  */}
-                    {imageLoader &&
-                        <div className="bg-violet-200 absolute inset-0 flex items-center justify-center backdrop-blur-md">
-                            <div className="w-[20px] h-[20px] border-2 border-violet-900 border-t-transparent rounded-full animate-spin"></div>
-                        </div>
-                    }
-
-                    {/* image  */}
-                    <Image className={`w-full h-full group-hover:scale-105 transition-all duration-500 object-cover ${imageLoader ? 'opacity-0' : 'opacity-100'}`} width={300} height={400} src={item.image} alt={item.name} onLoad={() => setImageLoader(false)} />
-                </div>
-            </Link>
+                {/* image  */}
+                {/* <Image className={`w-full h-full group-hover:scale-105 transition-all duration-500 object-cover ${imageLoader ? 'opacity-0' : 'opacity-100'}`} width={300} height={400} src={item.image} alt={item.name} onLoad={() => setImageLoader(false)} /> */}
+                <CardImagesSwiper images={item.images} />
+            </div>
 
             {/* card details  */}
             <div className="h-4/10 p-1 pt-2 flex flex-col justify-between ">
 
                 <Link href={`/product/${item.id}`}>
                     {/* card name  */}
-                    <p className="line-clamp-2 text-md font-[500] text-black leading-5">{item.name}</p>
+                    <p className="text-gray-600 font-bold text-lg bg-gray-100 inline py-1 px-2 rounded-3xl">
+                        {new Intl.NumberFormat('ru-RU').format(item.price)}<span className="text-violet-700 font-normal text-sm"> so'm</span>
+                    </p>
+                    <p className="mt-2 line-clamp-3 text-sm font-[500] text-gray-700 leading-5">{item.name}</p>
 
-                    <p className="text-gray-600">{item.price} <span className="text-violet-700">so'm</span></p>
                 </Link>
 
                 {/* add button  */}

@@ -35,4 +35,5 @@ export interface ProductProp {
     updatedAt: Date;
     UserId: string;
     categoryId: string;
+    images: { url: string; productId: string }[]
 };

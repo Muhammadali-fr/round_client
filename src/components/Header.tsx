@@ -24,7 +24,7 @@ export default function Header() {
     const user = useSelector((state: RootState) => state.user.data);
 
     return (
-        <div className="bg-white/80 sticky top-0 z-11 backdrop-blur-xl">
+        <div className="bg-white/80 sticky top-0 z-11 backdrop-blur-xl transition">
             <div className="custom-width flex items-center justify-between">
                 {/* Logo */}
                 <div className="flex items-center">
