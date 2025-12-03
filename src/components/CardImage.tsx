@@ -1,19 +1,27 @@
 import Image from "next/image";
 import { useState } from "react";
 
-
 export default function CardImage({ image }: { image: { url: string, productId: string } }) {
     const [imageLoader, setImageLoader] = useState(true);
 
     return (
-        <div className="w-full h-full">
+        <div className="w-full h-full relative rounded-3xl overflow-hidden">
             {/* image loader  */}
-            {imageLoader &&
-                <div className="bg-violet-200 absolute inset-0 flex items-center justify-center backdrop-blur-md w-full h-full rounded-3xl">
-                    <div className="w-[20px] h-[20px] border-2 border-violet-900 border-t-transparent rounded-full animate-spin"></div>
+            {imageLoader && (
+                <div className="absolute inset-0 flex items-center justify-center bg-violet-200/40 backdrop-blur-md">
+                    <div className="w-[22px] h-[22px] border-2 border-violet-900 border-t-transparent rounded-full animate-spin"></div>
                 </div>
-            }
-            <Image loading="lazy" height={200} width={200} className="h-full w-full  object-contain rounded-3xl" src={image.url} alt="swiper image 2" onLoad={() => setImageLoader(false)} />
+            )}
+
+            <Image
+                src={image.url}
+                alt="product"
+                width={200}
+                height={200}
+                loading="lazy"
+                className="h-full w-full object-contain"
+                onLoad={() => setImageLoader(false)}
+            />
         </div>
-    )
+    );
 }

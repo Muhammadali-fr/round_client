@@ -1,7 +1,6 @@
 'use client'
 
 // next and react stuff 
-import Image from "next/image";
 import Link from "next/link";
 
 // types 
@@ -12,7 +11,6 @@ import AddToCartButton from "./AddToCartButton";
 import CardImagesSwiper from "./CardImageSwiper";
 
 export default function Card({ item }: { item: ProductProp }) {
-
 
     return (
         <li className="w-full h-[380px] bg-white rounded-3xl overflow-hidden group border-1 border-gray-200 p-1">

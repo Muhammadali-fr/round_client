@@ -25,7 +25,7 @@ export default function ShopPageSearch() {
       param.delete("query");
     }
     replace(`${pathname}?${param.toString()}`);
-  }, 300);
+  }, 150);
 
   const clearQuery = () => {
     setvalue("");

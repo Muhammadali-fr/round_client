@@ -13,7 +13,7 @@ export function getProducts(query?: string) {
     return fetcher(`/product?search=${query}`, {
         method: 'GET',
     });
-}
+};
 
 // get one product 
 export function getOneProduct(id: string) {

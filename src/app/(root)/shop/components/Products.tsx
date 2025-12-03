@@ -26,7 +26,7 @@ export default async function ShopPageProducts({ query }: { query: string | unde
                     <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
                         {
                             data?.products?.map((item: ProductProp) => (
-                                <Card key={item.id} item={item} />
+                                <Card key={item.id} item={item} />  
                             ))
                         }
                     </ul>
